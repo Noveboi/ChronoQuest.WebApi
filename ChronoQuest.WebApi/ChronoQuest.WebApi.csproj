@@ -8,9 +8,12 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ChronoQuest.Core\ChronoQuest.Core.csproj" />
+      <ProjectReference Include="..\ChronoQuest.Endpoints\ChronoQuest.Endpoints.csproj" />
     </ItemGroup>
 </Project>
