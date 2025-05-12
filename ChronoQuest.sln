@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChronoQuest.Core", "ChronoQuest.Core\ChronoQuest.Core.csproj", "{5E2E7852-F1BA-43AF-8D20-7E863D6954B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChronoQuest.Endpoints", "ChronoQuest.Endpoints\ChronoQuest.Endpoints.csproj", "{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +21,13 @@ Global
 		{8A6E8731-0D70-457D-872D-350B88A00A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A6E8731-0D70-457D-872D-350B88A00A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A6E8731-0D70-457D-872D-350B88A00A5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E2E7852-F1BA-43AF-8D20-7E863D6954B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E2E7852-F1BA-43AF-8D20-7E863D6954B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E2E7852-F1BA-43AF-8D20-7E863D6954B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E2E7852-F1BA-43AF-8D20-7E863D6954B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
