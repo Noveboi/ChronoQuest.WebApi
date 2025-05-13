@@ -17,6 +17,7 @@ try
 
     builder.Services
         .AddSerilog((_, config) => config.ReadFrom.Configuration(builder.Configuration))
+        .AddAuthorization()
         .AddCors()
         .AddInfrastructure(builder.Configuration)
         .AddOpenApi()
