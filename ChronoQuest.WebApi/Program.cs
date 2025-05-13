@@ -17,6 +17,7 @@ try
 
     builder.Services
         .AddSerilog((_, config) => config.ReadFrom.Configuration(builder.Configuration))
+        .AddCors()
         .AddInfrastructure(builder.Configuration)
         .AddOpenApi()
         .AddChronoQuestEndpoints();
@@ -27,6 +28,10 @@ try
     app.MapOpenApi();
     app.MapIdentityApi<User>();
     app.MapChronoQuestEndpoints();
+    app.UseCors(x => x
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 
     app.Run();
 }
