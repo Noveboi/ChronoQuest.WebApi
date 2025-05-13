@@ -1,0 +1,12 @@
+﻿name: ChronoQuest
+services:
+  database:
+    image: postgres
+    ports:
+      - "3600:5432"
+    environment:
+      POSTGRES_PASSWORD: "passgres"
+    volumes:
+      - save_db:/var/lib/postgresql/data
+volumes:
+  save_db:
