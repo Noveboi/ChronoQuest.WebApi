@@ -11,9 +11,6 @@ public static class InfrastructureDependencyInjection
         var connectionString = configuration.GetConnectionString("Database");
         if (connectionString is null)
             throw new InvalidOperationException("No 'Database' connection string provided.");
-        
-        services.AddDbContext<ChronoDbContext>(options => options
-            .UseNpgsql(connectionString));
 
         return services;
     }
