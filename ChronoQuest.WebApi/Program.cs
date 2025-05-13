@@ -1,3 +1,4 @@
+using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints;
 using Serilog;
@@ -21,7 +22,7 @@ try
         .AddChronoQuestEndpoints();
 
     var app = builder.Build();
-
+    
     app.UseSerilogRequestLogging();
     app.MapOpenApi();
     app.MapChronoQuestEndpoints();
