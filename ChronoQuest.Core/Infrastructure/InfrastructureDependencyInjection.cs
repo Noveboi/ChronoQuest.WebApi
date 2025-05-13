@@ -11,14 +11,19 @@ public static class InfrastructureDependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         Log.Information("Configuring Infrastructure . . .");
+        
         // Database
-        var connectionString = configuration.GetConnectionString("Database");
-        if (connectionString is null)
-            throw new InvalidOperationException("No 'Database' connection string provided.");
+        var connectionString = configuration.GetConnectionString("Database") ?? 
+                               throw new InvalidOperationException("No 'Database' connection string provided.");
+
         // DbContext
         services.AddDbContext<ChronoQuestContext>((options) => options.UseNpgsql(connectionString));
+        
         // Identity
-        services.AddIdentityCore<User>().AddEntityFrameworkStores<ChronoQuestContext>();
+        services
+            .AddIdentityApiEndpoints<User>()
+            .AddEntityFrameworkStores<ChronoQuestContext>();
+
         return services;
     }
 }
