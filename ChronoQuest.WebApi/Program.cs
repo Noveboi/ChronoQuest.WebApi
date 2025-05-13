@@ -25,6 +25,7 @@ try
     
     app.UseSerilogRequestLogging();
     app.MapOpenApi();
+    app.MapIdentityApi<User>();
     app.MapChronoQuestEndpoints();
 
     app.Run();
