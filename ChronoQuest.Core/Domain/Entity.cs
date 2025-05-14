@@ -1,9 +1,10 @@
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
-
 namespace ChronoQuest.Core.Domain;
 
 public abstract class Entity 
 {
+    protected Entity() {}
+    protected Entity(Guid? id) => Id = id ?? Guid.CreateVersion7();
+
     public Guid Id { get; private init; }
 
     public static bool operator ==(Entity? a, Entity? b) 
