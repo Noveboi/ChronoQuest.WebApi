@@ -5,7 +5,11 @@ namespace ChronoQuest.Endpoints.Chapters;
 
 internal sealed class GetSubjectChaptersEndpoint : EndpointWithoutRequest<IEnumerable<ChapterDto>> 
 {
-    public override void Configure() => Get("/chapters");
+    public override void Configure()
+    {
+        Get("");
+        Group<ChapterGroup>();
+    }
 
     public override async Task HandleAsync(CancellationToken ct)
     {
