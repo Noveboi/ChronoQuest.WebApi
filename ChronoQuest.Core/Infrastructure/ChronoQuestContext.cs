@@ -1,4 +1,5 @@
-using ChronoQuest.Core.Domain;using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using ChronoQuest.Core.Domain.Base;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Core.Infrastructure;

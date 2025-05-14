@@ -1,15 +1,8 @@
-namespace ChronoQuest.Core.Domain;
+namespace ChronoQuest.Core.Domain.Base;
 
-public class Exam :  Entity
+public class Exam(Guid userId, List<Question> questions, TimeSpan timeLimit, Guid? id = null) :  Entity(id)
 {
-    public Guid UserId { get; private set; }
-    public List<Question> Questions { get; private set; }
-    public TimeSpan TimeLimit { get; private set; }
-
-    public Exam(Guid id, Guid userId, List<Question> questions, TimeSpan timeLimit) : base(id)
-    {
-        UserId = userId;
-        Questions = questions;
-        TimeLimit = timeLimit;
-    }
+    public Guid UserId { get; private set; } = userId;
+    public List<Question> Questions { get; private set; } = questions;
+    public TimeSpan TimeLimit { get; private set; } = timeLimit;
 }

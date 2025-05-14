@@ -1,4 +1,4 @@
-﻿using ChronoQuest.Core.Domain;
+﻿using ChronoQuest.Core.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

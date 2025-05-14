@@ -1,3 +1,3 @@
-namespace ChronoQuest.Core.Domain;
+namespace ChronoQuest.Core.Domain.Base;
 
 public record Option(string Content);

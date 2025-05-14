@@ -1,4 +1,4 @@
-using ChronoQuest.Core.Domain;
+using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints;
 using Serilog;

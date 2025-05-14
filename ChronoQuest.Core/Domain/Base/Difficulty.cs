@@ -1,4 +1,4 @@
-namespace ChronoQuest.Core.Domain;
+namespace ChronoQuest.Core.Domain.Base;
 
 public enum Difficulty
 {
