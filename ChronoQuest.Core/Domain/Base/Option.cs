@@ -1,6 +1,12 @@
 namespace ChronoQuest.Core.Domain.Base;
 
-public sealed class Option(string content, Guid? id = null) : Entity(id)
+public sealed class Option : Entity
 {
-    public string Content { get; private set; } = content;
+    private Option() { }
+    public Option(string content, Guid? id = null) : base(id)
+    {
+        Content = content;
+    }
+
+    public string Content { get; private set; } = null!;
 }

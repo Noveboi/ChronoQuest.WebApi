@@ -1,8 +1,16 @@
 namespace ChronoQuest.Core.Domain.Base;
 
-public class Chapter(string title, string content, Quiz quiz, Guid? id = null) : Entity(id)
+public class Chapter : Entity
 {
-    public string Title { get; private set; } = title;
-    public string Content { get; private set; } = content;
-    public Quiz Quiz { get; private set; } = quiz;
+    private Chapter() { }
+    public Chapter(string title, string content, Quiz quiz, Guid? id = null) : base(id)
+    {
+        Title = title;
+        Content = content;
+        Quiz = quiz;
+    }
+
+    public string Title { get; private set; } = null!;
+    public string Content { get; private set; } = null!;
+    public Quiz Quiz { get; private set; } = null!;
 }

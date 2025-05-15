@@ -1,10 +1,16 @@
-using ChronoQuest.Core.Domain.Base;
+namespace ChronoQuest.Core.Domain.Base;
 
-namespace ChronoQuest.Core.Domain;
-
-public class Question(Difficulty difficulty, string content, List<Option> options, Guid? id = null) : Entity(id)
+public class Question : Entity
 {
-    public Difficulty Difficulty { get; private set; } = difficulty;
-    public string Content { get; private set; } = content;
-    public List<Option> Options { get; private set; } = options;
+    private Question() { }
+    public Question(Difficulty difficulty, string content, List<Option> options, Guid? id = null) : base(id)
+    {
+        Difficulty = difficulty;
+        Content = content;
+        Options = options;
+    }
+
+    public Difficulty Difficulty { get; private set; } 
+    public string Content { get; private set; } = null!;
+    public List<Option> Options { get; private set; } = null!;
 }

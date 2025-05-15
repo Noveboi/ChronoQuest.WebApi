@@ -1,6 +1,12 @@
-namespace ChronoQuest.Core.Domain;
+namespace ChronoQuest.Core.Domain.Base;
 
-public class Quiz(List<Question> questions, Guid? id = null) : Entity(id)
+public class Quiz : Entity
 {
-    public List<Question> Questions { get; private set; } = questions;
+    private Quiz() { }
+    public Quiz(List<Question> questions, Guid? id = null) : base(id)
+    {
+        Questions = questions;
+    }
+    
+    public List<Question> Questions { get; private set; } = null!;
 }
