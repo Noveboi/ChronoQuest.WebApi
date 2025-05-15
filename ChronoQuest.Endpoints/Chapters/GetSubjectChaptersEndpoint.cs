@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Chapters;
 
-internal sealed class GetSubjectChaptersEndpoint : EndpointWithoutRequest<IEnumerable<ChapterDto>> 
+internal sealed class GetSubjectChaptersEndpoint : EndpointWithoutRequest<IEnumerable<ChapterPreviewDto>> 
 {
     public override void Configure()
     {
@@ -13,10 +13,10 @@ internal sealed class GetSubjectChaptersEndpoint : EndpointWithoutRequest<IEnume
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var examples = new List<ChapterDto>
+        var examples = new List<ChapterPreviewDto>
         {
-            new(Id: Guid.NewGuid(), Title: "Introduction", Content: "Blah blah blah..."),
-            new(Id: Guid.NewGuid(), Title: "More Stuff", Content: "Lorem ipsum and stuff...")
+            new(Id: Guid.NewGuid(), Title: "Introduction"),
+            new(Id: Guid.NewGuid(), Title: "More Stuff")
         };
 
         await SendAsync(examples, cancellation: ct);
