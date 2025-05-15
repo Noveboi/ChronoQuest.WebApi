@@ -1,3 +1,4 @@
+using ChronoQuest.Core.Application;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints;
@@ -19,6 +20,7 @@ try
         .AddSerilog((_, config) => config.ReadFrom.Configuration(builder.Configuration))
         .AddAuthorization()
         .AddCors()
+        .AddApplication()
         .AddInfrastructure(builder.Configuration)
         .AddOpenApi()
         .AddChronoQuestEndpoints();
