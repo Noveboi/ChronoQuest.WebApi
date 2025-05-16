@@ -2,7 +2,7 @@ namespace ChronoQuest.Core.Domain;
 
 public abstract class Entity
 {
-    protected Entity() {}
+    protected Entity() => Id = Guid.CreateVersion7();
     protected Entity(Guid? id) => Id = id ?? Guid.CreateVersion7();
 
     public Guid Id { get; private init; }
