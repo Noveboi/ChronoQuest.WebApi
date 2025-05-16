@@ -2,16 +2,6 @@
 
 namespace ChronoQuest.AdaptiveLearning.Model;
 
-internal sealed class UserSkillMastery(
-    Guid modelId, 
-    DateTimeOffset dateTime, 
-    Probability probabilityOfMastery) : Entity
-{
-    public Guid ModelId { get; private init; } = modelId;
-    public DateTime UtcDateTime { get; private init; } = dateTime.UtcDateTime;
-    public Probability ProbabilityOfMastery { get; private init; } = probabilityOfMastery;
-}
-
 internal sealed class BayesianKnowledgeTracingModel(
     Guid learningModelId,
     Guid skillId,
