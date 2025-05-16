@@ -1,3 +1,4 @@
+using ChronoQuest.Core.Application.Chapters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChronoQuest.Core.Application;

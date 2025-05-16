@@ -1,13 +1,12 @@
-using System.Security.Principal;
 using Serilog;
 
-namespace ChronoQuest.Core.Application;
+namespace ChronoQuest.Core.Application.Chapters;
 
 internal sealed class ChapterReadingTracker(
     ITrackingStore<ChapterTrackingKey, DateTimeOffset> store, 
     TimeProvider timeProvider) : IUserActionTracker<ChapterTrackingInformation>
 {    
-    private static readonly ILogger _log = Log.ForContext<ChapterReadingTracker>();
+    private static readonly ILogger Log = Serilog.Log.ForContext<ChapterReadingTracker>();
 
     public ValueTask StartTrackingAsync(Guid chapterId, Guid userId, CancellationToken token)
     {
@@ -36,7 +35,7 @@ internal sealed class ChapterReadingTracker(
         await store.RemoveAsync(key, token);
 
         var trackingInfo = new ChapterTrackingInformation(StartedReadingUtc: startTime, StoppedReadingUtc: stopTime);
-        _log.Information("Read chapter for {seconds} seconds", trackingInfo.TimeSpentReading.TotalSeconds);
+        Log.Information("Read chapter for {seconds} seconds", trackingInfo.TimeSpentReading.TotalSeconds);
 
         return trackingInfo;
     }
@@ -44,10 +43,10 @@ internal sealed class ChapterReadingTracker(
     private static class TrackingLog 
     {        
         public static void Write(string verb, ChapterTrackingKey key, DateTimeOffset time) =>
-            _log.Information("{verb} tracking user reading chapter {@key} starting at {utcTime}", verb, key, time);
+            Log.Information("{verb} tracking user reading chapter {@key} starting at {utcTime}", verb, key, time);
 
         public static void NotFound(ChapterTrackingKey key) => 
-            _log.Warning("Chapter tracking {@key} not found.", key);
+            Log.Warning("Chapter tracking {@key} not found.", key);
     }
 }
 internal sealed record ChapterTrackingKey(Guid ChapterId, Guid UserId);

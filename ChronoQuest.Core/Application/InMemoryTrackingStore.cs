@@ -5,20 +5,20 @@ namespace ChronoQuest.Core.Application;
 
 internal sealed class InMemoryTrackingStore<TKey, TValue> : ITrackingStore<TKey, TValue> where TKey : notnull
 {
-    private static readonly ConcurrentDictionary<TKey, TValue> _backingStore = [];
+    private static readonly ConcurrentDictionary<TKey, TValue> BackingStore = [];
 
     public ValueTask AddAsync(TKey key, TValue value, CancellationToken token)
     {
-        _backingStore.TryAdd(key, value);
+        BackingStore.TryAdd(key, value);
         return ValueTask.CompletedTask;
     }
 
     public ValueTask<TValue?> GetOrDefaultAsync(TKey key, CancellationToken token) =>
-        ValueTask.FromResult(_backingStore.GetValueOrDefault(key));
+        ValueTask.FromResult(BackingStore.GetValueOrDefault(key));
 
     public ValueTask RemoveAsync(TKey key, CancellationToken token)
     {
-        _backingStore.Remove(key, out _);
+        BackingStore.Remove(key, out _);
         return ValueTask.CompletedTask;
     }
 }

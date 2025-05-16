@@ -1,4 +1,5 @@
 using ChronoQuest.Core.Application;
+using ChronoQuest.Core.Application.Chapters;
 using ChronoQuest.Endpoints.Chapters.Dto;
 using FastEndpoints;
 
