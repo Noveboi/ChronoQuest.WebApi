@@ -8,6 +8,9 @@ public class ChapterConfiguration : IEntityTypeConfiguration<Chapter>
 {
     public void Configure(EntityTypeBuilder<Chapter> builder)
     {
-        throw new NotImplementedException();
+        builder.HasOne(c => c.Topic).WithOne().HasForeignKey<Chapter>("ChapterId");
+        builder.Property(c => c.Title).HasMaxLength(100).IsRequired();
+        builder.HasOne(c => c.Quiz).WithOne().HasForeignKey<Chapter>("ChapterId");
+        builder.IsDomainEntity();
     }
 }
