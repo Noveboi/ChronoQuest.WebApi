@@ -6,5 +6,8 @@ namespace ChronoQuest.Core.Infrastructure;
 
 internal class ChronoQuestContext(DbContextOptions<ChronoQuestContext> options) : IdentityDbContext<User>(options)
 {
-    
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfigurationsFromAssembly(typeof(ChronoQuestContext).Assembly);
+    }
 }
