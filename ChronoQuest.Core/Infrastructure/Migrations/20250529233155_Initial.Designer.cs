@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChronoQuest.Core.Infrastructure.Migrations
 {
     [DbContext(typeof(ChronoQuestContext))]
-    [Migration("20250527095935_Initial")]
+    [Migration("20250529233155_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -30,24 +30,30 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ChapterId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ChapterId")
+                    b.HasIndex("QuizId")
                         .IsUnique();
 
-                    b.ToTable("Chapter");
+                    b.HasIndex("TopicId")
+                        .IsUnique();
+
+                    b.ToTable("Chapters");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Exam", b =>
@@ -67,7 +73,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Exam");
+                    b.ToTable("Exams");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Question", b =>
@@ -90,7 +96,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Question");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Quiz", b =>
@@ -115,7 +121,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.User", b =>
@@ -348,13 +354,13 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 {
                     b.HasOne("ChronoQuest.Core.Domain.Base.Quiz", "Quiz")
                         .WithOne()
-                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "ChapterId")
+                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ChronoQuest.Core.Domain.Base.Topic", "Topic")
                         .WithOne()
-                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "ChapterId")
+                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

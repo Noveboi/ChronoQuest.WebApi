@@ -27,21 +27,27 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ChapterId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ChapterId")
+                    b.HasIndex("QuizId")
+                        .IsUnique();
+
+                    b.HasIndex("TopicId")
                         .IsUnique();
 
                     b.ToTable("Chapters");
@@ -345,13 +351,13 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 {
                     b.HasOne("ChronoQuest.Core.Domain.Base.Quiz", "Quiz")
                         .WithOne()
-                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "ChapterId")
+                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ChronoQuest.Core.Domain.Base.Topic", "Topic")
                         .WithOne()
-                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "ChapterId")
+                        .HasForeignKey("ChronoQuest.Core.Domain.Base.Chapter", "TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

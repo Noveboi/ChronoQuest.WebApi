@@ -63,7 +63,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topic",
+                name: "Topics",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -71,7 +71,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Topic", x => x.Id);
+                    table.PrimaryKey("PK_Topics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,7 +181,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exam",
+                name: "Exams",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -190,9 +190,9 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exam", x => x.Id);
+                    table.PrimaryKey("PK_Exams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exam_AspNetUsers_UserId",
+                        name: "FK_Exams_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -200,33 +200,34 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Chapter",
+                name: "Chapters",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TopicId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
-                    ChapterId = table.Column<Guid>(type: "uuid", nullable: false)
+                    QuizId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Chapter", x => x.Id);
+                    table.PrimaryKey("PK_Chapters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Chapter_Quiz_ChapterId",
-                        column: x => x.ChapterId,
+                        name: "FK_Chapters_Quiz_QuizId",
+                        column: x => x.QuizId,
                         principalTable: "Quiz",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Chapter_Topic_ChapterId",
-                        column: x => x.ChapterId,
-                        principalTable: "Topic",
+                        name: "FK_Chapters_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Question",
+                name: "Questions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -236,11 +237,11 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Question", x => x.Id);
+                    table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Question_Topic_TopicId",
+                        name: "FK_Questions_Topics_TopicId",
                         column: x => x.TopicId,
-                        principalTable: "Topic",
+                        principalTable: "Topics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -256,15 +257,15 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ExamQuestion", x => new { x.ExamId, x.QuestionsId });
                     table.ForeignKey(
-                        name: "FK_ExamQuestion_Exam_ExamId",
+                        name: "FK_ExamQuestion_Exams_ExamId",
                         column: x => x.ExamId,
-                        principalTable: "Exam",
+                        principalTable: "Exams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExamQuestion_Question_QuestionsId",
+                        name: "FK_ExamQuestion_Questions_QuestionsId",
                         column: x => x.QuestionsId,
-                        principalTable: "Question",
+                        principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -281,9 +282,9 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Option", x => new { x.QuestionId, x.Id });
                     table.ForeignKey(
-                        name: "FK_Option_Question_QuestionId",
+                        name: "FK_Option_Questions_QuestionId",
                         column: x => x.QuestionId,
-                        principalTable: "Question",
+                        principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -299,9 +300,9 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_QuestionQuiz", x => new { x.QuestionsId, x.QuizId });
                     table.ForeignKey(
-                        name: "FK_QuestionQuiz_Question_QuestionsId",
+                        name: "FK_QuestionQuiz_Questions_QuestionsId",
                         column: x => x.QuestionsId,
-                        principalTable: "Question",
+                        principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -350,15 +351,15 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chapter_ChapterId",
-                table: "Chapter",
-                column: "ChapterId",
+                name: "IX_Chapters_QuizId",
+                table: "Chapters",
+                column: "QuizId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exam_UserId",
-                table: "Exam",
-                column: "UserId",
+                name: "IX_Chapters_TopicId",
+                table: "Chapters",
+                column: "TopicId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -367,14 +368,20 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 column: "QuestionsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Question_TopicId",
-                table: "Question",
-                column: "TopicId");
+                name: "IX_Exams_UserId",
+                table: "Exams",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionQuiz_QuizId",
                 table: "QuestionQuiz",
                 column: "QuizId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Questions_TopicId",
+                table: "Questions",
+                column: "TopicId");
         }
 
         /// <inheritdoc />
@@ -396,7 +403,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Chapter");
+                name: "Chapters");
 
             migrationBuilder.DropTable(
                 name: "ExamQuestion");
@@ -411,10 +418,10 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Exam");
+                name: "Exams");
 
             migrationBuilder.DropTable(
-                name: "Question");
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "Quiz");
@@ -423,7 +430,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Topic");
+                name: "Topics");
         }
     }
 }
