@@ -44,7 +44,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                     b.HasIndex("ChapterId")
                         .IsUnique();
 
-                    b.ToTable("Chapter");
+                    b.ToTable("Chapters");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Exam", b =>
@@ -64,7 +64,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Exam");
+                    b.ToTable("Exams");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Question", b =>
@@ -87,7 +87,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Question");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Quiz", b =>
@@ -112,7 +112,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.User", b =>

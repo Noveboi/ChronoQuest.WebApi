@@ -15,6 +15,8 @@ internal sealed class ExitChapterEndpoint(IUserActionTracker<ChapterTrackingInfo
 
     public override async Task HandleAsync(GetChapterRequest req, CancellationToken ct)
     {
+        // No need to get chapter from DB. The tracker will simply return null.
+        
         var info = await tracker.StopTrackingAsync(userId: req.UserId, entityId: req.ChapterId, ct);
         if (info is null) 
         {
