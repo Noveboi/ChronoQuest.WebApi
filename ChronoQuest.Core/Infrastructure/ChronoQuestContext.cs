@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Core.Infrastructure;
 
-internal class ChronoQuestContext(DbContextOptions<ChronoQuestContext> options) : IdentityDbContext<User>(options)
+public sealed class ChronoQuestContext(DbContextOptions<ChronoQuestContext> options) : IdentityDbContext<User>(options)
 {
     public DbSet<Chapter> Chapters { get; set; }
     public DbSet<Exam> Exams { get; set; }
