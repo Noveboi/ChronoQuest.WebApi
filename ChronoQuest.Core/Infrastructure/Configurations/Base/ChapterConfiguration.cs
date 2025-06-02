@@ -14,5 +14,7 @@ public class ChapterConfiguration : IEntityTypeConfiguration<Chapter>
         builder.IsDomainEntity();
         
         builder.Navigation(x => x.Topic).AutoInclude();
+
+        builder.HasIndex(x => x.Order).IsUnique();
     }
 }

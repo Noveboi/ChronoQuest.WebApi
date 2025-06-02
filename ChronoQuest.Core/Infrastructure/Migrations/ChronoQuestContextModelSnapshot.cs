@@ -31,6 +31,9 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("QuizId")
                         .HasColumnType("uuid");
 
@@ -43,6 +46,9 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Order")
+                        .IsUnique();
 
                     b.HasIndex("QuizId")
                         .IsUnique();
@@ -436,7 +442,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Stats.ChapterReadingTime", b =>
                 {
-                    b.HasOne("ChronoQuest.Core.Domain.Base.Chapter", null)
+                    b.HasOne("ChronoQuest.Core.Domain.Base.Chapter", "Chapter")
                         .WithMany()
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -447,6 +453,8 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Chapter");
                 });
 
             modelBuilder.Entity("ExamQuestion", b =>

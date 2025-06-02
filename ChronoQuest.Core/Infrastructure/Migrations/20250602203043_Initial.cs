@@ -204,6 +204,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Order = table.Column<int>(type: "integer", nullable: false),
                     TopicId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
@@ -386,6 +387,12 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                 name: "IX_ChapterReadings_UserId",
                 table: "ChapterReadings",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chapters_Order",
+                table: "Chapters",
+                column: "Order",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Chapters_QuizId",
