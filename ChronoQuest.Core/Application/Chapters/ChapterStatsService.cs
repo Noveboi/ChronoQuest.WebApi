@@ -15,13 +15,14 @@ public sealed class ChapterStatsService(ChronoQuestContext context)
         var readings = await context.ChapterReadings
             .AsNoTracking()
             .Include(x => x.Chapter)
+            .ThenInclude(x => x.Topic)
             .Where(x => x.UserId == userId)
-            .GroupBy(x => x.Chapter)
+            .GroupBy(x => x.ChapterId)
             .ToListAsync(ct);
 
         return new ChapterStats(
             Chapters: readings.ToDictionary(
-                keySelector: x => x.Key,
+                keySelector: x => x.First(r => r.Chapter.Id == x.Key).Chapter,
                 elementSelector: x => new StatsPerChapter(
                     Readings: x.Select(t => t),
                     TotalDuration: x.Aggregate(TimeSpan.Zero, (time, reading) => time + reading.Duration))));

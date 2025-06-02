@@ -20,11 +20,11 @@ internal static class ChapterDtoExtensions
     public static ChapterReadingDto ToDto(this ChapterReadingTime reading) => new(
         ChapterId: reading.ChapterId,
         Start: reading.StartedAtUtc,
-        Duration: reading.Duration);
+        SecondsRead: reading.Duration.TotalSeconds);
 
     public static ChapterStatsDto ToDto(this ChapterStats stats) => new(
         stats.Chapters.Select(x => new StatsPerChapterDto(
             Chapter: x.Key.ToPreviewDto(),
-            Readings: x.Value.Readings.Select(r => new ChapterReadingWithoutIdDto(r.StartedAtUtc, r.Duration)),
+            Readings: x.Value.Readings.Select(r => new ChapterReadingWithoutIdDto(r.StartedAtUtc, r.Duration.TotalSeconds)),
             TotalSecondsRead: x.Value.TotalDuration.TotalSeconds)));
 }
