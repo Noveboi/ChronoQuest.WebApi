@@ -18,7 +18,8 @@ internal sealed class GetChapterEndpoint(IUserActionTracker<ChapterTrackingInfor
 
     public override async Task HandleAsync(GetChapterRequest req, CancellationToken ct)
     {
-        var chapter = await context.Chapters.AsNoTracking()
+        var chapter = await context.Chapters
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == req.ChapterId, cancellationToken: ct);
 
         if (chapter is null)

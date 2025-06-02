@@ -15,15 +15,15 @@ public static class InfrastructureDependencyInjection
         // Database
         var connectionString = configuration.GetConnectionString("Database") ?? 
                                throw new InvalidOperationException("No 'Database' connection string provided.");
+        
+        services.AddDbContext<ChronoQuestContext>(options => options.UseNpgsql(connectionString));
+        services.AddHostedService<StartupService>();
 
         // Identity
         services
             .AddIdentityApiEndpoints<User>()
             .AddEntityFrameworkStores<ChronoQuestContext>();
         
-        // DbContext
-        services.AddDbContext<ChronoQuestContext>((options) => options.UseNpgsql(connectionString));
-
         return services;
     }
 }
