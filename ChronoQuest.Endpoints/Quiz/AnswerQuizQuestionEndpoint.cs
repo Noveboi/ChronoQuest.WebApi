@@ -26,6 +26,8 @@ internal sealed class AnswerQuizQuestionEndpoint : Endpoint<AnswerQuizRequest, A
 
     public override async Task HandleAsync(AnswerQuizRequest req, CancellationToken ct)
     {
+        // IMPORTANT: Use IQuestionService!;
+        
         Logger.LogInformation("User {userId} answered question {questionId} with {optionId}", req.UserId, req.QuestionId, req.ChosenOptionId);
         await SendAsync(new AnswerQuizResponse(true), cancellation: ct);
     }
