@@ -2,7 +2,7 @@
 
 namespace ChronoQuest.Core.Application.Questions;
 
-internal class QuestionService(ChronoQuestContext context) : IQuestionService
+internal class QuestionService : IQuestionService
 {
     public Task GetQuestionAsync(QuestionRequest request, CancellationToken token)
     {

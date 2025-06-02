@@ -1,7 +1,7 @@
 
 using System.Collections.Concurrent;
 
-namespace ChronoQuest.Core.Application;
+namespace ChronoQuest.Core.Application.Tracking.Store;
 
 internal sealed class InMemoryTrackingStore<TKey, TValue> : ITrackingStore<TKey, TValue> where TKey : notnull
 {

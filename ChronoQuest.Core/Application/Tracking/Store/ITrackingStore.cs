@@ -1,6 +1,6 @@
-namespace ChronoQuest.Core.Application;
+namespace ChronoQuest.Core.Application.Tracking.Store;
 
-public interface ITrackingStore<TKey, TValue> where TKey : notnull
+public interface ITrackingStore<in TKey, TValue> where TKey : notnull
 {
     ValueTask<TValue?> GetOrDefaultAsync(TKey key, CancellationToken token);
     ValueTask RemoveAsync(TKey key, CancellationToken token);    

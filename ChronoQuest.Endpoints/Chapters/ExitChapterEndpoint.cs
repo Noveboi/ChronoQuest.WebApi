@@ -1,11 +1,10 @@
-using ChronoQuest.Core.Application;
-using ChronoQuest.Core.Application.Chapters;
+using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Endpoints.Chapters.Dto;
 using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Chapters;
 
-internal sealed class ExitChapterEndpoint(IUserActionTracker<ChapterTrackingInformation> tracker) : Endpoint<GetChapterRequest>
+internal sealed class ExitChapterEndpoint(TimeTracker tracker) : Endpoint<GetChapterRequest>
 {
     public override void Configure()
     {
