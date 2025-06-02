@@ -1,10 +1,8 @@
 using ChronoQuest.Core.Application.Tracking;
-using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Chapters.Dto;
 using FastEndpoints;
-using MediatR;
 
 namespace ChronoQuest.Endpoints.Chapters;
 

@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Application.Tracking.Requests;
 using ChronoQuest.Core.Infrastructure;
 using FastEndpoints;

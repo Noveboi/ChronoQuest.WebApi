@@ -1,4 +1,3 @@
-using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Interfaces;
 
 namespace ChronoQuest.Core.Application.Tracking;

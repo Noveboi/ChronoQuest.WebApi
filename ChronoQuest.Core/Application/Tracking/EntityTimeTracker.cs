@@ -1,5 +1,4 @@
 using ChronoQuest.Core.Application.Tracking.Requests;
-using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Interfaces;
 using ChronoQuest.Core.Infrastructure;
 using MediatR;

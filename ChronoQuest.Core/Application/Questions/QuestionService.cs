@@ -1,6 +1,4 @@
-﻿using ChronoQuest.Core.Infrastructure;
-
-namespace ChronoQuest.Core.Application.Questions;
+﻿namespace ChronoQuest.Core.Application.Questions;
 
 internal class QuestionService : IQuestionService
 {
