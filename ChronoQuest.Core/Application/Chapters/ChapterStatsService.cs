@@ -1,0 +1,29 @@
+using ChronoQuest.Core.Domain.Base;
+using ChronoQuest.Core.Domain.Stats;
+using ChronoQuest.Core.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
+namespace ChronoQuest.Core.Application.Chapters;
+
+public sealed record StatsPerChapter(IEnumerable<ChapterReadingTime> Readings, TimeSpan TotalDuration);
+public sealed record ChapterStats(Dictionary<Chapter, StatsPerChapter> Chapters);
+
+public sealed class ChapterStatsService(ChronoQuestContext context)
+{
+    public async Task<ChapterStats> GetChapterStatsAsync(Guid userId, CancellationToken ct)
+    {
+        var readings = await context.ChapterReadings
+            .AsNoTracking()
+            .Include(x => x.Chapter)
+            .Where(x => x.UserId == userId)
+            .GroupBy(x => x.Chapter)
+            .ToListAsync(ct);
+
+        return new ChapterStats(
+            Chapters: readings.ToDictionary(
+                keySelector: x => x.Key,
+                elementSelector: x => new StatsPerChapter(
+                    Readings: x.Select(t => t),
+                    TotalDuration: x.Aggregate(TimeSpan.Zero, (time, reading) => time + reading.Duration))));
+    }
+}
