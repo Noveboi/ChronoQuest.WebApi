@@ -1,22 +1,51 @@
 
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
 namespace ChronoQuest.Core.Application.Tracking.Store;
 
-internal sealed class InMemoryTrackingStore<TKey, TValue> : ITrackingStore<TKey, TValue> where TKey : notnull
+internal sealed class InMemoryTrackingStore<TValue> : ITrackingStore<TValue>
 {
-    private static readonly ConcurrentDictionary<TKey, TValue> BackingStore = [];
+    private static readonly ConcurrentDictionary<TrackingKey, TValue> BackingStore = [];
 
-    public ValueTask AddAsync(TKey key, TValue value, CancellationToken token)
+    public ValueTask AddAsync(TrackingKey key, TValue value, CancellationToken token)
     {
         BackingStore.TryAdd(key, value);
         return ValueTask.CompletedTask;
     }
 
-    public ValueTask<TValue?> GetOrDefaultAsync(TKey key, CancellationToken token) =>
-        ValueTask.FromResult(BackingStore.GetValueOrDefault(key));
+    public async IAsyncEnumerable<TValue> GetAllForUserAsync(Guid userId, [EnumeratorCancellation] CancellationToken token)
+    {
+        var keys = BackingStore.Keys.Where(x => x.UserId == userId).ToList();
+        foreach (var value in keys.Select(key => BackingStore[key]))
+        {
+            yield return value;
+        }
 
-    public ValueTask RemoveAsync(TKey key, CancellationToken token)
+        await RemoveRangeAsync(keys, token);
+    }
+
+    public async ValueTask<TValue?> GetOrDefaultAsync(TrackingKey key, CancellationToken token)
+    {
+        if (BackingStore.TryGetValue(key, out var value))
+        {
+            await RemoveAsync(key, token);
+        }
+        
+        return value;
+    }
+
+    private ValueTask RemoveRangeAsync(IEnumerable<TrackingKey> keys, CancellationToken token)
+    {
+        foreach (var key in keys)
+        {
+            BackingStore.Remove(key, out _);
+        }
+        
+        return ValueTask.CompletedTask;
+    }
+    
+    private ValueTask RemoveAsync(TrackingKey key, CancellationToken token)
     {
         BackingStore.Remove(key, out _);
         return ValueTask.CompletedTask;

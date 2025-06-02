@@ -8,5 +8,5 @@ public static class ApplicationDependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services) => services
         .AddScoped<TimeTracker>()
-        .AddSingleton(typeof(ITrackingStore<,>), typeof(InMemoryTrackingStore<,>));
+        .AddSingleton(typeof(ITrackingStore<>), typeof(InMemoryTrackingStore<>));
 }
