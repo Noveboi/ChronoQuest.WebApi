@@ -1,4 +1,5 @@
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Chapters.Dto;
 using FastEndpoints;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Endpoints.Chapters;
 
-internal sealed class GetChapterEndpoint(TimeTracker tracker, ChronoQuestContext context) 
+internal sealed class GetChapterEndpoint(ITimeTracker<ChapterReadingTime> tracker, ChronoQuestContext context) 
     : Endpoint<GetChapterRequest, ChapterDto>
 {
     public override void Configure()

@@ -1,4 +1,5 @@
 using ChronoQuest.Core.Application;
+using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints;
@@ -19,6 +20,10 @@ try
     builder.Services
         .AddSerilog((_, config) => config.ReadFrom.Configuration(builder.Configuration))
         .AddAuthorization()
+        .AddMediatR(o =>
+        {
+            o.RegisterServicesFromAssemblyContaining(typeof(ITimeTracker<>));
+        })
         .AddCors()
         .AddApplication()
         .AddInfrastructure(builder.Configuration)

@@ -1,10 +1,15 @@
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Domain.Base;
+using ChronoQuest.Core.Domain.Stats;
+using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Chapters.Dto;
 using FastEndpoints;
+using MediatR;
 
 namespace ChronoQuest.Endpoints.Chapters;
 
-internal sealed class ExitChapterEndpoint(TimeTracker tracker) : Endpoint<GetChapterRequest>
+internal sealed class ExitChapterEndpoint(ITimeTracker<ChapterReadingTime> tracker, ChronoQuestContext context) 
+    : Endpoint<GetChapterRequest, ChapterReadingDto>
 {
     public override void Configure()
     {
@@ -14,15 +19,14 @@ internal sealed class ExitChapterEndpoint(TimeTracker tracker) : Endpoint<GetCha
 
     public override async Task HandleAsync(GetChapterRequest req, CancellationToken ct)
     {
-        // No need to get chapter from DB. The tracker will simply return null.
-        
-        var info = await tracker.StopTrackingAsync(userId: req.UserId, entityId: req.ChapterId, ct);
-        if (info is null) 
+        var readingTime = await tracker.StopTrackingAsync(userId: req.UserId, entityId: req.ChapterId, ct);
+        if (readingTime is null)
         {
             await SendNoContentAsync(ct);
             return;
         }
-
-        await SendOkAsync(ct);
+        
+        await context.SaveChangesAsync(ct);
+        await SendAsync(readingTime.ToDto(), cancellation: ct);
     }
 }
