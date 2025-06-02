@@ -40,18 +40,21 @@ internal sealed class StartupService(IServiceProvider sp) : BackgroundService
     private IEnumerable<Chapter> GetChapters()
     {
         yield return new Chapter(
+            order: 2,
             topic: _geography,
             title: "Geography",
             content: "Lorem ipsum set dolor amet",
             quiz: new Quiz([]));
         
         yield return new Chapter(
+            order: 1,
             topic: _history,
             title: "History",
             content: "Lorem ipsum set dolor amet",
             quiz: new Quiz([]));
         
         yield return new Chapter(
+            order: 3,
             topic: _culture,
             title: "Culture",
             content: "Lorem ipsum set dolor amet",

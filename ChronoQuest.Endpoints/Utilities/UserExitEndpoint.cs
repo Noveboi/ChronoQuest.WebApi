@@ -1,6 +1,9 @@
 using System.Security.Claims;
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Application.Tracking.Requests;
+using ChronoQuest.Core.Infrastructure;
 using FastEndpoints;
+using MediatR;
 
 namespace ChronoQuest.Endpoints.Utilities;
 internal sealed record UserExitRequest([property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId);
@@ -8,7 +11,7 @@ internal sealed record UserExitRequest([property: FromClaim(ClaimTypes.NameIdent
 /// <summary>
 /// Called when the is exiting the application. 
 /// </summary>
-internal sealed class UserExitEndpoint(TimeTracker tracker) : Endpoint<UserExitRequest>
+internal sealed class UserExitEndpoint(IPublisher publisher, ChronoQuestContext context) : Endpoint<UserExitRequest>
 {
     public override void Configure()
     {
@@ -17,7 +20,8 @@ internal sealed class UserExitEndpoint(TimeTracker tracker) : Endpoint<UserExitR
 
     public override async Task HandleAsync(UserExitRequest req, CancellationToken ct)
     {
-        await tracker.StopTrackingEntirelyAsync(req.UserId, ct);
+        await publisher.Publish(new StopTrackingEverything(UserId: req.UserId), ct);
+        await context.SaveChangesAsync(ct);
         await SendOkAsync(ct);
     }
 }
