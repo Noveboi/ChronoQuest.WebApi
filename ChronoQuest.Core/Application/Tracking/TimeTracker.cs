@@ -3,22 +3,26 @@ using Serilog;
 
 namespace ChronoQuest.Core.Application.Tracking;
 
-public sealed class TimeTracker(
-    ITrackingStore<DateTimeOffset> store,
-    TimeProvider timeProvider) 
+internal sealed record TrackingData(DateTimeOffset Start, Guid EntityId);
+
+internal sealed class TimeTracker<T>(
+    ITrackingStore<TrackingData> store,
+    TimeProvider timeProvider)
 {
+    private static readonly Type EntityType = typeof(T);
+    
     /// <summary>
     /// Mark the current time for the given user and entity.
     /// </summary>
     /// <returns></returns>
     public ValueTask TrackAsync(Guid userId, Guid entityId, CancellationToken token)
     {
-        var key = new TrackingKey(EntityId: entityId, UserId: userId);
-        var value = timeProvider.GetUtcNow();
+        var key = new TrackingKey(EntityType: EntityType, EntityId: entityId, UserId: userId);
+        var data = new TrackingData(timeProvider.GetUtcNow(), entityId);
         
-        TrackingLog.Write("Start", value);
+        TrackingLog.Write("Start", data.Start);
         
-        return store.AddAsync(key, value, token);
+        return store.AddAsync(key, data, token);
     }
 
     /// <summary>
@@ -26,11 +30,11 @@ public sealed class TimeTracker(
     /// </summary>
     public async ValueTask<TimeTrackingInformation?> StopTrackingAsync(Guid userId, Guid entityId, CancellationToken token)
     {
-        var key = new TrackingKey(EntityId: entityId, UserId: userId);
+        var key = new TrackingKey(EntityType: EntityType, EntityId: entityId, UserId: userId);
         var stopTime = timeProvider.GetUtcNow();
 
-        var startTime = await store.GetOrDefaultAsync(key, token);
-        if (startTime == default) 
+        var data = await store.GetOrDefaultAsync(key, token);
+        if (data == null) 
         {
             TrackingLog.NotFound(key);
             return null;
@@ -38,8 +42,8 @@ public sealed class TimeTracker(
 
         TrackingLog.Write("Stop", stopTime);
         
-        var trackingInfo = new TimeTrackingInformation(TrackingStartUtc: startTime, TrackingEndUtc: stopTime);
-        Log.Information("Read chapter for {seconds} seconds", trackingInfo.ElapsedTime.TotalSeconds);
+        var trackingInfo = new TimeTrackingInformation(EntityId: entityId, TrackingStartUtc: data.Start, TrackingEndUtc: stopTime);
+        Log.Information("Read chapter for {seconds} seconds", trackingInfo.Duration.TotalSeconds);
 
         return trackingInfo;
     }
@@ -50,9 +54,13 @@ public sealed class TimeTracker(
         Log.Information("Stop tracking everything for user {userId}", userId);
 
         var info = new List<TimeTrackingInformation>();
-        await foreach (var startTime in store.GetAllForUserAsync(userId, token))
+        await foreach (var data in store.GetAllForUserAsync(EntityType, userId, token))
         {
-            var trackingInfo = new TimeTrackingInformation(TrackingStartUtc: startTime, TrackingEndUtc: stopTime);
+            var trackingInfo = new TimeTrackingInformation(
+                EntityId: data.EntityId, 
+                TrackingStartUtc: data.Start, 
+                TrackingEndUtc: stopTime);
+            
             info.Add(trackingInfo);
         }
 
@@ -61,8 +69,8 @@ public sealed class TimeTracker(
     
     private static class TrackingLog
     {
-        public static void Write(string verb, DateTimeOffset time) =>
-            Log.Information("{verb} tracking at {utcTime}", verb, time);
+        public static void Write(string verb, DateTimeOffset data) =>
+            Log.Information("{verb} tracking {type} ({date})", verb, EntityType.Name, data);
 
         public static void NotFound(TrackingKey key) => 
             Log.Warning("Tracking {@key} not found.", key);

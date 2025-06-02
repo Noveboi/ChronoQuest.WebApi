@@ -1,3 +1,3 @@
 namespace ChronoQuest.Core.Application.Tracking;
 
-public sealed record TrackingKey(Guid EntityId, Guid UserId);
+internal sealed record TrackingKey(Type EntityType, Guid EntityId, Guid UserId);

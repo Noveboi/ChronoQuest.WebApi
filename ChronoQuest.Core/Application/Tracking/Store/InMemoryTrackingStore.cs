@@ -1,6 +1,7 @@
 
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
+using Serilog;
 
 namespace ChronoQuest.Core.Application.Tracking.Store;
 
@@ -14,9 +15,17 @@ internal sealed class InMemoryTrackingStore<TValue> : ITrackingStore<TValue>
         return ValueTask.CompletedTask;
     }
 
-    public async IAsyncEnumerable<TValue> GetAllForUserAsync(Guid userId, [EnumeratorCancellation] CancellationToken token)
+    public async IAsyncEnumerable<TValue> GetAllForUserAsync(
+        Type entityType, 
+        Guid userId, 
+        [EnumeratorCancellation] CancellationToken token)
     {
-        var keys = BackingStore.Keys.Where(x => x.UserId == userId).ToList();
+        var keys = BackingStore.Keys
+            .Where(x => x.UserId == userId && x.EntityType == entityType)
+            .ToList();
+        
+        Log.Information("Found {count} tracking keys for {type}", keys.Count, entityType);
+        
         foreach (var value in keys.Select(key => BackingStore[key]))
         {
             yield return value;
