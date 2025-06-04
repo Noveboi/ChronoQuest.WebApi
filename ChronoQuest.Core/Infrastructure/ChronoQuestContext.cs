@@ -1,3 +1,4 @@
+using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +16,8 @@ public sealed class ChronoQuestContext(DbContextOptions<ChronoQuestContext> opti
     public DbSet<Exam> Exams { get; set; }
     public DbSet<Topic> Topics { get; set; }
     public DbSet<Question> Questions { get; set; }
+    
+    public DbSet<UserMarker> Markers { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {

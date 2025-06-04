@@ -1,19 +1,18 @@
 using ChronoQuest.Core.Domain.Base;
-using ChronoQuest.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace ChronoQuest.Core;
+namespace ChronoQuest.Core.Infrastructure.Workers;
 
-internal sealed class StartupService(IServiceProvider sp) : BackgroundService
+internal sealed class StartupBackgroundService(IServiceProvider sp) : BackgroundService
 {
     private readonly Topic _geography = new("Geography");
     private readonly Topic _history = new("History");
     private readonly Topic _culture = new("Culture");
     
-    private readonly ILogger _log = Log.ForContext<StartupService>();
+    private readonly ILogger _log = Log.ForContext<StartupBackgroundService>();
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {

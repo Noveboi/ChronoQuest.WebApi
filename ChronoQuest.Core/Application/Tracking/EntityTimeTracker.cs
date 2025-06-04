@@ -10,12 +10,12 @@ internal sealed class EntityTimeTracker<TStats>(TimeTracker<TStats> tracker, Chr
     ITimeTracker<TStats>,
     INotificationHandler<StopTrackingEverything> where TStats : class, ITimeTrackingEntity<TStats>
 {
-    public ValueTask TrackAsync(Guid userId, Guid chapterId, CancellationToken token)
+    public Task TrackAsync(Guid userId, Guid chapterId, CancellationToken token)
     {
         return tracker.TrackAsync(userId, chapterId, token);
     }
 
-    public async ValueTask<TStats?> StopTrackingAsync(Guid userId, Guid chapterId, CancellationToken token)
+    public async Task<TStats?> StopTrackingAsync(Guid userId, Guid chapterId, CancellationToken token)
     {
         var info = await tracker.StopTrackingAsync(userId, chapterId, token);
         if (info is null)

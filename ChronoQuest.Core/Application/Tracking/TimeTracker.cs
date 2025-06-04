@@ -15,20 +15,20 @@ internal sealed class TimeTracker<T>(
     /// Mark the current time for the given user and entity.
     /// </summary>
     /// <returns></returns>
-    public ValueTask TrackAsync(Guid userId, Guid entityId, CancellationToken token)
+    public async Task TrackAsync(Guid userId, Guid entityId, CancellationToken token)
     {
         var key = new TrackingKey(EntityType: EntityType, EntityId: entityId, UserId: userId);
         var data = new TrackingData(timeProvider.GetUtcNow(), entityId);
         
         TrackingLog.Write("Start", data.Start);
         
-        return store.AddAsync(key, data, token);
+        await store.AddAsync(key, data, token);
     }
 
     /// <summary>
     /// Mark the curren time for the given user and entity and return the elapsed time from when tracking began. 
     /// </summary>
-    public async ValueTask<TimeTrackingInformation?> StopTrackingAsync(Guid userId, Guid entityId, CancellationToken token)
+    public async Task<TimeTrackingInformation?> StopTrackingAsync(Guid userId, Guid entityId, CancellationToken token)
     {
         var key = new TrackingKey(EntityType: EntityType, EntityId: entityId, UserId: userId);
         var stopTime = timeProvider.GetUtcNow();
@@ -48,7 +48,7 @@ internal sealed class TimeTracker<T>(
         return trackingInfo;
     }
     
-    public async ValueTask<IReadOnlyList<TimeTrackingInformation>> StopTrackingEntirelyAsync(Guid userId, CancellationToken token)
+    public async Task<IReadOnlyList<TimeTrackingInformation>> StopTrackingEntirelyAsync(Guid userId, CancellationToken token)
     {
         var stopTime = timeProvider.GetUtcNow();
         Log.Information("Stop tracking everything for user {userId}", userId);

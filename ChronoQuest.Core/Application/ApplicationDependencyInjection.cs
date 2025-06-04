@@ -8,6 +8,7 @@ namespace ChronoQuest.Core.Application;
 public static class ApplicationDependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services) => services
+        .AddScoped<IMarkerService, MarkerService>()
         .AddScoped<ChapterStatsService>()
         .AddScoped(typeof(TimeTracker<>))
         .AddScoped(typeof(ITimeTracker<>), typeof(EntityTimeTracker<>))
