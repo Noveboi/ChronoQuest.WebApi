@@ -10,12 +10,14 @@ internal static class ChapterDtoExtensions
         Id: chapter.Id,
         Title: chapter.Title,
         Topic: chapter.Topic.Name,
-        Content: chapter.Content);
+        Content: chapter.Content,
+        Order: chapter.Order);
 
     public static ChapterPreviewDto ToPreviewDto(this Chapter chapter) => new(
         Id: chapter.Id,
         Title: chapter.Title,
-        Topic: chapter.Topic.Name);
+        Topic: chapter.Topic.Name,
+        Order: chapter.Order);
     
     public static ChapterReadingDto ToDto(this ChapterReadingTime reading) => new(
         ChapterId: reading.ChapterId,

@@ -19,12 +19,13 @@ internal sealed class GetChaptersEndpoint(ChronoQuestContext context)
         var chapters = await context.Chapters
             .AsNoTracking()
             .OrderBy(x => x.Order)
-            .Select(x => new { x.Id, x.Title, x.Topic })
+            .Select(x => new { x.Id, x.Title, x.Topic, x.Order })
             .ToListAsync(cancellationToken: ct);
 
         await SendAsync(chapters.Select(c => new ChapterPreviewDto(
             Id: c.Id,
             Title: c.Title,
-            Topic: c.Topic.Name)), cancellation: ct);
+            Topic: c.Topic.Name,
+            Order: c.Order)), cancellation: ct);
     }
 }
