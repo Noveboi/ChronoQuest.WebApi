@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,15 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace ChronoQuest.Core.Infrastructure.Workers;
-
-public enum UserIs
-{
-    ReadingChapter,
-    AnsweringQuestion,
-    TakingExam
-}
-
-public sealed record UpdateUserMarkerRequest(Guid UserId, Guid EntityId, UserIs Action);
 
 /// <summary>
 /// Persists the user marker to the database in the background. This is done on a separate thread to avoid blocking
@@ -25,7 +17,6 @@ internal sealed class MarkerBackgroundService(
     IServiceProvider serviceProvider,
     ILogger<MarkerBackgroundService> logger) : BackgroundService
 {
-    
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await foreach (var request in queue.Reader.ReadAllAsync(stoppingToken))

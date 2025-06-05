@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using ChronoQuest.Core.Application;
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Domain;
 using ChronoQuest.Endpoints.Utilities.Dto;
 using FastEndpoints;

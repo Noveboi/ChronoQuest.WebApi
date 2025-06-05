@@ -1,11 +1,10 @@
 using System.Threading.Channels;
 using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Infrastructure;
-using ChronoQuest.Core.Infrastructure.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ChronoQuest.Core.Application;
+namespace ChronoQuest.Core.Application.Markers;
 
 internal sealed class MarkerService(IServiceProvider serviceProvider) : IMarkerService
 {

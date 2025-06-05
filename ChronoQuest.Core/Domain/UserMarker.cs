@@ -1,10 +1,11 @@
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Infrastructure.Workers;
 
 namespace ChronoQuest.Core.Domain;
 
 /// <summary>
-/// Tracks the user's progress
+/// Tracks where the user is.
 /// </summary>
 public sealed class UserMarker : Entity
 {

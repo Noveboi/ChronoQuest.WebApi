@@ -1,4 +1,5 @@
 using ChronoQuest.Core.Application.Chapters;
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Application.Tracking.Store;

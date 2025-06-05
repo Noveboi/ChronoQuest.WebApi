@@ -1,7 +1,6 @@
 using ChronoQuest.Core.Domain;
-using ChronoQuest.Core.Infrastructure.Workers;
 
-namespace ChronoQuest.Core.Application;
+namespace ChronoQuest.Core.Application.Markers;
 
 public interface IMarkerService
 {
