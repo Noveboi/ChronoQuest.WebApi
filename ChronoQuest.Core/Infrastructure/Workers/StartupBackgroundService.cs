@@ -18,8 +18,14 @@ internal sealed class StartupBackgroundService(IServiceProvider sp) : Background
     {
         var scope = sp.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ChronoQuestContext>();
+
+        var pending = await context.Database.GetPendingMigrationsAsync(stoppingToken);
+        foreach (var migration in pending)
+        {
+            _log.Information("Migrating to {migration}", migration);
+            await context.Database.MigrateAsync(migration, stoppingToken);
+        }
         
-        await context.Database.MigrateAsync(stoppingToken);
         if (await context.Chapters.AnyAsync(stoppingToken))
         {
             _log.Information("Database is seeded.");

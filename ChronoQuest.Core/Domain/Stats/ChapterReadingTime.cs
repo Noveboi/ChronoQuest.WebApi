@@ -7,7 +7,7 @@ namespace ChronoQuest.Core.Domain.Stats;
 public sealed class ChapterReadingTime : Entity, ITimeTrackingEntity<ChapterReadingTime>
 {
     private ChapterReadingTime() { }
-    public ChapterReadingTime(Guid userId, Guid chapterId, DateTimeOffset startedAt, TimeSpan duration)
+    private ChapterReadingTime(Guid userId, Guid chapterId, DateTimeOffset startedAt, TimeSpan duration)
     {
         UserId = userId;
         ChapterId = chapterId;
