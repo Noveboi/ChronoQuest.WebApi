@@ -1,17 +1,18 @@
-﻿using ChronoQuest.Core.Domain;
+﻿
+using ChronoQuest.Core.Domain;
 
 namespace ChronoQuest.AdaptiveLearning.Model;
 
 internal sealed class BayesianKnowledgeTracingModel(
-    Guid learningModelId,
-    Guid skillId,
+    Guid userId,
+    Guid topicId,
     Probability pInit,
     Probability pLearn,
     Probability pSlip,
     Probability pGuess) : Entity
 {
-    public Guid LearningModelId { get; private init; } = learningModelId;
-    public Guid SkillId { get; private init;  } = skillId;
+    public Guid UserId { get; private init; } = userId;
+    public Guid TopicId { get; private init;  } = topicId;
     
     // p_init
     public Probability InitialKnowledgeProbability { get; private set; } = pInit;
@@ -30,7 +31,21 @@ internal sealed class BayesianKnowledgeTracingModel(
 
     public Probability CurrentProbabilityOfMastery => 
         _masteryHistory.MaxBy(x => x.UtcDateTime)?.ProbabilityOfMastery ?? InitialKnowledgeProbability;
+    
+    public void Update(bool isCorrect)
+    {
+        _masteryHistory.Add(new UserSkillMastery(
+            modelId: Id,
+            dateTime: DateTimeOffset.UtcNow,
+            probabilityOfMastery: GetNextProbabilityOfMastery(isCorrect)));
+    }
 
+    public Probability Predict(bool isCorrect)
+    {
+        var next = GetNextProbabilityOfMastery(isCorrect);
+        return next * (1 - SlipProbability) + (1 - next) * GuessProbability;
+    }
+    
     private Probability GetNextProbabilityOfMastery(bool isCorrect)
     {
         var current = CurrentProbabilityOfMastery;
@@ -46,17 +61,6 @@ internal sealed class BayesianKnowledgeTracingModel(
         var observation = Divide(numerator, denominator, current);
 
         return observation + (1 - observation) * LearningProbability;
-    }
-    
-    public void Update(bool isCorrect) => _masteryHistory.Add(new UserSkillMastery(
-        modelId: Id, 
-        dateTime: DateTimeOffset.UtcNow, 
-        probabilityOfMastery: GetNextProbabilityOfMastery(isCorrect)));
-
-    public Probability Predict(bool isCorrect)
-    {
-        var next = GetNextProbabilityOfMastery(isCorrect);
-        return next * (1 - SlipProbability) + (1 - next) * GuessProbability;
     }
 
     private static Probability Divide(Probability a, Probability b, Probability currentMastery) => 
