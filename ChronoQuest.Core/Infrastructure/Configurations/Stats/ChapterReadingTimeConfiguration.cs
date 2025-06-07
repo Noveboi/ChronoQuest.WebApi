@@ -12,5 +12,7 @@ internal sealed class ChapterReadingTimeConfiguration : IEntityTypeConfiguration
         builder.IsDomainEntity();
         builder.HasOne<User>().WithMany().HasForeignKey(x => x.UserId);
         builder.HasOne(x => x.Chapter).WithMany().HasForeignKey(x => x.ChapterId);
+
+        builder.HasIndex(x => x.UserId);
     }
 }

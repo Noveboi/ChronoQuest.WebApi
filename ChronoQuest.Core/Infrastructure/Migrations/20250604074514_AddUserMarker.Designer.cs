@@ -3,6 +3,7 @@ using System;
 using ChronoQuest.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChronoQuest.Core.Infrastructure.Migrations
 {
     [DbContext(typeof(ChronoQuestContext))]
-    partial class ChronoQuestContextModelSnapshot : ModelSnapshot
+    [Migration("20250604074514_AddUserMarker")]
+    partial class AddUserMarker
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,32 +218,6 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ChapterReadings");
-                });
-
-            modelBuilder.Entity("ChronoQuest.Core.Domain.Stats.QuestionReadingTime", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("interval");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset>("StartedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("QuestionReadingTime");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.UserMarker", b =>
@@ -513,23 +490,6 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Chapter");
-                });
-
-            modelBuilder.Entity("ChronoQuest.Core.Domain.Stats.QuestionReadingTime", b =>
-                {
-                    b.HasOne("ChronoQuest.Core.Domain.Base.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ChronoQuest.Core.Domain.Base.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.UserMarker", b =>

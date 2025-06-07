@@ -1,4 +1,7 @@
-﻿using ChronoQuest.Core.Domain.Base;
+﻿using System.Threading.Channels;
+using ChronoQuest.Core.Application.Markers;
+using ChronoQuest.Core.Domain.Base;
+using ChronoQuest.Core.Infrastructure.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,12 +20,18 @@ public static class InfrastructureDependencyInjection
                                throw new InvalidOperationException("No 'Database' connection string provided.");
         
         services.AddDbContext<ChronoQuestContext>(options => options.UseNpgsql(connectionString));
-        services.AddHostedService<StartupService>();
 
         // Identity
         services
             .AddIdentityApiEndpoints<User>()
             .AddEntityFrameworkStores<ChronoQuestContext>();
+        
+        // Background Services
+        services.AddHostedService<StartupBackgroundService>();
+        services.AddHostedService<MarkerBackgroundService>();
+        
+        // Channels
+        services.AddSingleton(Channel.CreateUnbounded<UpdateUserMarkerRequest>());
         
         return services;
     }
