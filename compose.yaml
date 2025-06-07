@@ -1,4 +1,4 @@
-﻿name: ChronoQuest
+﻿name: chronoquest
 services:
   database:
     image: postgres
