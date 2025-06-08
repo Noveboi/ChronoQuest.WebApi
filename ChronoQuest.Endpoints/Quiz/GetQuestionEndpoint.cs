@@ -20,6 +20,6 @@ internal sealed class GetQuestionEndpoint : Endpoint<GetQuestionRequest, Questio
     public override Task HandleAsync(GetQuestionRequest req, CancellationToken ct)
     {
         // IMPORTANT: Get question from IQuestionService!;
-        return base.HandleAsync(req, ct);
+        return SendOkAsync(ct);
     }
 }
