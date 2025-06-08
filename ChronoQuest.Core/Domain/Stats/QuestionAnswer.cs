@@ -1,9 +1,9 @@
 namespace ChronoQuest.Core.Domain.Stats;
 
-public class QuestionAnswer : Entity
+public sealed class QuestionAnswer : Entity
 {
     private QuestionAnswer() { }
-    public QuestionAnswer(Guid userId, Guid questionId, Guid optionId, DateTime answeredOn, bool isCorrect)
+    internal QuestionAnswer(Guid userId, Guid questionId, Guid optionId, DateTime answeredOn, bool isCorrect)
     {
         UserId = userId;
         QuestionId = questionId;
