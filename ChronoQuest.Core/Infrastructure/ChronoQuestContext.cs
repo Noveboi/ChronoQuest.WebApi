@@ -18,6 +18,7 @@ public sealed class ChronoQuestContext(DbContextOptions<ChronoQuestContext> opti
     public DbSet<Question> Questions { get; set; }
     
     public DbSet<UserMarker> Markers { get; set; }
+    public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {

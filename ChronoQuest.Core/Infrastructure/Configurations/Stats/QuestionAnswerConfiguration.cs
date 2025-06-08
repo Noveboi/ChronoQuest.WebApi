@@ -1,4 +1,4 @@
-using ChronoQuest.Core.Domain.Base;
+﻿using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -7,7 +7,6 @@ namespace ChronoQuest.Core.Infrastructure.Configurations.Stats;
 
 public class QuestionAnswerConfiguration : IEntityTypeConfiguration<QuestionAnswer>
 {
-    
     public void Configure(EntityTypeBuilder<QuestionAnswer> builder)
     {
         builder.IsDomainEntity();

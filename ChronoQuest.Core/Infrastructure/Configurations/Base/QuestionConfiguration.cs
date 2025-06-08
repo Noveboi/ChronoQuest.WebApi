@@ -13,9 +13,6 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
         builder.Property(q => q.Content).HasMaxLength(200).IsRequired();
         
         builder.HasOne(q => q.Topic).WithMany();
-        builder.OwnsMany(q => q.Options, navigationBuilder =>
-        {
-            navigationBuilder.Property(q => q.Content).HasMaxLength(100).IsRequired();
-        });
+        builder.HasMany(x => x.Options).WithOne();
     }
 }
