@@ -1,17 +1,21 @@
-﻿using ChronoQuest.Core.Application.Tracking;
+﻿using Ardalis.Result;
+using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace ChronoQuest.Core.Application.Questions;
 
 internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<QuestionReadingTime> tracker) 
     : IQuestionService
 {
+    private readonly ILogger _log = Log.ForContext<QuestionService>();
+    
     public async Task<Question?> GetQuestionAsync(QuestionRequest request, CancellationToken token)
     {
-        if (await context.Questions.FirstOrDefaultAsync(x => x.Id == request.QuestionId, token) is not { } question)
+        if (await GetQuestion(request.QuestionId, token) is not { } question)
         {
             return null;
         }
@@ -20,8 +24,36 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
         return question;
     }
 
-    public Task AnswerQuestionAsync(QuestionRequest request, CancellationToken token)
+    public async Task<Result<QuestionAnswer>> AnswerQuestionAsync(AnswerQuestionRequest request, CancellationToken token)
     {
-        throw new NotImplementedException();
+        if (await tracker.StopTrackingAsync(request.UserId, request.QuestionId, token) is null)
+        {
+            _log.Error("Cannot answered untracked question {questId} for {userId}", request.QuestionId, request.UserId);
+            return Result.Invalid(new ValidationError("Cannot answer question that you haven't selected."));
+        }
+
+        if (await GetQuestion(request.QuestionId, token) is not { } question)
+        {
+            _log.Error("Question with ID '{id}' not found.", request.QuestionId);
+            return Result.NotFound($"Question with ID {request.QuestionId} not found.");
+        }
+        
+        var answerResult = question.Answer(
+            userId: request.UserId,
+            optionId: request.ChosenOptionId);
+
+        if (!answerResult.IsSuccess)
+        {
+            return answerResult.Map();
+        }
+        
+        // TODO: Use AdaptiveLearning module to update user score.
+
+        return answerResult.Value;
+    }
+
+    private Task<Question?> GetQuestion(Guid id, CancellationToken token)
+    {
+        return context.Questions.FirstOrDefaultAsync(x => x.Id == id, token);
     }
 }
