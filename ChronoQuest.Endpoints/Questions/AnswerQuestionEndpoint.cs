@@ -12,9 +12,7 @@ internal sealed record AnswerChapterQuestionRequest(
     [property: RouteParam] Guid ChosenOptionId
 );
 
-internal sealed record AnswerChapterQuestionResponse(
-    bool IsCorrect
-);
+internal sealed record AnswerChapterQuestionResponse(bool IsCorrect);
 
 internal sealed class AnswerQuestionEndpoint(IQuestionService questionService) 
     : Endpoint<AnswerChapterQuestionRequest, AnswerChapterQuestionResponse>
