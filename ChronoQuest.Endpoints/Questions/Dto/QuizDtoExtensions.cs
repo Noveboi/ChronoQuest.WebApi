@@ -1,7 +1,6 @@
 using ChronoQuest.Core.Application.Questions;
-using ChronoQuest.Core.Domain.Base;
 
-namespace ChronoQuest.Endpoints.Quiz.Dto;
+namespace ChronoQuest.Endpoints.Questions.Dto;
 
 internal static class QuizDtoExtensions
 {

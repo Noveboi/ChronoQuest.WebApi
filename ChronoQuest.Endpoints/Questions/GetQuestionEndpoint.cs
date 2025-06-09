@@ -1,9 +1,10 @@
 using System.Security.Claims;
 using ChronoQuest.Core.Application.Questions;
-using ChronoQuest.Endpoints.Quiz.Dto;
+using ChronoQuest.Endpoints.Questions.Dto;
+using ChronoQuest.Endpoints.Questions.Groups;
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Quiz;
+namespace ChronoQuest.Endpoints.Questions;
 
 internal sealed record GetQuestionRequest(
     [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,

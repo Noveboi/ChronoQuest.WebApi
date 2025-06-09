@@ -1,8 +1,8 @@
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Quiz;
+namespace ChronoQuest.Endpoints.Questions.Groups;
 
-internal sealed class QuestionGroup : SubGroup<QuizGroup>
+internal sealed class QuestionGroup : SubGroup<ChapterQuestionGroup>
 {
     public QuestionGroup() 
     {

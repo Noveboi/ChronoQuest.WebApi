@@ -1,6 +1,6 @@
 using ChronoQuest.Core.Domain.Base;
 
-namespace ChronoQuest.Endpoints.Quiz.Dto;
+namespace ChronoQuest.Endpoints.Questions.Dto;
 
 internal sealed record QuestionDto(
     Guid Id, 

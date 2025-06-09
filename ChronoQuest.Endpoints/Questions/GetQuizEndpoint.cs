@@ -1,8 +1,9 @@
 using System.Security.Claims;
-using ChronoQuest.Endpoints.Quiz.Dto;
+using ChronoQuest.Endpoints.Questions.Dto;
+using ChronoQuest.Endpoints.Questions.Groups;
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Quiz;
+namespace ChronoQuest.Endpoints.Questions;
 
 internal sealed record GetQuizRequest(
     [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
@@ -14,7 +15,7 @@ internal sealed class GetQuizEndpoint : Endpoint<GetQuizRequest, QuizDto>
     public override void Configure()
     {
         Get("");
-        Group<QuizGroup>();
+        Group<ChapterQuestionGroup>();
     }
 
     public override async Task HandleAsync(GetQuizRequest req, CancellationToken ct)

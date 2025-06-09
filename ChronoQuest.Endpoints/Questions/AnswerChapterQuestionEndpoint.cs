@@ -1,9 +1,10 @@
 using System.Security.Claims;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Questions;
+using ChronoQuest.Endpoints.Questions.Groups;
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Quiz;
+namespace ChronoQuest.Endpoints.Questions;
 
 internal sealed record AnswerChapterQuestionRequest(
     [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
