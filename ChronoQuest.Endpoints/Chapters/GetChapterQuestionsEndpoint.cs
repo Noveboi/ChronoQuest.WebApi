@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Endpoints.Chapters.Groups;
 using ChronoQuest.Endpoints.Questions.Dto;
 using FastEndpoints;
@@ -10,7 +11,8 @@ internal sealed record GetQuizRequest(
     [property: RouteParam] Guid ChapterId
 );
 
-internal sealed class GetChapterQuestionsEndpoint : Endpoint<GetQuizRequest, QuizDto>
+internal sealed class GetChapterQuestionsEndpoint(IQuestionService service) 
+    : Endpoint<GetQuizRequest, IEnumerable<QuestionPreviewDto>>
 {
     public override void Configure()
     {
@@ -20,8 +22,9 @@ internal sealed class GetChapterQuestionsEndpoint : Endpoint<GetQuizRequest, Qui
 
     public override async Task HandleAsync(GetQuizRequest req, CancellationToken ct)
     {
-        await SendOkAsync(ct);
+        var request = new QuestionsForChapterRequest(ChapterId: req.ChapterId, UserId: req.UserId);
+        var questions = await service.GetQuestionsForChapterAsync(request, ct);
+        
+        await SendOkAsync(questions.Select(x => x.ToPreviewDto()), cancellation: ct);
     }
-    
-    // Να επιστρέφει question preview dto
 }
