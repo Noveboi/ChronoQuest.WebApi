@@ -19,8 +19,7 @@ internal sealed class AnswerQuestionEndpoint(IQuestionService questionService)
 {
     public override void Configure()
     {
-        Post("answer/{chosenOptionId:guid}");
-        Description(x => x.Accepts<AnswerChapterQuestionRequest>());
+        Get("answer/{chosenOptionId:guid}");
         Group<QuestionGroup>();
     }
 
