@@ -1,6 +1,8 @@
 using System.Security.Claims;
+using ChronoQuest.Core.Application.Questions;
+using ChronoQuest.Core.Infrastructure;
 using FastEndpoints;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Endpoints.Quiz;
 
@@ -15,7 +17,7 @@ internal sealed record AnswerQuizQuestionResponse(
     bool IsCorrect
 );
 
-internal sealed class AnswerQuizQuestionEndpoint : Endpoint<AnswerQuizQuestionRequest, AnswerQuizQuestionResponse>
+internal sealed class AnswerQuizQuestionEndpoint(ChronoQuestContext dbContext, IQuestionService questionService) : Endpoint<AnswerQuizQuestionRequest, AnswerQuizQuestionResponse>
 {
     public override void Configure()
     {
@@ -26,9 +28,25 @@ internal sealed class AnswerQuizQuestionEndpoint : Endpoint<AnswerQuizQuestionRe
 
     public override async Task HandleAsync(AnswerQuizQuestionRequest req, CancellationToken ct)
     {
-        // IMPORTANT: Use IQuestionService!;
+        var question = await dbContext
+            .Questions
+            .FirstOrDefaultAsync(q => q.Id == req.QuestionId, ct);
         
-        Logger.LogInformation("User {userId} answered question {questionId} with {optionId}", req.UserId, req.QuestionId, req.ChosenOptionId);
-        await SendAsync(new AnswerQuizQuestionResponse(true), cancellation: ct);
+        if (question is null)
+        {
+            await SendNotFoundAsync(ct);
+            return;
+        }
+        
+        await questionService.AnswerQuestionAsync(new AnswerQuestionRequest(req.QuestionId, req.UserId, req.ChosenOptionId), ct);
+        
+        if (req.ChosenOptionId == question.CorrectOptionId)
+        {
+            await SendAsync(new AnswerQuizQuestionResponse(true), cancellation: ct);
+        }
+        else
+        {
+            await SendAsync(new AnswerQuizQuestionResponse(false), cancellation: ct);
+        }
     }
 }
