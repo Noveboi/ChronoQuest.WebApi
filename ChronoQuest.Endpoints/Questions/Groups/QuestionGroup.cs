@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Questions.Groups;
 
-internal sealed class QuestionGroup : SubGroup<ChapterQuestionGroup>
+internal sealed class QuestionGroup : Group
 {
     public QuestionGroup() 
     {
