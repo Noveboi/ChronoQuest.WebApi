@@ -7,6 +7,7 @@ internal sealed record QuestionDto(
     int Number, 
     string Content,
     string Topic,
-    string Status,
     string Type,
-    List<Option> Options);
+    IEnumerable<OptionDto> Options,
+    Guid? AnsweredOptionId,
+    Guid? CorrectOptionId);
