@@ -10,16 +10,16 @@ public class Question : Entity
         Topic topic, 
         Difficulty difficulty, 
         string content, 
-        List<Option> options, 
-        Guid correctOptionId,
+        Option correctOption,
+        List<Option> otherOptions, 
         int number,
         QuestionType type)
     {
         Topic = topic;
         Difficulty = difficulty;
         Content = content;
-        Options = options;
-        CorrectOptionId = correctOptionId;
+        Options = [correctOption, ..otherOptions];
+        CorrectOptionId = correctOption.Id;
         Number = number;
         Type = type;
     }
