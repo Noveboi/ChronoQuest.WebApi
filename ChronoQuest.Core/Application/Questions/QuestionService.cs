@@ -56,14 +56,16 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
             userId: request.UserId,
             optionId: request.ChosenOptionId);
 
-        if (!answerResult.IsSuccess)
+        if (!answerResult.IsSuccess || answerResult.Value is not { } answer)
         {
             return answerResult.Map();
         }
         
+        _log.Information("User answered {answerState}", answer.IsCorrect ? "Correctly" : "Wrongly");
+        
         // TODO: Use AdaptiveLearning module to update user score.
 
-        return answerResult.Value;
+        return answer;
     }
 
     private Task<Question?> GetQuestion(Guid id, CancellationToken token)
