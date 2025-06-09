@@ -49,6 +49,8 @@ public class Question : Entity
             optionId: optionId,
             answeredOn: DateTime.UtcNow,
             isCorrect: optionId == CorrectOptionId);
+        
+        Answers.Add(answer);
 
         return answer;
     }
