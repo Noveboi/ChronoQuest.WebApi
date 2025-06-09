@@ -9,7 +9,6 @@ public class ExamConfiguration : IEntityTypeConfiguration<Exam>
     public void Configure(EntityTypeBuilder<Exam> builder)
     {
         builder.HasOne<User>().WithOne().HasForeignKey<Exam>(e => e.UserId);
-        builder.HasMany(e => e.Questions).WithMany();
         builder.IsDomainEntity();
     }
 }

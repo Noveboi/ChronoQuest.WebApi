@@ -12,7 +12,7 @@ public class QuestionAnswerConfiguration : IEntityTypeConfiguration<QuestionAnsw
         builder.IsDomainEntity();
         
         builder.HasOne<User>().WithMany().HasForeignKey(x => x.UserId);
-        builder.HasOne<Question>().WithMany().HasForeignKey(x => x.QuestionId);
+        builder.HasOne<Question>().WithMany(x => x.Answers).HasForeignKey(x => x.QuestionId);
         builder.HasOne<Option>().WithMany().HasForeignKey(x => x.OptionId);
     }
 }

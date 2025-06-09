@@ -6,13 +6,22 @@ namespace ChronoQuest.Core.Domain.Base;
 public class Question : Entity
 {
     private Question() { }
-    public Question(Topic topic, Difficulty difficulty, string content, List<Option> options, Guid correctOptionId, Guid? id = null) : base(id)
+    public Question(
+        Topic topic, 
+        Difficulty difficulty, 
+        string content, 
+        List<Option> options, 
+        Guid correctOptionId,
+        int number,
+        QuestionType type)
     {
         Topic = topic;
         Difficulty = difficulty;
         Content = content;
         Options = options;
         CorrectOptionId = correctOptionId;
+        Number = number;
+        Type = type;
     }
 
     public Topic Topic { get; private set; } = null!;
@@ -20,6 +29,12 @@ public class Question : Entity
     public string Content { get; private set; } = null!;
     public List<Option> Options { get; private set; } = null!;
     public Guid CorrectOptionId { get; private set; }
+    public int Number { get; private init; }
+    public QuestionType Type { get; private init; }
+
+    public Guid? ChapterId { get; private set; }
+    
+    public List<QuestionAnswer> Answers { get; private init; } = [];
 
     public Result<QuestionAnswer> Answer(Guid userId, Guid optionId)
     {

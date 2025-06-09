@@ -49,20 +49,20 @@ internal sealed class StartupBackgroundService(IServiceProvider sp) : Background
             topic: _geography,
             title: "Geography",
             content: "Lorem ipsum set dolor amet",
-            quiz: new Quiz([]));
+            questions: []);
         
         yield return new Chapter(
             order: 1,
             topic: _history,
             title: "History",
             content: "Lorem ipsum set dolor amet",
-            quiz: new Quiz([]));
+            questions: []);
         
         yield return new Chapter(
             order: 3,
             topic: _culture,
             title: "Culture",
             content: "Lorem ipsum set dolor amet",
-            quiz: new Quiz([]));
+            questions: []);
     }
 }
