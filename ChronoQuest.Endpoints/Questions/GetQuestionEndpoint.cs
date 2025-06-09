@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Endpoints.Questions.Dto;
 using ChronoQuest.Endpoints.Questions.Groups;
@@ -11,7 +12,8 @@ internal sealed record GetQuestionRequest(
     [property: RouteParam] Guid QuestionId
 );
 
-internal sealed class GetQuestionEndpoint(IQuestionService questionService) : Endpoint<GetQuestionRequest, QuestionDto> {
+internal sealed class GetQuestionEndpoint(IQuestionService questionService, IMarkerService marker) 
+    : Endpoint<GetQuestionRequest, QuestionDto> {
     public override void Configure()
     {
         Get("");
@@ -28,6 +30,12 @@ internal sealed class GetQuestionEndpoint(IQuestionService questionService) : En
             return;
         }
 
+        var markerRequest = new UpdateUserMarkerRequest(
+            UserId: req.UserId,
+            EntityId: req.QuestionId,
+            Action: UserIs.AnsweringQuestion);
+
+        await marker.UpsertAsync(markerRequest, ct);
         await SendAsync(question.ToDto(), cancellation: ct);
     }
 }
