@@ -71,16 +71,3 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
         return context.Questions.FirstOrDefaultAsync(x => x.Id == id, token);
     }
 }
-
-internal static class QuestionQueryableExtensions
-{
-    public static IQueryable<Question> WithAnswersOf(this IQueryable<Question> source, Guid userId)
-    {
-        return source.Include(x => x.Answers.Where(r => r.UserId == userId));
-    }
-
-    public static IQueryable<Question> ForChapter(this IQueryable<Question> source, Guid chapterId)
-    {
-        return source.Where(x => x.ChapterId == chapterId);
-    }
-}
