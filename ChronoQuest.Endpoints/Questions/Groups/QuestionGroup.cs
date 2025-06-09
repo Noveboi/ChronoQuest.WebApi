@@ -1,3 +1,4 @@
+using ChronoQuest.Endpoints.Chapters.Groups;
 using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Questions.Groups;

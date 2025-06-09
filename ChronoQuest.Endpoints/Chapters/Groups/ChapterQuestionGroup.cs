@@ -1,7 +1,6 @@
-using ChronoQuest.Endpoints.Chapters;
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Questions.Groups;
+namespace ChronoQuest.Endpoints.Chapters.Groups;
 
 internal sealed class ChapterQuestionGroup : SubGroup<ChapterGroup>
 {

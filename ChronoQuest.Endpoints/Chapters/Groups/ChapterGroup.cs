@@ -1,6 +1,6 @@
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Chapters;
+namespace ChronoQuest.Endpoints.Chapters.Groups;
 
 internal sealed class ChapterGroup : Group
 {

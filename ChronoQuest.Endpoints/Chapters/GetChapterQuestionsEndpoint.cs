@@ -1,16 +1,16 @@
 using System.Security.Claims;
+using ChronoQuest.Endpoints.Chapters.Groups;
 using ChronoQuest.Endpoints.Questions.Dto;
-using ChronoQuest.Endpoints.Questions.Groups;
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Questions;
+namespace ChronoQuest.Endpoints.Chapters;
 
 internal sealed record GetQuizRequest(
     [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
     [property: RouteParam] Guid ChapterId
 );
 
-internal sealed class GetQuizEndpoint : Endpoint<GetQuizRequest, QuizDto>
+internal sealed class GetChapterQuestionsEndpoint : Endpoint<GetQuizRequest, QuizDto>
 {
     public override void Configure()
     {

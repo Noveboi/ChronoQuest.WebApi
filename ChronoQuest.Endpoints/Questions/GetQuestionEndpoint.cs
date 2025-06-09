@@ -20,16 +20,14 @@ internal sealed class GetQuestionEndpoint(IQuestionService questionService) : En
 
     public override async Task HandleAsync(GetQuestionRequest req, CancellationToken ct)
     {
-        var question = await questionService.GetQuestionAsync(new QuestionRequest(req.QuestionId, req.UserId), ct);
+        var request = new QuestionRequest(req.QuestionId, req.UserId);
         
-        if (question is null)
+        if (await questionService.GetQuestionAsync(request, ct) is not { } question)
         {
             await SendNotFoundAsync(ct);
             return;
         }
 
-        var questionDto = question.ToDto();
-        
-        await SendAsync(questionDto, cancellation: ct);
+        await SendAsync(question.ToDto(), cancellation: ct);
     }
 }

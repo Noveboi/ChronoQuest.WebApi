@@ -6,6 +6,7 @@ using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Core.Infrastructure.Workers;
 using ChronoQuest.Endpoints.Chapters.Dto;
+using ChronoQuest.Endpoints.Chapters.Groups;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 

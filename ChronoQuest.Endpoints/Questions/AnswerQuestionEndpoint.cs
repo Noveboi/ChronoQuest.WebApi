@@ -16,7 +16,7 @@ internal sealed record AnswerChapterQuestionResponse(
     bool IsCorrect
 );
 
-internal sealed class AnswerChapterQuestionEndpoint(IQuestionService questionService) 
+internal sealed class AnswerQuestionEndpoint(IQuestionService questionService) 
     : Endpoint<AnswerChapterQuestionRequest, AnswerChapterQuestionResponse>
 {
     public override void Configure()

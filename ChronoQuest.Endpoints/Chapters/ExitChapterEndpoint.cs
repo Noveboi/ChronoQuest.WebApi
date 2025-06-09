@@ -2,6 +2,7 @@ using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Chapters.Dto;
+using ChronoQuest.Endpoints.Chapters.Groups;
 using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Chapters;
