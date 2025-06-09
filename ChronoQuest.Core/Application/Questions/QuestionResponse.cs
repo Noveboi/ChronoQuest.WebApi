@@ -1,4 +1,5 @@
 ﻿using ChronoQuest.Core.Domain.Base;
+using ChronoQuest.Core.Domain.Stats;
 
 namespace ChronoQuest.Core.Application.Questions;
 
@@ -18,4 +19,6 @@ public sealed class QuestionResponse
     
     public Question Question { get; }
     public QuestionStatus Status { get; }
+
+    public QuestionAnswer? GetLastGivenAnswer() => Question.Answers.LastOrDefault();
 }
