@@ -12,16 +12,30 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
     : IQuestionService
 {
     private readonly ILogger _log = Log.ForContext<QuestionService>();
-    
-    public async Task<Question?> GetQuestionAsync(QuestionRequest request, CancellationToken token)
+
+    public async Task<List<QuestionResponse>> GetQuestionsForChapter(QuestionsForChapterRequest request, CancellationToken token)
     {
-        if (await GetQuestion(request.QuestionId, token) is not { } question)
+        var questions = await context.Questions
+            .ForChapter(request.ChapterId)
+            .WithAnswersOf(request.UserId)
+            .ToListAsync(cancellationToken: token);
+
+        return questions.Select(question => new QuestionResponse(question)).ToList();
+    }
+
+    public async Task<QuestionResponse?> GetQuestionAsync(QuestionRequest request, CancellationToken token)
+    {
+        var userQuestion = await context.Questions
+            .WithAnswersOf(request.UserId)
+            .FirstOrDefaultAsync(x => x.Id == request.QuestionId, token);
+            
+        if (userQuestion is null)
         {
             return null;
         }
 
         await tracker.TrackAsync(userId: request.UserId, entityId: request.QuestionId, token);
-        return question;
+        return new QuestionResponse(userQuestion);
     }
 
     public async Task<Result<QuestionAnswer>> AnswerQuestionAsync(AnswerQuestionRequest request, CancellationToken token)
@@ -55,5 +69,18 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
     private Task<Question?> GetQuestion(Guid id, CancellationToken token)
     {
         return context.Questions.FirstOrDefaultAsync(x => x.Id == id, token);
+    }
+}
+
+internal static class QuestionQueryableExtensions
+{
+    public static IQueryable<Question> WithAnswersOf(this IQueryable<Question> source, Guid userId)
+    {
+        return source.Include(x => x.Answers.Where(r => r.UserId == userId));
+    }
+
+    public static IQueryable<Question> ForChapter(this IQueryable<Question> source, Guid chapterId)
+    {
+        return source.Where(x => x.ChapterId == chapterId);
     }
 }
