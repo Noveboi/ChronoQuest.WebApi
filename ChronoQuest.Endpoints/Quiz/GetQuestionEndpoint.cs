@@ -7,7 +7,6 @@ namespace ChronoQuest.Endpoints.Quiz;
 
 internal sealed record GetQuestionRequest(
     [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
-    [property: RouteParam] Guid ChapterId,
     [property: RouteParam] Guid QuestionId
 );
 
