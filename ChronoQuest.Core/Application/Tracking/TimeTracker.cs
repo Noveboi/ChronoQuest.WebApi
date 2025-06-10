@@ -56,7 +56,7 @@ internal sealed class TimeTracker<TStats> :
         TrackingLog.Write("Stop", stopTime);
         
         var info = new TimeTrackingInformation(EntityId: entityId, TrackingStartUtc: data.Start, TrackingEndUtc: stopTime);
-        Log.Information("Read chapter for {seconds} seconds", info.Duration.TotalSeconds);
+        Log.Information("Tracked {type} for {seconds} seconds", EntityType.Name, info.Duration.TotalSeconds);
 
         var stats = TStats.FromData(info, userId);
         _context.Set<TStats>().Add(stats);

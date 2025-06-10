@@ -11,10 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChronoQuest.Core", "ChronoQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChronoQuest.Endpoints", "ChronoQuest.Endpoints\ChronoQuest.Endpoints.csproj", "{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChronoQuest.AdaptiveLearning", "ChronoQuest.AdaptiveLearning\ChronoQuest.AdaptiveLearning.csproj", "{5FA047DB-88F5-47D2-9802-D130979EE4A0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChronoQuest.Common", "ChronoQuest.Common\ChronoQuest.Common.csproj", "{36F6BF5C-74AD-4065-BA32-DC96E0233B6B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,13 +29,5 @@ Global
 		{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2823C95-CE0B-42E9-8E72-6BD0524E0DF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FA047DB-88F5-47D2-9802-D130979EE4A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FA047DB-88F5-47D2-9802-D130979EE4A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FA047DB-88F5-47D2-9802-D130979EE4A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FA047DB-88F5-47D2-9802-D130979EE4A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36F6BF5C-74AD-4065-BA32-DC96E0233B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36F6BF5C-74AD-4065-BA32-DC96E0233B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36F6BF5C-74AD-4065-BA32-DC96E0233B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36F6BF5C-74AD-4065-BA32-DC96E0233B6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

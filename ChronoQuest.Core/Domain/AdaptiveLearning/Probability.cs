@@ -1,4 +1,4 @@
-﻿namespace ChronoQuest.AdaptiveLearning.Model;
+﻿namespace ChronoQuest.Core.Domain.AdaptiveLearning;
 
 internal sealed class Probability(double value) : IEquatable<Probability>
 {

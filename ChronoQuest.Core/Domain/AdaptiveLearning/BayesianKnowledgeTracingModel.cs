@@ -1,7 +1,7 @@
 ﻿
-using ChronoQuest.Core.Domain;
+using ChronoQuest.Common;
 
-namespace ChronoQuest.AdaptiveLearning.Model;
+namespace ChronoQuest.Core.Domain.AdaptiveLearning;
 
 internal sealed class BayesianKnowledgeTracingModel(
     Guid userId,
@@ -15,16 +15,16 @@ internal sealed class BayesianKnowledgeTracingModel(
     public Guid TopicId { get; private init;  } = topicId;
     
     // p_init
-    public Probability InitialKnowledgeProbability { get; private set; } = pInit;
+    public Probability InitialKnowledgeProbability { get; private init; } = pInit;
 
     // p_learn
-    public Probability LearningProbability { get; private set; } = pLearn;
+    public Probability LearningProbability { get; private init; } = pLearn;
 
     // p_slip
-    public Probability SlipProbability { get; private set; } = pSlip;
+    public Probability SlipProbability { get; private init; } = pSlip;
 
     // p_guess
-    public Probability GuessProbability { get; private set; } = pGuess;
+    public Probability GuessProbability { get; private init; } = pGuess;
 
     private readonly List<UserSkillMastery> _masteryHistory = [];
     public IReadOnlyCollection<UserSkillMastery> MasteryHistory => _masteryHistory;

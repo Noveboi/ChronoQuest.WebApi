@@ -23,6 +23,7 @@ public sealed class ChronoQuestContext(DbContextOptions<ChronoQuestContext> opti
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        
         builder.ApplyConfigurationsFromAssembly(typeof(ChronoQuestContext).Assembly);
     }
 }

@@ -1,3 +1,4 @@
+using ChronoQuest.Common;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Interfaces;

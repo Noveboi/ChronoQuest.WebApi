@@ -1,6 +1,6 @@
-﻿using ChronoQuest.Core.Domain;
+﻿using ChronoQuest.Common;
 
-namespace ChronoQuest.AdaptiveLearning.Model;
+namespace ChronoQuest.Core.Domain.AdaptiveLearning;
 
 /// <summary>
 /// A user's mastery of a specific skill in a point in time.

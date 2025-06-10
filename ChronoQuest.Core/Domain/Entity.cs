@@ -1,4 +1,4 @@
-namespace ChronoQuest.Core.Domain;
+namespace ChronoQuest.Common;
 
 public abstract class Entity
 {
