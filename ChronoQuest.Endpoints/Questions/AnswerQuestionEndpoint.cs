@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Questions;
+using ChronoQuest.Endpoints.Questions.Dto;
 using ChronoQuest.Endpoints.Questions.Groups;
 using FastEndpoints;
 
@@ -12,10 +13,8 @@ internal sealed record AnswerChapterQuestionRequest(
     [property: RouteParam] Guid ChosenOptionId
 );
 
-internal sealed record AnswerChapterQuestionResponse(bool IsCorrect);
-
 internal sealed class AnswerQuestionEndpoint(IQuestionService questionService) 
-    : Endpoint<AnswerChapterQuestionRequest, AnswerChapterQuestionResponse>
+    : Endpoint<AnswerChapterQuestionRequest, QuestionDto>
 {
     public override void Configure()
     {
@@ -28,12 +27,12 @@ internal sealed class AnswerQuestionEndpoint(IQuestionService questionService)
         var request = new AnswerQuestionRequest(req.QuestionId, req.UserId, req.ChosenOptionId);
         var answerResult = await questionService.AnswerQuestionAsync(request, ct);
 
-        if (answerResult.Value is not { } answer)
+        if (answerResult.Value is not { } question)
         {
             await SendResultAsync(answerResult.ToMinimalApiResult());
             return;
         }
 
-        await SendAsync(new AnswerChapterQuestionResponse(answer.IsCorrect), cancellation: ct);
+        await SendAsync(question.ToDto(), cancellation: ct);
     }
 }

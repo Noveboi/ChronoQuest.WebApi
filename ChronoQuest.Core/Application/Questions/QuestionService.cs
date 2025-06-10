@@ -15,13 +15,9 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
 
     public async Task<List<QuestionResponse>> GetQuestionsForChapterAsync(QuestionsForChapterRequest request, CancellationToken token)
     {
-        var questions = await context.Questions
+        var questions = await QueryQuestions(request.UserId)
             .AsNoTracking()
-            .AsSplitQuery()
             .ForChapter(request.ChapterId)
-            .WithAnswersOf(request.UserId)
-            .WithTopic()
-            .WithOptions()
             .ToListAsync(cancellationToken: token);
 
         return questions.Select(question => new QuestionResponse(question)).ToList();
@@ -29,12 +25,8 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
 
     public async Task<QuestionResponse?> GetQuestionAsync(QuestionRequest request, CancellationToken token)
     {
-        var userQuestion = await context.Questions
+        var userQuestion = await QueryQuestions(request.UserId)
             .AsNoTracking()
-            .AsSplitQuery()
-            .WithAnswersOf(request.UserId)
-            .WithTopic()
-            .WithOptions()
             .FirstOrDefaultAsync(x => x.Id == request.QuestionId, token);
             
         if (userQuestion is null)
@@ -46,7 +38,8 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
         return new QuestionResponse(userQuestion);
     }
 
-    public async Task<Result<QuestionAnswer>> AnswerQuestionAsync(AnswerQuestionRequest request, CancellationToken token)
+    public async Task<Result<QuestionResponse>> AnswerQuestionAsync(AnswerQuestionRequest request,
+        CancellationToken token)
     {
         if (await tracker.StopTrackingAsync(request.UserId, request.QuestionId, token) is null)
         {
@@ -54,7 +47,9 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
             return Result.Invalid(new ValidationError("Cannot answer question that you haven't selected."));
         }
 
-        var question = await context.Questions.WithOptions().FirstOrDefaultAsync(x => x.Id == request.QuestionId, token);
+        var question = await QueryQuestions(request.UserId)
+            .FirstOrDefaultAsync(x => x.Id == request.QuestionId, token);
+        
         if (question is null)
         {
             _log.Error("Question with ID '{id}' not found.", request.QuestionId);
@@ -72,10 +67,16 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
         }
         
         _log.Information("User answered {answerState}", answer.IsCorrect ? "Correctly" : "Wrongly");
-        await context.SaveChangesAsync(token);
         
         // TODO: Use AdaptiveLearning module to update user score.
-
-        return answer;
+        
+        await context.SaveChangesAsync(token);
+        return new QuestionResponse(question);
     }
+
+    public IQueryable<Question> QueryQuestions(Guid userId) => context.Questions
+        .WithOptions()
+        .WithTopic()
+        .WithAnswersOf(userId)
+        .AsSplitQuery();
 }
