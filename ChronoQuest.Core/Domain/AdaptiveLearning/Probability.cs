@@ -33,4 +33,5 @@ internal sealed class Probability(double value) : IEquatable<Probability>
     public bool Equals(Probability? other) => other is not null && Value.Equals(other.Value);
     public override bool Equals(object? obj) => obj is Probability prob && Equals(prob);
     public override int GetHashCode() => Value.GetHashCode();
+    public override string ToString() => Value.ToString("P3");
 }
