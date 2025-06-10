@@ -18,6 +18,7 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
         var questions = await QueryQuestions(request.UserId)
             .AsNoTracking()
             .ForChapter(request.ChapterId)
+            .OrderBy(x => x.Number)
             .ToListAsync(cancellationToken: token);
 
         return questions.Select(question => new QuestionResponse(question)).ToList();
