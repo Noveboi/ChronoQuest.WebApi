@@ -1,5 +1,3 @@
-using ChronoQuest.Common;
-
 namespace ChronoQuest.Core.Domain.Stats;
 
 public sealed class QuestionAnswer : Entity

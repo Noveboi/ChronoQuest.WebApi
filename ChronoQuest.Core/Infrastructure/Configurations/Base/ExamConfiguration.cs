@@ -1,4 +1,3 @@
-using ChronoQuest.Common;
 using ChronoQuest.Core.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

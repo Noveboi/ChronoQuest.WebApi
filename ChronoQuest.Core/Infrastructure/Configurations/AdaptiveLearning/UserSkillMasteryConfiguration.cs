@@ -1,5 +1,4 @@
-﻿using ChronoQuest.Common;
-using ChronoQuest.Core.Domain.AdaptiveLearning;
+﻿using ChronoQuest.Core.Domain.AdaptiveLearning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

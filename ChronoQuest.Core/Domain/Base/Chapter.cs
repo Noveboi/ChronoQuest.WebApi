@@ -1,5 +1,3 @@
-using ChronoQuest.Common;
-
 namespace ChronoQuest.Core.Domain.Base;
 
 public class Chapter : Entity
