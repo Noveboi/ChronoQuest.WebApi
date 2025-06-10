@@ -1,5 +1,4 @@
-﻿using ChronoQuest.Common;
-using ChronoQuest.Core.Domain.AdaptiveLearning;
+﻿using ChronoQuest.Core.Domain.AdaptiveLearning;
 using ChronoQuest.Core.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,5 +19,7 @@ internal sealed class BayesianKnowledgeTracingConfiguration : IEntityTypeConfigu
         builder.HasMany(x => x.MasteryHistory).WithOne().HasForeignKey(x => x.ModelId);
         builder.HasOne<User>().WithOne().HasForeignKey<BayesianKnowledgeTracingModel>(x => x.UserId);
         builder.HasOne<Topic>().WithMany().HasForeignKey(x => x.TopicId);
+
+        builder.Navigation(x => x.MasteryHistory).AutoInclude();
     }
 }

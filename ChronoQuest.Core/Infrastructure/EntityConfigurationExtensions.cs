@@ -1,6 +1,7 @@
+using ChronoQuest.Core.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChronoQuest.Common;
+namespace ChronoQuest.Core.Infrastructure;
 
 public static class EntityConfigurationExtensions
 {
