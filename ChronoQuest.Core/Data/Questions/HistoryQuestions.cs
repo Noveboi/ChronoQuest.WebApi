@@ -95,17 +95,17 @@ internal static class HistoryQuestions
             number: 6,
             type: QuestionType.Regular
         );
-
+        
         yield return new Question(
             topic: Topics.History,
-            difficulty: Difficulty.Easy,
-            content: "In what year did Crete officially unite with the Kingdom of Greece?",
-            correctOption: new Option("1913"),
+            difficulty: Difficulty.Hard,
+            content: "Which general led the Byzantine reconquest of Crete in 961 CE?",
+            correctOption: new Option("Nicephorus Phocas"),
             otherOptions:
             [
-                new Option("1821"),
-                new Option("1898"),
-                new Option("1941")
+                new Option("Flavius Belisarius"),
+                new Option("Theodosius the Great"),
+                new Option("Basil II")
             ],
             number: 7,
             type: QuestionType.Regular
@@ -125,20 +125,20 @@ internal static class HistoryQuestions
             number: 8,
             type: QuestionType.Regular
         );
-
+        
         yield return new Question(
             topic: Topics.History,
-            difficulty: Difficulty.Hard,
-            content: "Which general led the Byzantine reconquest of Crete in 961 CE?",
-            correctOption: new Option("Nicephorus Phocas"),
+            difficulty: Difficulty.Easy,
+            content: "In what year did Crete officially unite with the Kingdom of Greece?",
+            correctOption: new Option("1913"),
             otherOptions:
             [
-                new Option("Flavius Belisarius"),
-                new Option("Theodosius the Great"),
-                new Option("Basil II")
+                new Option("1821"),
+                new Option("1898"),
+                new Option("1941")
             ],
             number: 9,
-            type: QuestionType.Regular
+            type: QuestionType.Skippable
         );
 
         yield return new Question(
@@ -153,7 +153,7 @@ internal static class HistoryQuestions
                 new Option("Decline of trade and maritime activity")
             ],
             number: 10,
-            type: QuestionType.Regular
+            type: QuestionType.Skippable
         );
     }
 }
