@@ -1,6 +1,6 @@
 ﻿namespace ChronoQuest.Core.Domain.AdaptiveLearning;
 
-internal sealed class Probability(double value) : IEquatable<Probability>
+public sealed class Probability(double value) : IEquatable<Probability>
 {
     public double Value { get; init; } = EnsureInRange(value);
 

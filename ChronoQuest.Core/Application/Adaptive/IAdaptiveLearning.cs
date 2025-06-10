@@ -1,6 +1,9 @@
-﻿namespace ChronoQuest.Core.Application.Adaptive;
+﻿using ChronoQuest.Core.Domain.AdaptiveLearning;
+
+namespace ChronoQuest.Core.Application.Adaptive;
 
 public interface IAdaptiveLearning
 {
-    Task UpdateKnowledgeAsync(Guid userId, Guid topicId, bool isPositive);
+    Task UpdateKnowledgeAsync(UpdateLearningModelRequest request, CancellationToken token);
+    Task<IEnumerable<MasteryHistory>> GetMasteryOverTimeAsync(Guid userId, CancellationToken token); 
 }

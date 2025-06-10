@@ -3,7 +3,7 @@
 /// <summary>
 /// A user's mastery of a specific skill in a point in time.
 /// </summary>
-internal sealed class UserSkillMastery : Entity
+public sealed class UserSkillMastery : Entity
 {
     private UserSkillMastery() { }
     internal UserSkillMastery(

@@ -1,5 +1,6 @@
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Domain.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Endpoints.Questions.Dto;
 
@@ -22,7 +23,7 @@ internal static class QuestionDtoExtensions
         return new QuestionDto(
             Id: question.Id,
             Number: question.Number,
-            Topic: question.Topic.Name,
+            Topic: question.Topic.ToDto(),
             Type: question.Type.ToString().ToLowerInvariant(),
             Content: question.Content,
             Options: question.Options.Select(x => new OptionDto(
@@ -45,5 +46,10 @@ internal static class QuestionDtoExtensions
             Number: question.Number,
             Type: question.Type.ToString().ToLowerInvariant(),
             Status: resp.Status.ToString().ToLowerInvariant());
+    }
+
+    public static TopicDto ToDto(this Topic topic)
+    {
+        return new TopicDto(topic.Id, topic.Name);
     }
 }

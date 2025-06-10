@@ -1,4 +1,5 @@
 ﻿using System.Threading.Channels;
+using ChronoQuest.Core.Application.Adaptive;
 using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Infrastructure.Workers;
@@ -29,9 +30,11 @@ public static class InfrastructureDependencyInjection
         // Background Services
         services.AddHostedService<StartupBackgroundService>();
         services.AddHostedService<MarkerBackgroundService>();
+        services.AddHostedService<AdaptiveLearningBackgroundService>();
         
         // Channels
         services.AddSingleton(Channel.CreateUnbounded<UpdateUserMarkerRequest>());
+        services.AddSingleton(Channel.CreateUnbounded<UpdateLearningModelRequest>());
         
         return services;
     }

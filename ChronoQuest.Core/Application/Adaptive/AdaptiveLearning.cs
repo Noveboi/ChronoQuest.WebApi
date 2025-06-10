@@ -1,26 +1,36 @@
-﻿using ChronoQuest.Core.Domain.AdaptiveLearning;
+﻿using System.Threading.Channels;
+using ChronoQuest.Core.Domain.AdaptiveLearning;
 using ChronoQuest.Core.Infrastructure;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ChronoQuest.Core.Application.Adaptive;
 
-internal sealed class AdaptiveLearning(ChronoQuestContext context) : IAdaptiveLearning
+internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdaptiveLearning
 {
-    private readonly ILogger _log = Log.ForContext<AdaptiveLearning>();
-    
-    public async Task UpdateKnowledgeAsync(Guid userId, Guid topicId, bool isPositive)
+    public async Task UpdateKnowledgeAsync(UpdateLearningModelRequest request, CancellationToken token)
     {
-        var bkt = context.Set<BayesianKnowledgeTracingModel>();
-        var model = await bkt.FirstOrDefaultAsync(x => x.UserId == userId && x.TopicId == topicId);
-
-        if (model is null)
+        var channel = serviceProvider.GetRequiredService<Channel<UpdateLearningModelRequest>>();
+        if (!channel.Writer.TryWrite(request))
         {
-            model = BayesianKnowledgeTracingModel.CreateWithDefaultParameters(userId, topicId);
-            bkt.Add(model);
+            await channel.Writer.WriteAsync(request, token);
         }
-        
-        model.Update(isPositive);
-        _log.Information("User topic mastery: {score}", model.CurrentProbabilityOfMastery);
+    }
+
+    public async Task<IEnumerable<MasteryHistory>> GetMasteryOverTimeAsync(Guid userId, CancellationToken token)
+    {
+        var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
+        var models = await context
+            .Set<BayesianKnowledgeTracingModel>()
+            .Join(context.Topics, bkt => bkt.TopicId, t => t.Id, (bkt, topic) => new
+            {
+                Model = bkt,
+                Topic = topic
+            })
+            .Where(x => x.Model.UserId == userId)
+            .ToListAsync(token);
+
+        return models.Select(x => new MasteryHistory(x.Topic, x.Model.MasteryHistory));
     }
 }

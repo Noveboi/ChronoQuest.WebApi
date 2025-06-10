@@ -43,7 +43,8 @@ internal sealed class QuestionService(
         return new QuestionResponse(userQuestion);
     }
 
-    public async Task<Result<QuestionResponse>> AnswerQuestionAsync(AnswerQuestionRequest request,
+    public async Task<Result<QuestionResponse>> AnswerQuestionAsync(
+        AnswerQuestionRequest request,
         CancellationToken token)
     {
         if (await tracker.StopTrackingAsync(request.UserId, request.QuestionId, token) is null)
@@ -74,11 +75,14 @@ internal sealed class QuestionService(
         _log.Information("User answered {answerState}", answer.IsCorrect ? "Correctly" : "Wrongly");
         
         await adaptiveLearning.UpdateKnowledgeAsync(
-            userId: request.UserId,
-            topicId: question.Topic.Id,
-            isPositive: answer.IsCorrect);
+            new UpdateLearningModelRequest(
+                UserId: request.UserId,
+                TopicId: question.Topic.Id,
+                IsPositive: answer.IsCorrect), 
+            token);
         
         await context.SaveChangesAsync(token);
+        
         return new QuestionResponse(question);
     }
 
