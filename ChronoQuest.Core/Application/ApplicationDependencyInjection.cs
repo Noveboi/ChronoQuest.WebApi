@@ -1,3 +1,4 @@
+using ChronoQuest.Core.Application.Adaptive;
 using ChronoQuest.Core.Application.Chapters;
 using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
@@ -10,9 +11,10 @@ namespace ChronoQuest.Core.Application;
 public static class ApplicationDependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services) => services
-        .AddScoped<IMarkerService, MarkerService>()
         .AddScoped<ChapterStatsService>()
-        .AddScoped(typeof(ITimeTracker<>), typeof(TimeTracker<>))
+        .AddScoped<IAdaptiveLearning, AdaptiveLearning>()
+        .AddScoped<IMarkerService, MarkerService>()
         .AddScoped<IQuestionService, QuestionService>()
+        .AddScoped(typeof(ITimeTracker<>), typeof(TimeTracker<>))
         .AddSingleton(typeof(ITrackingStore<>), typeof(InMemoryTrackingStore<>));
 }
