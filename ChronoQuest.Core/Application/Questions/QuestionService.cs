@@ -1,4 +1,5 @@
 ﻿using Ardalis.Result;
+using ChronoQuest.Core.Application.Adaptive;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
@@ -8,7 +9,10 @@ using Serilog;
 
 namespace ChronoQuest.Core.Application.Questions;
 
-internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<QuestionReadingTime> tracker) 
+internal sealed class QuestionService(
+    ChronoQuestContext context, 
+    ITimeTracker<QuestionReadingTime> tracker,
+    IAdaptiveLearning adaptiveLearning) 
     : IQuestionService
 {
     private readonly ILogger _log = Log.ForContext<QuestionService>();
@@ -69,7 +73,10 @@ internal sealed class QuestionService(ChronoQuestContext context, ITimeTracker<Q
         
         _log.Information("User answered {answerState}", answer.IsCorrect ? "Correctly" : "Wrongly");
         
-        // TODO: Use AdaptiveLearning module to update user score.
+        await adaptiveLearning.UpdateKnowledgeAsync(
+            userId: request.UserId,
+            topicId: question.Topic.Id,
+            isPositive: answer.IsCorrect);
         
         await context.SaveChangesAsync(token);
         return new QuestionResponse(question);
