@@ -1,9 +1,7 @@
 ﻿
-using ChronoQuest.Common;
-
 namespace ChronoQuest.Core.Domain.AdaptiveLearning;
 
-internal sealed class BayesianKnowledgeTracingModel : Entity
+internal sealed partial class BayesianKnowledgeTracingModel : Entity
 {
     public Guid UserId { get; private init; }
     public Guid TopicId { get; private init;  }
