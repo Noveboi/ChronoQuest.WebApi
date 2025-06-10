@@ -3,31 +3,42 @@ using ChronoQuest.Common;
 
 namespace ChronoQuest.Core.Domain.AdaptiveLearning;
 
-internal sealed class BayesianKnowledgeTracingModel(
-    Guid userId,
-    Guid topicId,
-    Probability pInit,
-    Probability pLearn,
-    Probability pSlip,
-    Probability pGuess) : Entity
+internal sealed class BayesianKnowledgeTracingModel : Entity
 {
-    public Guid UserId { get; private init; } = userId;
-    public Guid TopicId { get; private init;  } = topicId;
+    public Guid UserId { get; private init; }
+    public Guid TopicId { get; private init;  }
     
     // p_init
-    public Probability InitialKnowledgeProbability { get; private init; } = pInit;
+    public Probability InitialKnowledgeProbability { get; private init; } = null!;
 
     // p_learn
-    public Probability LearningProbability { get; private init; } = pLearn;
+    public Probability LearningProbability { get; private init; } = null!;
 
     // p_slip
-    public Probability SlipProbability { get; private init; } = pSlip;
+    public Probability SlipProbability { get; private init; } = null!;
 
     // p_guess
-    public Probability GuessProbability { get; private init; } = pGuess;
-
+    public Probability GuessProbability { get; private init; } = null!;
+    
     private readonly List<UserSkillMastery> _masteryHistory = [];
     public IReadOnlyCollection<UserSkillMastery> MasteryHistory => _masteryHistory;
+    
+    private BayesianKnowledgeTracingModel() { }
+    private BayesianKnowledgeTracingModel(
+        Guid userId,
+        Guid topicId,
+        Probability pInit,
+        Probability pLearn,
+        Probability pSlip,
+        Probability pGuess)
+    {
+        UserId = userId;
+        TopicId = topicId;
+        InitialKnowledgeProbability = pInit;
+        LearningProbability = pLearn;
+        SlipProbability = pSlip;
+        GuessProbability = pGuess;
+    }
 
     public Probability CurrentProbabilityOfMastery => 
         _masteryHistory.MaxBy(x => x.UtcDateTime)?.ProbabilityOfMastery ?? InitialKnowledgeProbability;
