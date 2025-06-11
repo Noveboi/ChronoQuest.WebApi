@@ -89,6 +89,14 @@ internal static class HistoryChapter
                          Despite tensions with the Ottomans and the Great Powers overseeing the island, the drive for Enosis (union with Greece) remained strong. After the Balkan Wars and Greece’s territorial gains, Crete was officially united with the Kingdom of Greece in December 1913. The island’s long and tumultuous journey through ancient, medieval, and modern empires culminated in its permanent integration into the Greek nation-state.
                        </p>
                      </article>
+                     <article>
+                        <h3>2.9 Crete During World War II (1941–1945)</h3>
+                        <p> Crete played a pivotal role in World War II during the famous <strong>Battle of Crete</strong> in May 1941, when Nazi Germany launched a massive airborne invasion. Despite fierce resistance by Allied troops and local civilians, the island fell after 10 days of intense combat. The bravery of the Cretan resistance became legendary, with guerrilla fighters continuing to disrupt German occupation forces through sabotage, intelligence sharing with the Allies, and reprisals that cost many Cretan lives. The occupation left a deep mark on the island’s psyche and built a strong legacy of national pride and resistance. </p>
+                     </article>
+                     <article>
+                        <h3>2.10 Post-War Development and Modern Identity (1945–Present)</h3>
+                        <p> After World War II and Greece’s subsequent civil war, Crete embarked on a path of reconstruction and modernization. Tourism began to emerge in the 1960s as a major economic force. Infrastructure improved significantly, and educational institutions, such as the University of Crete (established in 1973), fostered local development. Today, Crete preserves its rich historical identity while embracing modern Greek culture, continuing to balance tradition and progress in everyday life. </p>
+                     </article>
                      """,
-            questions: HistoryQuestions.All().ToList());
+            questions: HistoryQuestions.ForQuiz().ToList());
 }
