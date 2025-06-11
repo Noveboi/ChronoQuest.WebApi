@@ -18,7 +18,7 @@ internal sealed class BayesianKnowledgeTracingConfiguration : IEntityTypeConfigu
 
         builder.HasMany(x => x.MasteryHistory).WithOne().HasForeignKey(x => x.ModelId);
         builder.HasOne<User>().WithOne().HasForeignKey<BayesianKnowledgeTracingModel>(x => x.UserId);
-        builder.HasOne<Topic>().WithMany().HasForeignKey(x => x.TopicId);
+        builder.HasOne(x => x.Topic).WithMany().HasForeignKey(x => x.TopicId);
 
         builder.Navigation(x => x.MasteryHistory).AutoInclude();
     }
