@@ -19,6 +19,7 @@ internal sealed class AnswerExamQuestionEndpoint(
 {
     public override void Configure()
     {
+        Get("todo");
         // ‼️Add route!
     }
 
