@@ -1,6 +1,9 @@
 ﻿using System.Threading.Channels;
+using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Domain.AdaptiveLearning;
+using ChronoQuest.Core.Domain.AdaptiveLearning.Metrics;
 using ChronoQuest.Core.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,16 +24,33 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
     public async Task<IEnumerable<MasteryHistory>> GetMasteryOverTimeAsync(Guid userId, CancellationToken token)
     {
         var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
-        var models = await context
-            .Set<BayesianKnowledgeTracingModel>()
-            .Join(context.Topics, bkt => bkt.TopicId, t => t.Id, (bkt, topic) => new
-            {
-                Model = bkt,
-                Topic = topic
-            })
-            .Where(x => x.Model.UserId == userId)
+        var models = await context.Set<BayesianKnowledgeTracingModel>()
+            .ForUser(userId)
             .ToListAsync(token);
 
-        return models.Select(x => new MasteryHistory(x.Topic, x.Model.MasteryHistory));
+        return models.Select(x => new MasteryHistory(x.Topic, x.MasteryHistory));
+    }
+
+    public async Task<IEnumerable<UserPerformanceForTopic>> GetPerformanceAsync(Guid userId, CancellationToken token)
+    {
+        var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
+        var modelGroups = await context.Set<BayesianKnowledgeTracingModel>()
+            .ForUser(userId)
+            .Join(
+                inner: context.Questions.WithAnswersOf(userId),
+                outerKeySelector: bkt => bkt.TopicId,
+                innerKeySelector: q => q.Topic.Id,
+                resultSelector: (bkt, question) => new
+                {
+                    Model = bkt, 
+                    question.Topic,
+                    question.Answers
+                })
+            .GroupBy(x => x.Model)
+            .ToListAsync(token);
+
+        return modelGroups.Select(group => new UserPerformanceForTopic(
+            Performance: UserPerformance.Analyze(group.Key, group.SelectMany(x => x.Answers)),
+            Topic: group.Key.Topic));
     }
 }
