@@ -8,7 +8,7 @@ internal static class HistoryChapter
     public static readonly Chapter Chapter = new Chapter(
             order: 1,
             topic: Topics.History,
-            title: "History",
+            title: "History of Crete",
             content: """
                      <article>
                        <h3>2.1 Minoan Civilization (c. 2700–1450 BCE)</h3>

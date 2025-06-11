@@ -8,7 +8,7 @@ internal static class CultureChapter
     public static readonly Chapter Chapter = new Chapter(
             order: 3,
             topic: Topics.Culture,
-            title: "Culture",
+            title: "Culture of Crete",
             content: """
                      <article>
                        <h3>3.1 Traditions and Daily Life</h3>

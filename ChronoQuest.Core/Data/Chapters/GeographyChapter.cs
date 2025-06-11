@@ -8,7 +8,7 @@ internal static class GeographyChapter
     public static readonly Chapter Chapter = new Chapter(
             order: 2,
             topic: Topics.Geography,
-            title: "Geography",
+            title: "Geography of Crete",
             content: """
                      <article>
                        <h3>1.1 Location and Size</h3>
