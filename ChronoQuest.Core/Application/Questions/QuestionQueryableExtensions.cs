@@ -17,4 +17,24 @@ internal static class QuestionQueryableExtensions
     {
         return source.Where(x => x.ChapterId == chapterId);
     }
+
+    public static IQueryable<Question> WithoutChapter(this IQueryable<Question> source)
+    {
+        return source.Where(x => x.ChapterId == null);
+    }
+
+    public static IQueryable<Question> ForTopic(this IQueryable<Question> source, Guid topicId)
+    {
+        return source.Where(x => x.Topic.Id == topicId);
+    }
+
+    public static IQueryable<Question> HavingDifficulty(this IQueryable<Question> source, Difficulty diff)
+    {
+        return source.Where(x => x.Difficulty == diff);
+    }
+
+    public static IQueryable<Question> PickRandom(this IQueryable<Question> source)
+    {
+        return source.OrderBy(x => EF.Functions.Random());
+    }
 }

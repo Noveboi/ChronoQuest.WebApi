@@ -13,6 +13,9 @@ public sealed record UserPerformance
     public double ConsistencyScore { get; private init; }
 
     public LearningProgress LearningProgress { get; private init; } = new();
+    public Efficiency Efficiency { get; private init; } = new();
+    public ResponsePatternAnalysis ResponsePatterns { get; private init; } = new();
+    public LearningVelocity Velocity { get; private init; } = new();
     
     internal static UserPerformance Analyze(
         BayesianKnowledgeTracingModel model,
@@ -41,7 +44,10 @@ public sealed record UserPerformance
             ConsistencyScore = consistencyScore,
             EfficiencyScore = efficiencyScore,
             VelocityScore = velocityScore,
-            LearningProgress = LearningProgress.Infer(masteryHistory)
+            LearningProgress = LearningProgress.Infer(masteryHistory),
+            Efficiency = efficiency,
+            ResponsePatterns = patterns,
+            Velocity = velocity,
         };
     }
 

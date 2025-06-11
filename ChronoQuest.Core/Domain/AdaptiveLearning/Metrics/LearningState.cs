@@ -6,7 +6,7 @@ public enum LearningState
 {
     Initial = 0,
     Struggling = 1,
-    Improving = 2,
+    StrugglingButImproving = 2,
     ActiveLearning = 3,
     Steady = 4,
     Plateau = 5,
@@ -35,7 +35,7 @@ public sealed record LearningProgress
         {
             (< Constants.Mastery.Beginner, > 0.02, _) => new LearningProgress
             {
-                State = LearningState.Improving,
+                State = LearningState.StrugglingButImproving,
                 Confidence = System.Math.Min(0.8, currentVelocity * 20)
             },
 

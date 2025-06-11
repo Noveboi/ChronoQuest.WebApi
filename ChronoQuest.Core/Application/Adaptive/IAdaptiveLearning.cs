@@ -1,6 +1,4 @@
-﻿using ChronoQuest.Core.Domain.AdaptiveLearning;
-
-namespace ChronoQuest.Core.Application.Adaptive;
+﻿namespace ChronoQuest.Core.Application.Adaptive;
 
 public interface IAdaptiveLearning
 {

@@ -1,5 +1,4 @@
 ﻿using Ardalis.Result;
-using ChronoQuest.Core.Domain.Stats;
 
 namespace ChronoQuest.Core.Application.Questions;
 
