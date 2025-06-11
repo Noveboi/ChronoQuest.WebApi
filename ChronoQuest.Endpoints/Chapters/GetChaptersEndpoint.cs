@@ -5,6 +5,7 @@ using ChronoQuest.Endpoints.Chapters.Groups;
 using ChronoQuest.Endpoints.Questions.Dto;
 using ChronoQuest.Endpoints.Utilities;
 using FastEndpoints;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Endpoints.Chapters;
@@ -22,29 +23,19 @@ internal sealed class GetChaptersEndpoint(ChronoQuestContext context)
     {
         var chapters = await context.Chapters
             .AsNoTracking()
-            .Include(x => x.Questions
-                .AsQueryable()
-                .WithAnswersOf(req.UserId))
-            .Join(context.ChapterReadings, c => c.Id, r => r.ChapterId, (c, r) => new
-            {
-                Chapter = c,
-                Reading = r
-            })
-            .GroupBy(x => x.Chapter)
-            .Select(group => new
-            {
-                Chapter = group.Key,
-                TotalReading = group.Sum(g => g.Reading.TotalSeconds)
-            })
-            .OrderBy(x => x.Chapter.Order)
+            .AsSplitQuery()
+            .Include(x => x.Readings)
+            .Include(x => x.Questions.OrderBy(y => y.Number))
+            .WithAnswersOf(req.UserId)
+            .OrderBy(x => x.Order)
             .Select(x => new
             {
-                x.Chapter.Id, 
-                x.Chapter.Title, 
-                x.Chapter.Topic, 
-                x.Chapter.Order, 
-                x.TotalReading,
-                x.Chapter.Questions
+                x.Id, 
+                x.Title, 
+                x.Topic, 
+                x.Order, 
+                x.Questions,
+                TotalReading = x.Readings.Sum(r => r.TotalSeconds)
             })
             .ToListAsync(cancellationToken: ct);
 
