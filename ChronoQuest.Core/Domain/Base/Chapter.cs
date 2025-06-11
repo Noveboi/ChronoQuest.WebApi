@@ -1,3 +1,5 @@
+using ChronoQuest.Core.Domain.Stats;
+
 namespace ChronoQuest.Core.Domain.Base;
 
 public class Chapter : Entity
@@ -21,4 +23,5 @@ public class Chapter : Entity
     public string Content { get; private set; } = null!;
 
     public List<Question> Questions { get; private init; } = null!;
+    public List<ChapterReadingTime> Readings { get; private init; } = null!;
 }

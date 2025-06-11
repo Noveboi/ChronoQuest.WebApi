@@ -623,7 +623,7 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
             modelBuilder.Entity("ChronoQuest.Core.Domain.Stats.ChapterReadingTime", b =>
                 {
                     b.HasOne("ChronoQuest.Core.Domain.Base.Chapter", "Chapter")
-                        .WithMany()
+                        .WithMany("Readings")
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -770,6 +770,8 @@ namespace ChronoQuest.Core.Infrastructure.Migrations
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Chapter", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("Readings");
                 });
 
             modelBuilder.Entity("ChronoQuest.Core.Domain.Base.Question", b =>
