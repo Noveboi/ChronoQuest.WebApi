@@ -57,7 +57,7 @@ internal static class GeographyQuestions
             topic: Topics.Geography,
             difficulty: Difficulty.Medium,
             content: "Which mountain range contains Mount Ida, the highest peak on Crete?",
-            correctOption: new Option("Psilorítis (Ida) Range"),
+            correctOption: new Option("Psilorítis Range"),
             otherOptions:
             [
                 new Option("White Mountains"),
