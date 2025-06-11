@@ -1,6 +1,6 @@
 ﻿namespace ChronoQuest.Endpoints.Questions;
 
-public class GetQuestionStatsEndpoint
+public class GetQuestionStatsEndpoint()
 {
     // 1. Σκεψου και φτιαξε το QuestionStats
     // 2. Υλοποίησε το QuestionStatsService 
