@@ -1,10 +1,13 @@
 ﻿
+using ChronoQuest.Core.Domain.Base;
+
 namespace ChronoQuest.Core.Domain.AdaptiveLearning;
 
 internal sealed partial class BayesianKnowledgeTracingModel : Entity
 {
     public Guid UserId { get; private init; }
     public Guid TopicId { get; private init; }
+    public Topic Topic { get; private init; } = null!;
     
     // p_init
     public Probability InitialKnowledgeProbability { get; private init; } = null!;
@@ -19,7 +22,7 @@ internal sealed partial class BayesianKnowledgeTracingModel : Entity
     public Probability GuessProbability { get; private init; } = null!;
     
     private readonly List<UserSkillMastery> _masteryHistory = [];
-    public IReadOnlyCollection<UserSkillMastery> MasteryHistory => _masteryHistory;
+    public IReadOnlyList<UserSkillMastery> MasteryHistory => _masteryHistory;
     
     private BayesianKnowledgeTracingModel() { }
     private BayesianKnowledgeTracingModel(
