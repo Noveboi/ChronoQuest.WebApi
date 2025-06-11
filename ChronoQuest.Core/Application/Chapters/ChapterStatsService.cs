@@ -1,4 +1,3 @@
-using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace ChronoQuest.Core.Application.Chapters;
 
 public sealed record StatsPerChapter(IEnumerable<ChapterReadingTime> Readings, TimeSpan TotalDuration);
-public sealed record ChapterStats(Dictionary<Chapter, StatsPerChapter> Chapters);
 
 public sealed class ChapterStatsService(ChronoQuestContext context)
 {
