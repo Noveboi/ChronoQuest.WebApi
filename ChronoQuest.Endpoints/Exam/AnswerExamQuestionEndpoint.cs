@@ -1,4 +1,5 @@
-﻿using Ardalis.Result;
+﻿using System.Security.Claims;
+using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Infrastructure;
@@ -8,14 +9,20 @@ using Microsoft.Extensions.Logging;
 
 namespace ChronoQuest.Endpoints.Exam;
 
-public class AnswerExamQuestionEndpoint(
+internal sealed record AnswerExamQuestionRequest(
+    [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
+    [property: RouteParam] Guid ExamId);
+
+internal sealed class AnswerExamQuestionEndpoint(
     ChronoQuestContext context, 
-    ITimeTracker<ExamTimer> timeTracker) : EndpointWithoutRequest
+    ITimeTracker<ExamTimer> timeTracker) : Endpoint<AnswerExamQuestionRequest>
 {
-    // IMPORTANTE:
-    // - ITimeTracker GetTimeElapsed() για να δεις αν εχει λήξει ο χρόνος (με βάση 
-    
-    public override async Task HandleAsync(CancellationToken ct)
+    public override void Configure()
+    {
+        // ‼️Add route!
+    }
+
+    public override async Task HandleAsync(AnswerExamQuestionRequest req, CancellationToken ct)
     {
         var stats = await timeTracker.GetTrackingInfoAsync(req.UserId, req.ExamId, ct);
         if (stats is null)
