@@ -19,7 +19,7 @@ internal sealed class GetUserPerformanceEndpoint(IAdaptiveLearning adaptiveLearn
         var performances = await adaptiveLearning.GetPerformanceAsync(req.UserId, ct);
         
         await SendAsync(performances.Select(x => new UserPerformanceForTopicDto(
-            Score: x.Performance.TotalScore,
+            Score: double.Round(x.Performance.TotalScore, 3),
             State: x.Performance.LearningProgress.State.ToString(),
             Topic: x.Topic.ToDto())), cancellation: ct);
     }
