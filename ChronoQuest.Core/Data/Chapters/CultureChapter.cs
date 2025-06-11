@@ -1,4 +1,5 @@
-﻿using ChronoQuest.Core.Domain.Base;
+﻿using ChronoQuest.Core.Data.Questions;
+using ChronoQuest.Core.Domain.Base;
 
 namespace ChronoQuest.Core.Data.Chapters;
 
@@ -78,5 +79,5 @@ internal static class CultureChapter
                        </p>
                      </article>
                      """,
-            questions: []);
+            questions: CultureQuestions.ForQuiz().ToList());
 }

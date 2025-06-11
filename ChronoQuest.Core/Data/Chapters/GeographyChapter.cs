@@ -1,4 +1,5 @@
-﻿using ChronoQuest.Core.Domain.Base;
+﻿using ChronoQuest.Core.Data.Questions;
+using ChronoQuest.Core.Domain.Base;
 
 namespace ChronoQuest.Core.Data.Chapters;
 
@@ -68,5 +69,5 @@ internal static class GeographyChapter
                        </ul>
                      </article>
                      """,
-            questions: []);
+            questions: GeographyQuestions.ForQuiz().ToList());
 }
