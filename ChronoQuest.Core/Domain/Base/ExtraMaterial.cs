@@ -3,12 +3,12 @@ namespace ChronoQuest.Core.Domain.Base;
 public class ExtraMaterial : Entity
 {
     private ExtraMaterial() { }
-    public ExtraMaterial(User user, string content)
+    public ExtraMaterial(Guid userId, string content)
     {
-        User = user;
+        UserId = userId;
         Content = content;
     }
-    
-    public User User { get; private set; } = null!;
+
+    public Guid UserId { get; private set; }
     public string Content { get; private set; } = null!;
 }
