@@ -162,7 +162,7 @@ internal static class CultureQuestions
             topic: Topics.Culture,
             difficulty: Difficulty.Hard,
             content: "Which traditional men’s garment includes black woolen trousers and a fringed headscarf called a “sariki”?",
-            correctOption: new Option("Vraka and Sariki attire"),
+            correctOption: new Option("Vraka attire"),
             otherOptions:
             [
                 new Option("Fustanella costume"),
@@ -193,7 +193,7 @@ internal static class CultureQuestions
             topic: Topics.Culture,
             difficulty: Difficulty.Medium,
             content: "Which annual event in Rethymno celebrates the island’s Venetian heritage with music and theater?",
-            correctOption: new Option("Renaissance Festival of Rethymno"),
+            correctOption: new Option("Renaissance Festival"),
             otherOptions:
             [
                 new Option("Archanes Wine Festival"),
@@ -207,7 +207,7 @@ internal static class CultureQuestions
         yield return new Question(
             topic: Topics.Culture,
             difficulty: Difficulty.Easy,
-            content: "Which Cretan dish is known as “antikristo” and involves slow‑roasting lamb ribs?",
+            content: "Which Cretan dish involves slow‑roasting lamb ribs?",
             correctOption: new Option("Antikristo"),
             otherOptions:
             [
@@ -222,7 +222,7 @@ internal static class CultureQuestions
         yield return new Question(
             topic: Topics.Culture,
             difficulty: Difficulty.Hard,
-            content: "Which Cretan festival in Archanes highlights centuries‑old winemaking traditions?",
+            content: "Which Cretan festival highlights centuries‑old winemaking traditions?",
             correctOption: new Option("Wine Festival of Archanes"),
             otherOptions:
             [
