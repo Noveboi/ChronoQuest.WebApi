@@ -3,12 +3,13 @@ using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Endpoints.Questions.Dto;
 using ChronoQuest.Endpoints.Questions.Groups;
+using ChronoQuest.Endpoints.Utilities.Attributes;
 using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Questions;
 
 internal sealed record GetQuestionRequest(
-    [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
+    [property: UserId] Guid UserId,
     [property: RouteParam] Guid QuestionId
 );
 

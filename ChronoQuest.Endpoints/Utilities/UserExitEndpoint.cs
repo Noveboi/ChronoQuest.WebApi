@@ -1,11 +1,12 @@
 using System.Security.Claims;
 using ChronoQuest.Core.Application.Tracking.Requests;
 using ChronoQuest.Core.Infrastructure;
+using ChronoQuest.Endpoints.Utilities.Attributes;
 using FastEndpoints;
 using MediatR;
 
 namespace ChronoQuest.Endpoints.Utilities;
-internal sealed record UserExitRequest([property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId);
+internal sealed record UserExitRequest([property: UserId] Guid UserId);
 
 /// <summary>
 /// Called when the is exiting the application. 

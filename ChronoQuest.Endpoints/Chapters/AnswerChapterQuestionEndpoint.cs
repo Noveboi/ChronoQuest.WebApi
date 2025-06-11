@@ -3,12 +3,13 @@ using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Endpoints.Chapters.Groups;
 using ChronoQuest.Endpoints.Questions.Dto;
+using ChronoQuest.Endpoints.Utilities.Attributes;
 using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Chapters;
 
 internal sealed record AnswerChapterQuestionRequest(
-    [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
+    [property: UserId] Guid UserId,
     [property: RouteParam] Guid QuestionId,
     [property: RouteParam] Guid ChosenOptionId
 );
@@ -18,7 +19,7 @@ internal sealed class AnswerChapterQuestionEndpoint(IQuestionService questionSer
 {
     public override void Configure()
     {
-        Get("answer/{chosenOptionId:guid}");
+        Get("{questionId:guid}/answer/{chosenOptionId:guid}");
         Group<ChapterQuestionGroup>();
     }
 

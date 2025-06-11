@@ -3,6 +3,7 @@ using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Infrastructure;
+using ChronoQuest.Endpoints.Utilities.Attributes;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace ChronoQuest.Endpoints.Exam;
 
 internal sealed record AnswerExamQuestionRequest(
-    [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
+    [property: UserId] Guid UserId,
     [property: RouteParam] Guid ExamId);
 
 internal sealed class AnswerExamQuestionEndpoint(
