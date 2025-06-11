@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChronoQuest.Core.Infrastructure.Configurations.Base;
 
-public class ExtraMaterialConfigurations : IEntityTypeConfiguration<ExtraMaterial>
+public class ExtraMaterialConfiguration : IEntityTypeConfiguration<ExtraMaterial>
 {
     public void Configure(EntityTypeBuilder<ExtraMaterial> builder)
     {
