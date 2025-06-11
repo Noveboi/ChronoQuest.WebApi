@@ -6,7 +6,6 @@ using FastEndpoints;
 
 namespace ChronoQuest.Endpoints.Chapters;
 
-
 internal sealed class GetChapterStatsEndpoint(ChapterStatsService service) : Endpoint<GetRequest, ChapterStatsDto>
 {
     public override void Configure()
