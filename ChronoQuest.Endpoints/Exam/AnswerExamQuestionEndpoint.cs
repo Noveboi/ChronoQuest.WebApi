@@ -1,42 +1,51 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Tracking;
-using ChronoQuest.Core.Domain.Interfaces;
+using ChronoQuest.Core.Infrastructure;
 using FastEndpoints;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ChronoQuest.Endpoints.Exam;
 
-public sealed record ExamTimer(TimeSpan ElapsedTime, TimeSpan Limit) : ITimeTrackingEntity<ExamTimer>
-{
-    public static ExamTimer FromData(TimeTrackingInformation info, Guid userId)
-    {
-        return new ExamTimer(info.Duration, TimeSpan.FromMinutes(15));
-    }
-}
-
-public class AnswerExamQuestionEndpoint(ITimeTracker<ExamTimer> timeTracker) : EndpointWithoutRequest
+public class AnswerExamQuestionEndpoint(
+    ChronoQuestContext context, 
+    ITimeTracker<ExamTimer> timeTracker) : EndpointWithoutRequest
 {
     // IMPORTANTE:
     // - ITimeTracker GetTimeElapsed() για να δεις αν εχει λήξει ο χρόνος (με βάση 
-
+    
     public override async Task HandleAsync(CancellationToken ct)
     {
         var stats = await timeTracker.GetTrackingInfoAsync(req.UserId, req.ExamId, ct);
         if (stats is null)
         {
-            var invalid = Result.Invalid(new ValidationError("Exam is not being tracked."));
-            await SendResultAsync(invalid.ToMinimalApiResult());
+            await SendErrorAsync("Exam is not being tracked!");
             return;
         }
 
-        if (stats.ElapsedTime > stats.Limit)
+        var exam = await context.Exams
+            .Select(x => new { x.TimeLimit, x.UserId })
+            .FirstOrDefaultAsync(x => x.UserId == req.UserId, ct);
+
+        if (exam is null)
         {
-            var invalid = Result.Invalid(new ValidationError("You've run out of time!"));
-            await SendResultAsync(invalid.ToMinimalApiResult());
+            await SendNotFoundAsync(ct);
+            return;
+        }
+
+        if (stats.ElapsedTime > exam.TimeLimit)
+        {
+            await SendErrorAsync("You've run out of time!");
             return;
         }
         
         // ... Continue here.
+    }
+
+    private Task SendErrorAsync(string error)
+    {
+        Logger.LogError("Sending {error}", error);
+        return SendResultAsync(Result.Invalid(new ValidationError(error)).ToMinimalApiResult());
     }
 }
