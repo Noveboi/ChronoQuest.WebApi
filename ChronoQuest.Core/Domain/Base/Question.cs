@@ -36,6 +36,13 @@ public class Question : Entity
     
     public List<QuestionAnswer> Answers { get; private init; } = [];
 
+    public QuestionStatus Status => MostRecentAnswer() switch
+    {
+        { IsCorrect: true } => QuestionStatus.Correct,
+        { IsCorrect: false } => QuestionStatus.Wrong,
+        _ => QuestionStatus.Unanswered
+     };
+
     public Result<QuestionAnswer> Answer(Guid userId, Guid optionId)
     {
         if (Options.All(o => o.Id != optionId))
@@ -54,4 +61,6 @@ public class Question : Entity
 
         return answer;
     }
+
+    public QuestionAnswer? MostRecentAnswer() => Answers.LastOrDefault();
 }

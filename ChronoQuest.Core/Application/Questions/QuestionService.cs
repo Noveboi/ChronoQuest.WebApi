@@ -17,7 +17,7 @@ internal sealed class QuestionService(
 {
     private readonly ILogger _log = Log.ForContext<QuestionService>();
 
-    public async Task<List<QuestionResponse>> GetQuestionsForChapterAsync(QuestionsForChapterRequest request, CancellationToken token)
+    public async Task<List<Question>> GetQuestionsForChapterAsync(QuestionsForChapterRequest request, CancellationToken token)
     {
         var questions = await QueryQuestions(request.UserId)
             .AsNoTracking()
@@ -25,10 +25,10 @@ internal sealed class QuestionService(
             .OrderBy(x => x.Number)
             .ToListAsync(cancellationToken: token);
 
-        return questions.Select(question => new QuestionResponse(question)).ToList();
+        return questions;
     }
 
-    public async Task<QuestionResponse?> GetQuestionAsync(QuestionRequest request, CancellationToken token)
+    public async Task<Question?> GetQuestionAsync(QuestionRequest request, CancellationToken token)
     {
         var userQuestion = await QueryQuestions(request.UserId)
             .AsNoTracking()
@@ -40,10 +40,10 @@ internal sealed class QuestionService(
         }
 
         await tracker.TrackAsync(userId: request.UserId, entityId: request.QuestionId, token);
-        return new QuestionResponse(userQuestion);
+        return userQuestion;
     }
 
-    public async Task<Result<QuestionResponse>> AnswerQuestionAsync(
+    public async Task<Result<Question>> AnswerQuestionAsync(
         AnswerQuestionRequest request,
         CancellationToken token)
     {
@@ -83,7 +83,7 @@ internal sealed class QuestionService(
         
         await context.SaveChangesAsync(token);
         
-        return new QuestionResponse(question);
+        return question;
     }
 
     public IQueryable<Question> QueryQuestions(Guid userId) => context.Questions

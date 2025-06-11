@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Core.Application.Questions;
 
-internal static class QuestionQueryableExtensions
+public static class QuestionQueryableExtensions
 {
     public static IQueryable<Question> WithTopic(this IQueryable<Question> source) => source.Include(x => x.Topic);
     public static IQueryable<Question> WithOptions(this IQueryable<Question> source) => source.Include(x => x.Options);

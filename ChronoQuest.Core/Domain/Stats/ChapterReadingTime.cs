@@ -12,7 +12,7 @@ public sealed class ChapterReadingTime : Entity, ITimeTrackingEntity<ChapterRead
         UserId = userId;
         ChapterId = chapterId;
         StartedAtUtc = startedAt.UtcDateTime;
-        Duration = duration;
+        TotalSeconds = duration.TotalSeconds;
     }
     
     public Guid UserId { get; private init; }
@@ -20,7 +20,7 @@ public sealed class ChapterReadingTime : Entity, ITimeTrackingEntity<ChapterRead
     public Chapter Chapter { get; private init; } = null!;
     
     public DateTime StartedAtUtc { get; private init; }
-    public TimeSpan Duration { get; private init; }
+    public double TotalSeconds { get; private init; }
     public static ChapterReadingTime FromData(TimeTrackingInformation info, Guid userId)
     {
         return new ChapterReadingTime(

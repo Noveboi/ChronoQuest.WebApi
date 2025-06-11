@@ -23,6 +23,6 @@ public sealed class ChapterStatsService(ChronoQuestContext context)
                 keySelector: x => x.First(r => r.Chapter.Id == x.Key).Chapter,
                 elementSelector: x => new StatsPerChapter(
                     Readings: x.Select(t => t),
-                    TotalDuration: x.Aggregate(TimeSpan.Zero, (time, reading) => time + reading.Duration))));
+                    TotalDuration: TimeSpan.FromSeconds(x.Sum(t => t.TotalSeconds)))));
     }
 }

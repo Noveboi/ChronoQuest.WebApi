@@ -6,10 +6,8 @@ namespace ChronoQuest.Endpoints.Questions.Dto;
 
 internal static class QuestionDtoExtensions
 {
-    public static QuestionDto ToDto(this QuestionResponse resp)
+    public static QuestionDto ToDto(this Question question)
     {
-        var question = resp.Question;
-
         if (question.Topic is null)
         {
             throw new InvalidOperationException("Question topic is null!. Be sure to Include() in your query.");
@@ -29,27 +27,27 @@ internal static class QuestionDtoExtensions
             Options: question.Options.Select(x => new OptionDto(
                 Id: x.Id,
                 Title: x.Content)),
-            CorrectOptionId: resp.Status switch
+            CorrectOptionId: question.Status switch
             {
                 QuestionStatus.Unanswered => null,
                 _ => question.CorrectOptionId
             },
-            AnsweredOptionId: resp.GetLastGivenAnswer()?.OptionId);
+            AnsweredOptionId: question.MostRecentAnswer()?.OptionId);
     }
 
-    public static QuestionPreviewDto ToPreviewDto(this QuestionResponse resp)
+    public static QuestionPreviewDto ToPreviewDto(this Question question)
     {
-        var question = resp.Question;
-
         return new QuestionPreviewDto(
             Id: question.Id,
             Number: question.Number,
             Type: question.Type.ToString().ToLowerInvariant(),
-            Status: resp.Status.ToString().ToLowerInvariant());
+            Status: question.Status.ToString().ToLowerInvariant());
     }
 
     public static TopicDto ToDto(this Topic topic)
     {
         return new TopicDto(topic.Id, topic.Name);
     }
+
+    public static string ToDto(this QuestionStatus status) => status.ToString().ToLowerInvariant();
 }

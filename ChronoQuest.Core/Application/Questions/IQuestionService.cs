@@ -1,10 +1,11 @@
 ﻿using Ardalis.Result;
+using ChronoQuest.Core.Domain.Base;
 
 namespace ChronoQuest.Core.Application.Questions;
 
 public interface IQuestionService
 {
-    Task<List<QuestionResponse>> GetQuestionsForChapterAsync(QuestionsForChapterRequest request, CancellationToken token);
-    Task<QuestionResponse?> GetQuestionAsync(QuestionRequest request, CancellationToken token);
-    Task<Result<QuestionResponse>> AnswerQuestionAsync(AnswerQuestionRequest request, CancellationToken token);
+    Task<List<Question>> GetQuestionsForChapterAsync(QuestionsForChapterRequest request, CancellationToken token);
+    Task<Question?> GetQuestionAsync(QuestionRequest request, CancellationToken token);
+    Task<Result<Question>> AnswerQuestionAsync(AnswerQuestionRequest request, CancellationToken token);
 }
