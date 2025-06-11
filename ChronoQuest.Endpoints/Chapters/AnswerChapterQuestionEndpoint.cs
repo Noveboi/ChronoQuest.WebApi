@@ -1,11 +1,11 @@
 using System.Security.Claims;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Questions;
+using ChronoQuest.Endpoints.Chapters.Groups;
 using ChronoQuest.Endpoints.Questions.Dto;
-using ChronoQuest.Endpoints.Questions.Groups;
 using FastEndpoints;
 
-namespace ChronoQuest.Endpoints.Questions;
+namespace ChronoQuest.Endpoints.Chapters;
 
 internal sealed record AnswerChapterQuestionRequest(
     [property: FromClaim(ClaimTypes.NameIdentifier)] Guid UserId,
@@ -13,13 +13,13 @@ internal sealed record AnswerChapterQuestionRequest(
     [property: RouteParam] Guid ChosenOptionId
 );
 
-internal sealed class AnswerQuestionEndpoint(IQuestionService questionService) 
+internal sealed class AnswerChapterQuestionEndpoint(IQuestionService questionService) 
     : Endpoint<AnswerChapterQuestionRequest, QuestionDto>
 {
     public override void Configure()
     {
         Get("answer/{chosenOptionId:guid}");
-        Group<QuestionGroup>();
+        Group<ChapterQuestionGroup>();
     }
 
     public override async Task HandleAsync(AnswerChapterQuestionRequest req, CancellationToken ct)
