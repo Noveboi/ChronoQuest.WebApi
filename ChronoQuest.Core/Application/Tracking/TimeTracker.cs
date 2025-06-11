@@ -64,6 +64,11 @@ internal sealed class TimeTracker<TStats> :
         return stats;
     }
 
+    public Task<TStats?> GetTrackingInfoAsync(Guid userId, Guid entityId, CancellationToken token)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task Handle(StopTrackingEverything req, CancellationToken ct)
     {
         Log.Information("Stop tracking every {type}.", typeof(TStats).Name);

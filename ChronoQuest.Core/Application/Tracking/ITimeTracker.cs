@@ -9,4 +9,5 @@ public interface ITimeTracker<TStats> where TStats : class, ITimeTrackingEntity<
 {
     Task TrackAsync(Guid userId, Guid entityId, CancellationToken token);
     Task<TStats?> StopTrackingAsync(Guid userId, Guid entityId, CancellationToken token);
+    Task<TStats?> GetTrackingInfoAsync(Guid userId, Guid entityId, CancellationToken token);
 }
