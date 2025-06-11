@@ -28,7 +28,9 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
             .ForUser(userId)
             .ToListAsync(token);
 
-        return models.Select(x => new MasteryHistory(x.Topic, x.MasteryHistory));
+        return models.Select(x => new MasteryHistory(
+            Topic: x.Topic, 
+            History: x.MasteryHistory.OrderBy(m => m.UtcDateTime)));
     }
 
     public async Task<IEnumerable<UserPerformanceForTopic>> GetPerformanceAsync(Guid userId, CancellationToken token)

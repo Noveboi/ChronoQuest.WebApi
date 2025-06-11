@@ -20,10 +20,6 @@ try
     builder.Services
         .AddSerilog((_, config) => config.ReadFrom.Configuration(builder.Configuration))
         .AddAuthorization()
-        .AddMediatR(o =>
-        {
-            o.RegisterServicesFromAssemblyContaining(typeof(ITimeTracker<>));
-        })
         .AddCors()
         .AddApplication()
         .AddInfrastructure(builder.Configuration)

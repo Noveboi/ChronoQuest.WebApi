@@ -1,8 +1,6 @@
-using ChronoQuest.Core.Application.Tracking.Requests;
 using ChronoQuest.Core.Application.Tracking.Store;
 using ChronoQuest.Core.Domain.Interfaces;
 using ChronoQuest.Core.Infrastructure;
-using MediatR;
 using Serilog;
 
 namespace ChronoQuest.Core.Application.Tracking;
@@ -10,9 +8,7 @@ namespace ChronoQuest.Core.Application.Tracking;
 /// <summary>
 /// Default implementation of <see cref="ITimeTracker{TStats}"/>
 /// </summary>
-internal sealed class TimeTracker<TStats> : 
-    ITimeTracker<TStats>,
-    INotificationHandler<StopTrackingEverything> where TStats : class, ITimeTrackingEntity<TStats>
+internal sealed class TimeTracker<TStats> : ITimeTracker<TStats> where TStats : class, ITimeTrackingEntity<TStats>
 {
     private readonly ITrackingStore<TrackingData> _store;
     private readonly TimeProvider _timeProvider;
@@ -69,24 +65,20 @@ internal sealed class TimeTracker<TStats> :
         throw new NotImplementedException();
     }
 
-    public async Task Handle(StopTrackingEverything req, CancellationToken ct)
+    public async Task TerminateTrackingAsync(Guid userId, CancellationToken ct)
     {
         Log.Information("Stop tracking every {type}.", typeof(TStats).Name);
         var stopTime = _timeProvider.GetUtcNow();
-        Log.Information("Stop tracking everything for user {userId}", req.UserId);
 
-        var infoList = new List<TimeTrackingInformation>();
-        await foreach (var data in _store.GetAllForUserAsync(EntityType, req.UserId, ct))
-        {
-            var trackingInfo = new TimeTrackingInformation(
+        var infoList = await _store
+            .GetAllForUserAsync(EntityType, userId, ct)
+            .Select(data => new TimeTrackingInformation(
                 EntityId: data.EntityId, 
                 TrackingStartUtc: data.Start, 
-                TrackingEndUtc: stopTime);
-            
-            infoList.Add(trackingInfo);
-        }
+                TrackingEndUtc: stopTime))
+            .ToListAsync(cancellationToken: ct);
 
-        _context.Set<TStats>().AddRange(infoList.Select(info => TStats.FromData(info, req.UserId)));
+        _context.Set<TStats>().AddRange(infoList.Select(info => TStats.FromData(info, userId)));
     }
     
     private static class TrackingLog
