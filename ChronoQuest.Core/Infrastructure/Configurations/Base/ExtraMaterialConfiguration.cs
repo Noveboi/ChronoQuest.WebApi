@@ -8,7 +8,7 @@ public class ExtraMaterialConfiguration : IEntityTypeConfiguration<ExtraMaterial
 {
     public void Configure(EntityTypeBuilder<ExtraMaterial> builder)
     {
-        builder.HasOne<User>().WithOne().HasForeignKey<ExtraMaterial>("UserId");
+        builder.HasOne<User>().WithOne().HasForeignKey<ExtraMaterial>(e => e.UserId);
         builder.IsDomainEntity();
     }
 }
