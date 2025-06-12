@@ -7,9 +7,9 @@ internal partial class BayesianKnowledgeTracingModel
         return new BayesianKnowledgeTracingModel(
             userId: userId,
             topicId: topicId,
-            pInit: 0.2,
-            pLearn: 0.075,
-            pSlip: 0.075,
-            pGuess: 0.35);
+            pInit: 0.3,
+            pLearn: 0.1,
+            pSlip: 0.1,
+            pGuess: 0.225);
     }
 }
