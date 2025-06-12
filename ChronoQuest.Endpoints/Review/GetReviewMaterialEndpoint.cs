@@ -18,7 +18,7 @@ internal sealed class GetReviewMaterialEndpoint(ChronoQuestContext dbContext, Re
     public override async Task HandleAsync(GetRequest req, CancellationToken ct)
     {
         var extraMaterial = await dbContext
-            .ExtraMaterial
+            .ReviewMaterial
             .FirstOrDefaultAsync(e => e.UserId == req.UserId, ct);
 
         if (extraMaterial == null)

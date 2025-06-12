@@ -7,4 +7,6 @@ public sealed class ReviewMaterialParagraph : Entity
 {
     public Topic Topic { get; init; } = null!;
     public string Content { get; init; } = null!;
+    
+    public int Order { get; init; }
 }
