@@ -18,14 +18,19 @@ public class QuestionStatsService(ChronoQuestContext dbContext)
             .Select(group =>
             {
                 var answers = group.SelectMany(q => q.Answers).ToList();
+                var readingSeconds = group
+                    .SelectMany(q => q.ReadingTime
+                        .Select(qrt => qrt.Duration.TotalSeconds))
+                    .ToList();
                 
                 return new QuestionStatsForTopic(
                     Topic: group.Key,
-                    CorrectAnswersPercentage: answers.Count(qa => qa.IsCorrect) / (double)answers.Count * 100,
-                    AverageAnswerTime: TimeSpan.FromSeconds(group
-                        .SelectMany(q => q.ReadingTime
-                            .Select(qrt => qrt.Duration.TotalSeconds))
-                        .Average())
+                    CorrectAnswersPercentage: answers.Count > 0 
+                        ? answers.Count(qa => qa.IsCorrect) / (double)answers.Count * 100
+                        : 0,
+                    AverageAnswerTime: TimeSpan.FromSeconds(readingSeconds.Count > 0 
+                        ? readingSeconds.Average()
+                        : 0)
                 );
             });
         
