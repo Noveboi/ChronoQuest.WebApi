@@ -1,5 +1,6 @@
 using ChronoQuest.Core.Application.Exams;
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Exam.Dto;
 using ChronoQuest.Endpoints.Questions.Dto;
@@ -13,7 +14,7 @@ namespace ChronoQuest.Endpoints.Exam;
 internal sealed class GetExamEndpoint(
     ChronoQuestContext dbContext,
     ExamGenerator generator,
-    ITimeTracker<ExamTimer> tracker) : Endpoint<GetRequest, ExamDto>
+    ITimeTracker<ExamTimeInformation> tracker) : Endpoint<GetRequest, ExamDto>
 {
     public override void Configure()
     {
@@ -25,6 +26,7 @@ internal sealed class GetExamEndpoint(
         var exam = await dbContext
             .Exams
             .Include(e => e.Questions)
+            .ThenInclude(q => q.Topic)
             .FirstOrDefaultAsync(e => e.UserId == req.UserId, ct);
 
         if (exam == null)
