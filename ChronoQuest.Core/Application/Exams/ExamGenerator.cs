@@ -90,18 +90,18 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
 
             secondsPerQuestion += progress.State switch
             {   
-                LearningState.Struggling => 60,
-                LearningState.StrugglingButImproving => 30,
-                LearningState.Plateau => 15,
+                LearningState.Struggling => 50,
+                LearningState.StrugglingButImproving => 25,
+                LearningState.Plateau => 10,
                 LearningState.Steady => 2.5,
                 LearningState.Mastering => -5,
                 LearningState.Mastered => -10,
                 _ => 0
-            } * progress.Confidence / topicCount;
+            } * progress.Confidence;
 
             secondsPerQuestion += efficiency.Status switch
             {
-                EfficiencyStatus.NeedsImprovement => 20,
+                EfficiencyStatus.NeedsImprovement => 6,
                 EfficiencyStatus.Excellent => -2.5,
                 _ => 0
             } / topicCount;
