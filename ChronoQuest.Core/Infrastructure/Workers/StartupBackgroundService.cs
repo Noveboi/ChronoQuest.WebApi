@@ -1,5 +1,6 @@
 using ChronoQuest.Core.Data;
 using ChronoQuest.Core.Data.Questions;
+using ChronoQuest.Core.Data.Review;
 using ChronoQuest.Core.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,9 +34,14 @@ internal sealed class StartupBackgroundService(IServiceProvider sp) : Background
         _log.Information("Seeding database with data...");
         context.Topics.AddRange(Topics.All);
         context.Chapters.AddRange(AllChapters.Get());
-        context.Questions.AddRange(HistoryQuestions.ForExam().Concat(
+        context.Questions.AddRange(
+            HistoryQuestions.ForExam().Concat(
             GeographyQuestions.ForExam()).Concat(
             CultureQuestions.ForExam()));
+        context.ReviewParagraphs.AddRange(
+            HistoryReviewParagraphs.All().Concat(
+            GeographyReviewParagraphs.All()).Concat(
+            CultureReviewParagraphs.All()));
         
         await context.SaveChangesAsync(stoppingToken);
         _log.Information("Finished seeding.");
