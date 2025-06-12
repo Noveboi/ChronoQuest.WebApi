@@ -11,7 +11,7 @@ internal sealed class QuestionReadingTimeConfiguration : IEntityTypeConfiguratio
     {
         builder.IsDomainEntity();
         builder.HasOne<User>().WithMany().HasForeignKey(x => x.UserId);
-        builder.HasOne(x => x.Question).WithMany().HasForeignKey(x => x.QuestionId);
+        builder.HasOne(x => x.Question).WithMany(q => q.ReadingTime).HasForeignKey(x => x.QuestionId);
 
         builder.HasIndex(x => x.QuestionId);
     }

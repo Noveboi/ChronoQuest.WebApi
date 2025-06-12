@@ -36,6 +36,8 @@ public class Question : Entity
     
     public List<QuestionAnswer> Answers { get; private init; } = [];
 
+    public List<QuestionReadingTime> ReadingTime { get; private init; } = [];
+
     public QuestionStatus Status => MostRecentAnswer() switch
     {
         { IsCorrect: true } => QuestionStatus.Correct,
