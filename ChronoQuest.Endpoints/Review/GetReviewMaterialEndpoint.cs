@@ -36,6 +36,7 @@ internal sealed class GetReviewMaterialEndpoint(
         
         var extraMaterialDto = new ReviewMaterialDto(Id: review.Id, Content: review.Content);
         
+        await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, review.Id, UserIs.ReviewingMaterial), ct);
         await SendAsync(extraMaterialDto, cancellation: ct);
     }
 
@@ -51,7 +52,6 @@ internal sealed class GetReviewMaterialEndpoint(
         dbContext.Add(review);
         await dbContext.SaveChangesAsync(ct);
 
-        await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, review.Id, UserIs.ReviewingMaterial), ct);
         return review;
     }
 }
