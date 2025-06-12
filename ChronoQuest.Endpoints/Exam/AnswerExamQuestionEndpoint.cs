@@ -2,6 +2,7 @@
 using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Utilities.Attributes;
 using FastEndpoints;
@@ -16,7 +17,7 @@ internal sealed record AnswerExamQuestionRequest(
 
 internal sealed class AnswerExamQuestionEndpoint(
     ChronoQuestContext context, 
-    ITimeTracker<ExamTimer> timeTracker) : Endpoint<AnswerExamQuestionRequest>
+    ITimeTracker<ExamTimeInformation> timeTracker) : Endpoint<AnswerExamQuestionRequest>
 {
     public override void Configure()
     {
