@@ -1,9 +1,9 @@
 using ChronoQuest.Core.Application.Adaptive;
 using ChronoQuest.Core.Application.Chapters;
 using ChronoQuest.Core.Application.Exams;
-using ChronoQuest.Core.Application.ExtraMaterials;
 using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
+using ChronoQuest.Core.Application.Review;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Application.Tracking.Store;
 using ChronoQuest.Core.Domain.Stats;
@@ -19,7 +19,7 @@ public static class ApplicationDependencyInjection
             .AddScoped<ChapterStatsService>()
             .AddScoped<QuestionStatsService>()
             .AddScoped<ExamGenerator>()
-            .AddScoped<ExtraMaterialGenerator>()
+            .AddScoped<ReviewMaterialGenerator>()
             .AddScoped<IAdaptiveLearning, AdaptiveLearning>()
             .AddScoped<IMarkerService, MarkerService>()
             .AddScoped<IQuestionService, QuestionService>()

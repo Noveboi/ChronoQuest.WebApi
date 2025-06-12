@@ -15,7 +15,7 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
 {
     public async Task<Exam> GenerateAsync(Guid userId, CancellationToken token)
     {
-        var performancePerTopic = (await adaptiveLearning.GetPerformanceAsync(userId, token)).ToList();
+        var performancePerTopic = await adaptiveLearning.GetPerformanceAsync(userId, token);
         var questions = await DetermineExamQuestions(performancePerTopic, token);
         var examTime = DetermineExamTime(performancePerTopic, questions);
 
@@ -25,7 +25,9 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
             timeLimit: examTime);
     }
 
-    private async Task<List<Question>> DetermineExamQuestions(List<UserPerformanceForTopic> performanceForTopics, CancellationToken ct)
+    private async Task<List<Question>> DetermineExamQuestions(
+        IReadOnlyList<UserPerformanceForTopic> performanceForTopics, 
+        CancellationToken ct)
     {
         var decisions = performanceForTopics.Select(performanceForTopic =>
         {
@@ -77,7 +79,9 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
             .ToList();
     }
 
-    private static TimeSpan DetermineExamTime(List<UserPerformanceForTopic> performances, List<Question> questions)
+    private static TimeSpan DetermineExamTime(
+        IReadOnlyList<UserPerformanceForTopic> performances, 
+        List<Question> questions)
     {
         var secondsPerQuestion = 60.0;
         var topicCount = performances.Count;

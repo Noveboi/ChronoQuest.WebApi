@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChronoQuest.Core.Infrastructure.Configurations.Base;
 
-public class ExtraMaterialConfiguration : IEntityTypeConfiguration<ExtraMaterial>
+public class ExtraMaterialConfiguration : IEntityTypeConfiguration<ReviewMaterial>
 {
-    public void Configure(EntityTypeBuilder<ExtraMaterial> builder)
+    public void Configure(EntityTypeBuilder<ReviewMaterial> builder)
     {
-        builder.HasOne<User>().WithOne().HasForeignKey<ExtraMaterial>(e => e.UserId);
+        builder.HasOne<User>().WithOne().HasForeignKey<ReviewMaterial>(e => e.UserId);
         builder.IsDomainEntity();
     }
 }

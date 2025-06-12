@@ -33,7 +33,7 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
             History: x.MasteryHistory.OrderBy(m => m.UtcDateTime)));
     }
 
-    public async Task<IEnumerable<UserPerformanceForTopic>> GetPerformanceAsync(Guid userId, CancellationToken token)
+    public async Task<IReadOnlyList<UserPerformanceForTopic>> GetPerformanceAsync(Guid userId, CancellationToken token)
     {
         var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
         var topicGroups = await context.Questions.WithAnswersOf(userId)
@@ -70,8 +70,10 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
                 },
                 cancellationToken: token);
 
-        return topicGroups.Select(kvp => new UserPerformanceForTopic(
-            Performance: UserPerformance.Analyze(kvp.Value.Mastery, kvp.Value.Answers),
-            Topic: kvp.Key));
+        return topicGroups
+            .Select(kvp => new UserPerformanceForTopic(
+                Performance: UserPerformance.Analyze(kvp.Value.Mastery, kvp.Value.Answers),
+                Topic: kvp.Key))
+            .ToList();
     }
 }

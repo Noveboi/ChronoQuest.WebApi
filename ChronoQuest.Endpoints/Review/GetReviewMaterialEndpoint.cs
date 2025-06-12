@@ -1,13 +1,14 @@
-using ChronoQuest.Core.Application.ExtraMaterials;
+using ChronoQuest.Core.Application.Review;
 using ChronoQuest.Core.Infrastructure;
-using ChronoQuest.Endpoints.ExtraMaterial.Dto;
+using ChronoQuest.Endpoints.Review.Dto;
 using ChronoQuest.Endpoints.Utilities;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChronoQuest.Endpoints.ExtraMaterial;
+namespace ChronoQuest.Endpoints.Review;
 
-internal sealed class GetExtraMaterialEndpoint(ChronoQuestContext dbContext, ExtraMaterialGenerator generator) : Endpoint<GetRequest, ExtraMaterialDto>
+internal sealed class GetReviewMaterialEndpoint(ChronoQuestContext dbContext, ReviewMaterialGenerator generator) 
+    : Endpoint<GetRequest, ReviewMaterialDto>
 {
     public override void Configure()
     {
@@ -27,7 +28,7 @@ internal sealed class GetExtraMaterialEndpoint(ChronoQuestContext dbContext, Ext
             await dbContext.SaveChangesAsync(ct);
         }
         
-        var extraMaterialDto = new ExtraMaterialDto(Id: extraMaterial.Id, Content: extraMaterial.Content);
+        var extraMaterialDto = new ReviewMaterialDto(Id: extraMaterial.Id, Content: extraMaterial.Content);
         
         await SendAsync(extraMaterialDto, cancellation: ct);
     }

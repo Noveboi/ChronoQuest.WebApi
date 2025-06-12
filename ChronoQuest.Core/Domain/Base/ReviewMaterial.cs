@@ -1,9 +1,9 @@
 namespace ChronoQuest.Core.Domain.Base;
 
-public class ExtraMaterial : Entity
+public sealed class ReviewMaterial : Entity
 {
-    private ExtraMaterial() { }
-    public ExtraMaterial(Guid userId, string content)
+    private ReviewMaterial() { }
+    public ReviewMaterial(Guid userId, string content)
     {
         UserId = userId;
         Content = content;
