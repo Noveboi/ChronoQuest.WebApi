@@ -34,7 +34,7 @@ internal sealed class GetUserMarkerEndpoint(IMarkerService markers) : Endpoint<G
         }
         else
         {
-            Logger.LogInformation("Found marker for {userId}", userId);
+            Logger.LogInformation("Found marker for {userId} {@marker}", userId, marker);
         }
     }
 }
