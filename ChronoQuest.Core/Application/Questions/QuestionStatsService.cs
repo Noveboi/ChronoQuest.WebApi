@@ -15,15 +15,19 @@ public class QuestionStatsService(ChronoQuestContext dbContext)
             .ToListAsync(ct);
 
         var stats = questions
-            .Select(group => new QuestionStatsForTopic(
-                Topic: group.Key,
-                CorrectAnswersPercentage: group.SelectMany(q => q.Answers).Count(qa => qa.IsCorrect) /
-                (double)group.SelectMany(q => q.Answers).Count() * 100,
-                AverageAnswerTime: TimeSpan.FromSeconds(group
-                    .SelectMany(q => q.ReadingTime
-                        .Select(qrt => qrt.Duration.TotalSeconds))
-                    .Average())
-            ));
+            .Select(group =>
+            {
+                var answers = group.SelectMany(q => q.Answers).ToList();
+                
+                return new QuestionStatsForTopic(
+                    Topic: group.Key,
+                    CorrectAnswersPercentage: answers.Count(qa => qa.IsCorrect) / (double)answers.Count * 100,
+                    AverageAnswerTime: TimeSpan.FromSeconds(group
+                        .SelectMany(q => q.ReadingTime
+                            .Select(qrt => qrt.Duration.TotalSeconds))
+                        .Average())
+                );
+            });
         
         return stats;
     }
