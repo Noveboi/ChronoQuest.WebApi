@@ -1,16 +1,15 @@
+using ChronoQuest.Core.Application.Chapters.Models;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChronoQuest.Core.Application.Chapters;
 
-public sealed record StatsPerChapter(IEnumerable<ChapterReadingTime> Readings, TimeSpan TotalDuration);
-
 public sealed class ChapterStatsService(ChronoQuestContext context)
 {
-    public async Task<ChapterStats> GetChapterStatsAsync(Guid userId, CancellationToken ct)
+    public async Task<IEnumerable<StatsPerChapter>> GetChapterStatsAsync(Guid userId, CancellationToken ct)
     {
-        var readings = await context.ChapterReadings
+        var readingsGroup = await context.ChapterReadings
             .AsNoTracking()
             .Include(x => x.Chapter)
             .ThenInclude(x => x.Topic)
@@ -18,11 +17,12 @@ public sealed class ChapterStatsService(ChronoQuestContext context)
             .GroupBy(x => x.ChapterId)
             .ToListAsync(ct);
 
-        return new ChapterStats(
-            Chapters: readings.ToDictionary(
-                keySelector: x => x.First(r => r.Chapter.Id == x.Key).Chapter,
-                elementSelector: x => new StatsPerChapter(
-                    Readings: x.Select(t => t),
-                    TotalDuration: TimeSpan.FromSeconds(x.Sum(t => t.TotalSeconds)))));
+        return readingsGroup.Select(group => new StatsPerChapter(
+                Chapter: group.First().Chapter,
+                Readings: group
+                    .GroupBy(x => DateOnly.FromDateTime(x.StartedAtUtc))
+                    .Select(x => new ReadingTimePerDay(
+                            Date: x.Key,
+                            Duration: TimeSpan.FromSeconds(x.Aggregate(0.0, (y, r) => y + r.TotalSeconds))))));
     }
 }

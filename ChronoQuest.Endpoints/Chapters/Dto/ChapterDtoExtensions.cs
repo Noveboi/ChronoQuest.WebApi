@@ -27,7 +27,4 @@ internal static class ChapterDtoExtensions
         ChapterId: reading.ChapterId,
         Start: reading.StartedAtUtc,
         SecondsRead: reading.TotalSeconds);
-
-    public static ChapterStatsDto ToDto(this ChapterStats stats) => new(
-        stats.Chapters.Select(x => new StatsPerChapterDto()));
 }
