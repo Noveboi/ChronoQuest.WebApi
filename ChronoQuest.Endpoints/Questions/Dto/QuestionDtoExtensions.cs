@@ -41,7 +41,9 @@ internal static class QuestionDtoExtensions
             Id: question.Id,
             Number: question.Number,
             Type: question.Type.ToString().ToLowerInvariant(),
-            Status: question.Status.ToString().ToLowerInvariant());
+            Status: question.Status.ToString().ToLowerInvariant(),
+            Topic: question.Topic.Name,
+            Difficulty: question.Difficulty.ToDto());
     }
 
     public static TopicDto ToDto(this Topic topic)
@@ -50,4 +52,5 @@ internal static class QuestionDtoExtensions
     }
 
     public static string ToDto(this QuestionStatus status) => status.ToString().ToLowerInvariant();
+    public static string ToDto(this Difficulty diff) => diff.ToString().ToLowerInvariant();
 }

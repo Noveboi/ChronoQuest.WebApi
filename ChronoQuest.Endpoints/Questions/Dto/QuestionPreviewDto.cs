@@ -4,4 +4,6 @@ internal sealed record QuestionPreviewDto(
     Guid Id, 
     int Number, 
     string Type,
-    string Status);
+    string Status,
+    string Topic,
+    string Difficulty);
