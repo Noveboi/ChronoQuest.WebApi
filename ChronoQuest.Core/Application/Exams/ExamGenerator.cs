@@ -51,7 +51,7 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
                 LearningState.Struggling => decision.Distribute(90, 10, 0),
                 LearningState.StrugglingButImproving => decision.Distribute(75, 25, 0),
                 LearningState.ActiveLearning => decision.Distribute(50, 40, 10),
-                LearningState.Mastering => decision.Distribute(25, 35, 50),
+                LearningState.Mastering => decision.Distribute(25, 35, 40),
                 LearningState.Mastered => decision.Distribute(0, 20, 80),
                 _ => decision
             };
