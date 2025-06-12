@@ -9,7 +9,7 @@ using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace ChronoQuest.Endpoints.Exam;
+namespace ChronoQuest.Endpoints.Exams;
 
 internal sealed record AnswerExamQuestionRequest(
     [property: UserId] Guid UserId,
@@ -30,7 +30,7 @@ internal sealed class AnswerExamQuestionEndpoint(
         var stats = await timeTracker.GetTrackingInfoAsync(req.UserId, req.ExamId, ct);
         if (stats is null)
         {
-            await SendErrorAsync("Exam is not being tracked!");
+            await SendErrorAsync("You are not taking an exam!");
             return;
         }
 

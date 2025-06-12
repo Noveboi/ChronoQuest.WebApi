@@ -2,6 +2,7 @@ using ChronoQuest.Core.Application.Adaptive;
 using ChronoQuest.Core.Application.Chapters;
 using ChronoQuest.Core.Application.Exams;
 using ChronoQuest.Core.Application.Markers;
+using ChronoQuest.Core.Application.Progress;
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Application.Review;
 using ChronoQuest.Core.Application.Tracking;
@@ -16,6 +17,7 @@ public static class ApplicationDependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services) =>
         services
+            .AddScoped<IProgressQueries, ProgressQueries>()
             .AddScoped<ChapterStatsService>()
             .AddScoped<QuestionStatsService>()
             .AddScoped<ExamGenerator>()

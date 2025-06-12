@@ -23,14 +23,32 @@ public sealed class ReviewMaterialGenerator(IAdaptiveLearning adaptiveLearning, 
                 cancellationToken: token);
 
         var paragraphs = performances
-            .SelectMany(performance =>
+            .Select(performance =>
             {
                 var paragraphsForTopic = reviewParagraphs[performance.Topic];
                 var numberOfParagraphs = DetermineNumberOfParagraphs(performance);
 
-                return paragraphsForTopic.Take(numberOfParagraphs);
+                return new
+                {
+                    Paragraphs = paragraphsForTopic.Take(numberOfParagraphs), 
+                    performance.Topic
+                };
             })
-            .Aggregate(new StringBuilder(), (builder, paragraph) => builder.AppendLine(paragraph.Content))
+            .Aggregate(new StringBuilder(), (builder, x) =>
+            {
+                var paragraphs = x.Paragraphs.ToList();
+                if (paragraphs is [])
+                    return builder;
+                
+                builder.AppendLine($"<h2>{x.Topic} Review</h2>");
+                
+                foreach (var paragraph in x.Paragraphs)
+                {
+                    builder.AppendLine($"<p>{paragraph.Content}</p>");
+                }
+
+                return builder;
+            })
             .ToString();
 
         return new ReviewMaterial(userId, paragraphs);
