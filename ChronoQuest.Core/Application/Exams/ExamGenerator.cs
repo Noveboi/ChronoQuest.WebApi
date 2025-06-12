@@ -45,7 +45,7 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
 
             return progress.State switch
             {
-                LearningState.Struggling => decision.Distribute(100, 0, 0),
+                LearningState.Struggling => decision.Distribute(90, 10, 0),
                 LearningState.StrugglingButImproving => decision.Distribute(75, 25, 0),
                 LearningState.ActiveLearning => decision.Distribute(50, 40, 10),
                 LearningState.Mastering => decision.Distribute(25, 35, 50),
@@ -58,25 +58,15 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
             .ToAsyncEnumerable()
             .SelectMany(decision =>
             {
-                var baseQuery = context.Questions
-                    .ForTopic(decision.Topic.Id)
-                    .WithoutChapter();
-
-                var unionQuery = baseQuery
-                    .HavingDifficulty(Difficulty.Easy)
-                    .PickRandom()
-                    .Take(decision.NumberOfQuestionsFor(Difficulty.Easy));
-
-                unionQuery = (
-                        from difficulty in Enum.GetValues<Difficulty>() 
-                        let numQuestions = decision.NumberOfQuestionsFor(difficulty) 
-                        where numQuestions != 0 
-                        select difficulty)
-                    .Aggregate(unionQuery, (current, difficulty) => current.Union(baseQuery.HavingDifficulty(difficulty)
-                    .PickRandom()
-                    .Take(decision.NumberOfQuestionsFor(difficulty))));
-
-                return unionQuery.AsAsyncEnumerable();
+                return Enum.GetValues<Difficulty>()
+                    .ToAsyncEnumerable()
+                    .SelectMany(diff => context.Questions
+                        .ForTopic(decision.Topic.Id)
+                        .WithoutChapter()
+                        .HavingDifficulty(diff)
+                        .PickRandom()
+                        .Take(decision.NumberOfQuestionsFor(diff))
+                        .AsAsyncEnumerable());
             })
             .ToListAsync(ct);
     }
