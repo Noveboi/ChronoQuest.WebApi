@@ -1,11 +1,27 @@
-﻿namespace ChronoQuest.Endpoints.Questions;
+﻿using ChronoQuest.Core.Application.Questions;
+using ChronoQuest.Endpoints.Questions.Dto;
+using ChronoQuest.Endpoints.Utilities;
+using FastEndpoints;
 
-public class GetQuestionStatsEndpoint()
+namespace ChronoQuest.Endpoints.Questions;
+
+internal sealed class GetQuestionStatsEndpoint(QuestionStatsService service) : Endpoint<GetRequest, IEnumerable<QuestionStatsForTopicDto>>
 {
-    // 1. Σκεψου και φτιαξε το QuestionStats
-    // 2. Υλοποίησε το QuestionStatsService 
-    // 3. DTO
-    // 4. Μπουμπουνα το endpoint
-    
-    // Μπορεις να παρεις ιδεες/βοηθεια απο το ChapterStatsService 😉
+    public override void Configure()
+    {
+        Get("questions/stats");
+    }
+
+    public override async Task HandleAsync(GetRequest req, CancellationToken ct)
+    {
+        var stats = await service.GetAsync(req.UserId, ct);
+
+        var statsForTopicDto = stats.Select(s => new QuestionStatsForTopicDto(
+            Topic: s.Topic.ToDto(),
+            CorrectAnswersPercentage: s.CorrectAnswersPercentage,
+            AverageAnswerTimeInSeconds: s.AverageAnswerTime.TotalSeconds
+        ));
+        
+        await SendAsync(statsForTopicDto, cancellation: ct);
+    }
 }
