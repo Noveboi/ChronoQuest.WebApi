@@ -37,6 +37,7 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
     {
         var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
         var topicGroups = await context.Questions.WithAnswersOf(userId)
+            .AsSplitQuery()
             .GroupJoin(
                 inner: context.Set<BayesianKnowledgeTracingModel>().ForUser(userId),
                 outerKeySelector: q => q.Topic.Id,
