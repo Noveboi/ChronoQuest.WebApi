@@ -6,6 +6,7 @@ using ChronoQuest.Endpoints.Questions.Dto;
 using ChronoQuest.Endpoints.Utilities;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ChronoQuest.Endpoints.Exam;
 
@@ -28,6 +29,8 @@ internal sealed class GetExamEndpoint(
 
         if (exam == null)
         {
+            Logger.LogInformation("Generating exam for user.");
+            
             exam = await generator.GenerateAsync(req.UserId, ct);
             dbContext.Add(exam);
             await dbContext.SaveChangesAsync(ct);
