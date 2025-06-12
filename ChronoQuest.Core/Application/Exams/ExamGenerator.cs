@@ -7,6 +7,7 @@ using ChronoQuest.Core.Domain.Math;
 using ChronoQuest.Core.Infrastructure;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace ChronoQuest.Core.Application.Exams;
 
@@ -40,7 +41,7 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
                 EfficiencyStatus.Good => 1,
                 _ => 0
             };
-
+            
             var decision = new TakeQuestionsForTopicDecision(performanceForTopic.Topic, questionNumber);
 
             return progress.State switch
@@ -54,13 +55,14 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
             };
         });
 
-        return await decisions
+        var questions = await decisions
             .ToAsyncEnumerable()
             .SelectMany(decision =>
             {
                 return Enum.GetValues<Difficulty>()
                     .ToAsyncEnumerable()
                     .SelectMany(diff => context.Questions
+                        .AsSplitQuery()
                         .ForTopic(decision.Topic.Id)
                         .WithoutChapter()
                         .HavingDifficulty(diff)
@@ -69,6 +71,10 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
                         .AsAsyncEnumerable());
             })
             .ToListAsync(ct);
+
+        return questions
+            .OrderBy(_ => Random.Shared.Next())
+            .ToList();
     }
 
     private static TimeSpan DetermineExamTime(List<UserPerformanceForTopic> performances, List<Question> questions)
@@ -88,17 +94,17 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
                 LearningState.StrugglingButImproving => 30,
                 LearningState.Plateau => 15,
                 LearningState.Steady => 2.5,
-                LearningState.Mastering => -10,
-                LearningState.Mastered => -17.5,
+                LearningState.Mastering => -5,
+                LearningState.Mastered => -10,
                 _ => 0
             } * progress.Confidence / topicCount;
 
             secondsPerQuestion += efficiency.Status switch
             {
                 EfficiencyStatus.NeedsImprovement => 20,
-                EfficiencyStatus.Excellent => -5,
+                EfficiencyStatus.Excellent => -2.5,
                 _ => 0
-            } / (double)topicCount;
+            } / topicCount;
 
             secondsPerQuestion += stability.IsStable ? 0 : (1 / stability.Value).Max(15);
         }

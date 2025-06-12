@@ -18,7 +18,7 @@ internal sealed class ExamTestEndpoint(ExamGenerator generator) : Endpoint<GetRe
         var exam = await generator.GenerateAsync(req.UserId, ct);
         
         await SendAsync(
-            response: new ExamDto(exam.Id, exam.Questions.Select(x => x.ToPreviewDto()), exam.TimeLimit), 
+            response: new ExamDto(exam.Id, exam.Questions.Select(x => x.ToPreviewDto()), exam.TimeLimit.TotalSeconds), 
             cancellation: ct);
     }
 }

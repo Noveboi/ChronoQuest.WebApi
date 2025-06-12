@@ -36,23 +36,41 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
     public async Task<IEnumerable<UserPerformanceForTopic>> GetPerformanceAsync(Guid userId, CancellationToken token)
     {
         var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
-        var modelGroups = await context.Set<BayesianKnowledgeTracingModel>()
-            .ForUser(userId)
-            .Join(
-                inner: context.Questions.WithAnswersOf(userId),
-                outerKeySelector: bkt => bkt.TopicId,
-                innerKeySelector: q => q.Topic.Id,
-                resultSelector: (bkt, question) => new
+        var topicGroups = await context.Questions.WithAnswersOf(userId)
+            .GroupJoin(
+                inner: context.Set<BayesianKnowledgeTracingModel>().ForUser(userId),
+                outerKeySelector: q => q.Topic.Id,
+                innerKeySelector: bkt => bkt.TopicId,
+                resultSelector: (question, models) => new
                 {
-                    Model = bkt, 
-                    question.Topic,
-                    question.Answers
+                    Models = models.DefaultIfEmpty(),
+                    Question = question
                 })
-            .GroupBy(x => x.Model)
-            .ToListAsync(token);
+            .SelectMany(
+                x => x.Models,
+                (x, bkt) => new
+                {
+                    Model = bkt,
+                    x.Question.Topic,
+                    x.Question.Answers
+                })
+            .GroupBy(x => x.Topic)
+            .ToDictionaryAsync(
+                keySelector: group => group.Key,
+                elementSelector: group => new
+                {
+                    Mastery = group
+                        .Select(x => x.Model)
+                        .Where(m => m != null)
+                        .Distinct()
+                        .SelectMany(m => m!.MasteryHistory)
+                        .OrderBy(m => m.UtcDateTime),
+                    Answers = group.SelectMany(x => x.Answers)
+                },
+                cancellationToken: token);
 
-        return modelGroups.Select(group => new UserPerformanceForTopic(
-            Performance: UserPerformance.Analyze(group.Key, group.SelectMany(x => x.Answers)),
-            Topic: group.Key.Topic));
+        return topicGroups.Select(kvp => new UserPerformanceForTopic(
+            Performance: UserPerformance.Analyze(kvp.Value.Mastery, kvp.Value.Answers),
+            Topic: kvp.Key));
     }
 }

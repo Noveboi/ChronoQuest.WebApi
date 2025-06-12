@@ -9,4 +9,6 @@ public class Topic : Entity
     }
 
     public string Name { get; private set; } = null!;
+
+    public override string ToString() => Name;
 }

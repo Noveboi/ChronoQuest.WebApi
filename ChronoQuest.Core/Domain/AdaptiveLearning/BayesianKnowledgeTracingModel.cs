@@ -77,4 +77,6 @@ internal sealed partial class BayesianKnowledgeTracingModel : Entity
 
     private static Probability Divide(Probability a, Probability b, Probability currentMastery) => 
         b.Value == 0 ? currentMastery : new Probability(a.Value / b.Value);
+
+    public override string ToString() => "BKT";
 }

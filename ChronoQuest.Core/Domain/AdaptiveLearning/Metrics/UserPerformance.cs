@@ -18,10 +18,10 @@ public sealed record UserPerformance
     public LearningVelocity Velocity { get; private init; } = new();
     
     internal static UserPerformance Analyze(
-        BayesianKnowledgeTracingModel model,
+        IOrderedEnumerable<UserSkillMastery> mastery,
         IEnumerable<QuestionAnswer> answers)
     {
-        var masteryHistory = model.MasteryHistory.Select(x => x.ProbabilityOfMastery).ToList();
+        var masteryHistory = mastery.Select(x => x.ProbabilityOfMastery).ToList();
         var answerList = answers as IReadOnlyList<QuestionAnswer> ?? answers.ToList();
         
         var velocity = LearningVelocity.Calculate(masteryHistory);
