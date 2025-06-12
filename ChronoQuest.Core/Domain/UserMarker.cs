@@ -25,11 +25,11 @@ public sealed class UserMarker : Entity
     {
         switch (request.Action)
         {
-            case UserIs.ReadingChapter:
+            case UserIs.ReadingChapter when ReviewId is null:
                 Clear();
                 ChapterId = request.EntityId;
                 break;
-            case UserIs.AnsweringQuestion:
+            case UserIs.AnsweringQuestion when ReviewId is null:
                 ExamId = null;
                 QuestionId = request.EntityId;
                 break;
@@ -41,8 +41,6 @@ public sealed class UserMarker : Entity
                 Clear();
                 ReviewId = request.EntityId;
                 break;
-            default:
-                throw new NotSupportedException(request.Action.ToString());
         }
     }
 
