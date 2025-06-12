@@ -14,6 +14,11 @@ public static class QuestionQueryableExtensions
         return source.Include(x => x.Answers.Where(r => r.UserId == userId));
     }
 
+    public static IQueryable<Question> WithReadingTimeOf(this IQueryable<Question> source, Guid userId)
+    {
+        return source.Include(x => x.ReadingTime.Where(r => r.UserId == userId));
+    }
+    
     public static IQueryable<Chapter> WithAnswersOf(this IIncludableQueryable<Chapter, IEnumerable<Question>> source, Guid userId)
     {
         return source.ThenInclude(x => x.Answers.Where(r => r.UserId == userId));
