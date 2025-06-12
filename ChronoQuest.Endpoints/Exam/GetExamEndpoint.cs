@@ -1,9 +1,45 @@
+using ChronoQuest.Core.Application.Exams;
+using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Infrastructure;
+using ChronoQuest.Endpoints.Exam.Dto;
+using ChronoQuest.Endpoints.Questions.Dto;
+using ChronoQuest.Endpoints.Utilities;
+using FastEndpoints;
+using Microsoft.EntityFrameworkCore;
+
 namespace ChronoQuest.Endpoints.Exam;
 
-public class GetExamEndpoint
+internal sealed class GetExamEndpoint(
+    ChronoQuestContext dbContext,
+    ExamGenerator generator,
+    ITimeTracker<ExamTimer> tracker) : Endpoint<GetRequest, ExamDto>
 {
-    // Όπως στο extra material, 2 cases...
-    
-    // Case 1: Exam for user not found
-    // Case 2: Exam for user found
+    public override void Configure()
+    {
+        Get("exam");
+    }
+
+    public override async Task HandleAsync(GetRequest req, CancellationToken ct)
+    {
+        var exam = await dbContext
+            .Exams
+            .Include(e => e.Questions)
+            .FirstOrDefaultAsync(e => e.UserId == req.UserId, ct);
+
+        if (exam == null)
+        {
+            exam = await generator.GenerateAsync(req.UserId, ct);
+            dbContext.Add(exam);
+            await dbContext.SaveChangesAsync(ct);
+        }
+        
+        var examDto = new ExamDto(
+            Id: exam.Id,
+            Questions: exam.Questions.Select(q => q.ToPreviewDto()),
+            TimeLimitInSeconds: exam.TimeLimit.TotalSeconds);
+        
+        await tracker.TrackAsync(req.UserId, exam.Id, ct);
+        
+        await SendAsync(examDto, cancellation: ct);
+    }
 }
