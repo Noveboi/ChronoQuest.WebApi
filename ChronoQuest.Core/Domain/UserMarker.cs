@@ -19,6 +19,7 @@ public sealed class UserMarker : Entity
     public Guid? ChapterId { get; private set; }
     public Guid? QuestionId { get; private set; }
     public Guid? ExamId { get; private set; }
+    public Guid? ReviewId { get; private set; }
 
     public void Update(UpdateUserMarkerRequest request)
     {
@@ -35,6 +36,10 @@ public sealed class UserMarker : Entity
             case UserIs.TakingExam:
                 Clear();
                 ExamId = request.EntityId;
+                break;
+            case UserIs.ReviewingMaterial:
+                Clear();
+                ReviewId = request.EntityId;
                 break;
             default:
                 throw new NotSupportedException(request.Action.ToString());

@@ -2,6 +2,7 @@ using ChronoQuest.Core;
 using ChronoQuest.Core.Application;
 using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Core.Infrastructure.Workers;

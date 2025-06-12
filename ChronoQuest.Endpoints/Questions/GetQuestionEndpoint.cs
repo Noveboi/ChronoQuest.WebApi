@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
+using ChronoQuest.Core.Domain;
 using ChronoQuest.Endpoints.Questions.Dto;
 using ChronoQuest.Endpoints.Questions.Groups;
 using ChronoQuest.Endpoints.Utilities.Attributes;

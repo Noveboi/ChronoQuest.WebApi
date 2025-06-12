@@ -1,6 +1,8 @@
 using Ardalis.Result.AspNetCore;
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Progress;
 using ChronoQuest.Core.Application.Review;
+using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Review.Dto;
@@ -13,7 +15,8 @@ namespace ChronoQuest.Endpoints.Review;
 internal sealed class GetReviewMaterialEndpoint(
     ChronoQuestContext dbContext, 
     ReviewMaterialGenerator generator,
-    IProgressQueries progress) 
+    IProgressQueries progress,
+    IMarkerService marker) 
     : Endpoint<GetRequest, ReviewMaterialDto>
 {
     public override void Configure()
@@ -48,6 +51,7 @@ internal sealed class GetReviewMaterialEndpoint(
         dbContext.Add(review);
         await dbContext.SaveChangesAsync(ct);
 
+        await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, review.Id, UserIs.ReviewingMaterial), ct);
         return review;
     }
 }

@@ -1,8 +1,10 @@
 using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Exams;
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Progress;
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
@@ -19,7 +21,8 @@ internal sealed class GetExamEndpoint(
     ChronoQuestContext dbContext,
     ExamGenerator generator,
     ITimeTracker<ExamTimeInformation> tracker,
-    IProgressQueries progress) : Endpoint<GetRequest, ExamDto>
+    IProgressQueries progress,
+    IMarkerService marker) : Endpoint<GetRequest, ExamDto>
 {
     public override void Configure()
     {
@@ -42,9 +45,9 @@ internal sealed class GetExamEndpoint(
             Id: exam.Id,
             Questions: exam.Questions.Select(q => q.ToPreviewDto()),
             TimeLimitInSeconds: exam.TimeLimit.TotalSeconds);
-        
+
+        await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, exam.Id, UserIs.TakingExam), ct);
         await tracker.TrackAsync(req.UserId, exam.Id, ct);
-        
         await SendAsync(examDto, cancellation: ct);
     }
 
