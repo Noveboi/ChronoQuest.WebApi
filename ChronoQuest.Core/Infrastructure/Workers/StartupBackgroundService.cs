@@ -33,7 +33,7 @@ internal sealed class StartupBackgroundService(IServiceProvider sp, IHostApplica
         
         if (await context.Chapters.AnyAsync(stoppingToken))
         {
-            _log.Information("Database is seeded.");
+            _log.Information("✅ Database is seeded.");
             return;
         }
         
