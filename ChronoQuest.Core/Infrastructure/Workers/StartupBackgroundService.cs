@@ -21,6 +21,7 @@ internal sealed class StartupBackgroundService(IServiceProvider sp, IHostApplica
         if (!await context.Database.CanConnectAsync(stoppingToken))
         {
             _log.Fatal("⚠️ Please start the database!");
+            Environment.ExitCode = 1;
             lifetime.StopApplication();
         }
         
