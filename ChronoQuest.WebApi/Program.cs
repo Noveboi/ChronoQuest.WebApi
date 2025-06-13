@@ -1,5 +1,4 @@
 using ChronoQuest.Core.Application;
-using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints;
