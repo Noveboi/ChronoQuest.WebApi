@@ -9,7 +9,7 @@ using Serilog;
 
 namespace ChronoQuest.Core.Infrastructure.Workers;
 
-internal sealed class StartupBackgroundService(IServiceProvider sp) : BackgroundService
+internal sealed class StartupBackgroundService(IServiceProvider sp, IHostApplicationLifetime lifetime) : BackgroundService
 {
     private readonly ILogger _log = Log.ForContext<StartupBackgroundService>();
     
@@ -18,6 +18,12 @@ internal sealed class StartupBackgroundService(IServiceProvider sp) : Background
         var scope = sp.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ChronoQuestContext>();
 
+        if (!await context.Database.CanConnectAsync(stoppingToken))
+        {
+            _log.Fatal("⚠️ Please start the database!");
+            lifetime.StopApplication();
+        }
+        
         var pending = await context.Database.GetPendingMigrationsAsync(stoppingToken);
         foreach (var migration in pending)
         {
