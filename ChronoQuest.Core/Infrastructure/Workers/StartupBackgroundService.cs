@@ -20,16 +20,23 @@ internal sealed class StartupBackgroundService(IServiceProvider sp, IHostApplica
 
         if (!await context.Database.CanConnectAsync(stoppingToken))
         {
+            
+        }
+
+        try
+        {
+            var pending = await context.Database.GetPendingMigrationsAsync(stoppingToken);
+            foreach (var migration in pending)
+            {
+                _log.Information("Migrating to {migration}", migration);
+                await context.Database.MigrateAsync(migration, stoppingToken);
+            }
+        }
+        catch (Exception)
+        {
             _log.Fatal("⚠️ Please start the database!");
             Environment.ExitCode = 1;
             lifetime.StopApplication();
-        }
-        
-        var pending = await context.Database.GetPendingMigrationsAsync(stoppingToken);
-        foreach (var migration in pending)
-        {
-            _log.Information("Migrating to {migration}", migration);
-            await context.Database.MigrateAsync(migration, stoppingToken);
         }
         
         if (await context.Chapters.AnyAsync(stoppingToken))
