@@ -6,7 +6,7 @@ namespace ChronoQuest.Endpoints.Questions.Dto;
 
 internal static class QuestionDtoExtensions
 {
-    public static QuestionDto ToDto(this Question question)
+    public static QuestionDto ToDto(this Question question, Guid userId)
     {
         if (question.Topic is null)
         {
@@ -26,20 +26,20 @@ internal static class QuestionDtoExtensions
             Options: question.Options.Select(x => new OptionDto(
                 Id: x.Id,
                 Title: x.Content)),
-            CorrectOptionId: question.Status switch
+            CorrectOptionId: question.Status(userId) switch
             {
                 QuestionStatus.Unanswered => null,
                 _ => question.CorrectOptionId
             },
-            AnsweredOptionId: question.MostRecentAnswer()?.OptionId);
+            AnsweredOptionId: question.MostRecentAnswer(userId)?.OptionId);
     }
 
-    public static QuestionPreviewDto ToPreviewDto(this Question question)
+    public static QuestionPreviewDto ToPreviewDto(this Question question, Guid userId)
     {
         return new QuestionPreviewDto(
             Id: question.Id,
             Type: question.Type.ToString().ToLowerInvariant(),
-            Status: question.Status.ToString().ToLowerInvariant(),
+            Status: question.Status(userId).ToString().ToLowerInvariant(),
             Topic: question.Topic.Name,
             Difficulty: question.Difficulty.ToDto());
     }

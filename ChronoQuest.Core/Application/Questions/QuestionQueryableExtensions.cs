@@ -1,4 +1,5 @@
 ﻿using ChronoQuest.Core.Domain.Base;
+using ChronoQuest.Core.Domain.Stats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -19,7 +20,8 @@ public static class QuestionQueryableExtensions
         return source.Include(x => x.ReadingTime.Where(r => r.UserId == userId));
     }
     
-    public static IQueryable<Chapter> WithAnswersOf(this IIncludableQueryable<Chapter, IEnumerable<Question>> source, Guid userId)
+    public static IIncludableQueryable<T, IEnumerable<QuestionAnswer>> WithAnswersOf<T>(this IIncludableQueryable<T, IEnumerable<Question>> source, Guid userId)
+        where T : class
     {
         return source.ThenInclude(x => x.Answers.Where(r => r.UserId == userId));
     }

@@ -38,6 +38,6 @@ internal sealed class GetQuestionEndpoint(IQuestionService questionService, IMar
             Action: UserIs.AnsweringQuestion);
 
         await marker.UpsertAsync(markerRequest, ct);
-        await SendAsync(question.ToDto(), cancellation: ct);
+        await SendAsync(question.ToDto(req.UserId), cancellation: ct);
     }
 }

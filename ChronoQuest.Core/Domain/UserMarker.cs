@@ -40,6 +40,9 @@ public sealed class UserMarker : Entity
                 Clear();
                 ReviewId = request.EntityId;
                 break;
+            case UserIs.Done:
+                Clear();
+                break;
         }
     }
 
@@ -48,5 +51,6 @@ public sealed class UserMarker : Entity
         ChapterId = null;
         QuestionId = null;
         ExamId = null;
+        ReviewId = null;
     } 
 }

@@ -5,6 +5,7 @@ using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain;
+using ChronoQuest.Core.Domain.Base;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Questions.Dto;
@@ -42,7 +43,6 @@ internal sealed class AnswerExamQuestionEndpoint(
         }
 
         var exam = await context.Exams
-            .Select(x => new { x.TimeLimit, x.UserId })
             .FirstOrDefaultAsync(x => x.UserId == req.UserId, ct);
 
         if (exam is null)
@@ -57,7 +57,6 @@ internal sealed class AnswerExamQuestionEndpoint(
             return;
         }
 
-        
         var request = new AnswerQuestionRequest(QuestionId: req.QuestionId, UserId: req.UserId, ChosenOptionId: req.OptionId);
         var result = await questionService.AnswerQuestionAsync(request, ct);
         if (result.Value is not { } question)
@@ -66,8 +65,13 @@ internal sealed class AnswerExamQuestionEndpoint(
             return;
         }
 
-        await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, req.QuestionId, UserIs.AnsweringQuestion), ct);
-        await SendAsync(question.ToDto(), cancellation: ct);
+        if (AnsweredEveryQuestion(exam, req.UserId))
+        {
+            Logger.LogInformation("User finished exam!");
+            await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, req.QuestionId, UserIs.Done), ct);
+        }
+        
+        await SendAsync(question.ToDto(req.UserId), cancellation: ct);
     }
 
     private Task SendErrorAsync(string error)
@@ -75,4 +79,7 @@ internal sealed class AnswerExamQuestionEndpoint(
         Logger.LogError("Sending {error}", error);
         return SendResultAsync(Result.Invalid(new ValidationError(error)).ToMinimalApiResult());
     }
+
+    private bool AnsweredEveryQuestion(Exam exam, Guid userId) =>
+        exam.Questions.All(q => q.Status(userId) is not QuestionStatus.Unanswered);
 }

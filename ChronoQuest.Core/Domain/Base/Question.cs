@@ -35,7 +35,7 @@ public class Question : Entity
 
     public List<QuestionReadingTime> ReadingTime { get; private init; } = [];
 
-    public QuestionStatus Status => MostRecentAnswer() switch
+    public QuestionStatus Status(Guid userId) => MostRecentAnswer(userId) switch
     {
         { IsCorrect: true } => QuestionStatus.Correct,
         { IsCorrect: false } => QuestionStatus.Wrong,
@@ -61,5 +61,5 @@ public class Question : Entity
         return answer;
     }
 
-    public QuestionAnswer? MostRecentAnswer() => Answers.LastOrDefault();
+    public QuestionAnswer? MostRecentAnswer(Guid userId) => Answers.LastOrDefault(a => a.UserId == userId);
 }

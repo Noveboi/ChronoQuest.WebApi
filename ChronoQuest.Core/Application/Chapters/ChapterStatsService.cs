@@ -23,6 +23,7 @@ public sealed class ChapterStatsService(ChronoQuestContext context)
                     .GroupBy(x => DateOnly.FromDateTime(x.StartedAtUtc))
                     .Select(x => new ReadingTimePerDay(
                             Date: x.Key,
-                            Duration: TimeSpan.FromSeconds(x.Aggregate(0.0, (y, r) => y + r.TotalSeconds))))));
+                            Duration: TimeSpan.FromSeconds(x.Aggregate(0.0, (y, r) => y + r.TotalSeconds))))
+                    .OrderBy(x => x.Date)));
     }
 }

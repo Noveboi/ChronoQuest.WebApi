@@ -36,10 +36,12 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
     public async Task<IReadOnlyList<UserPerformanceForTopic>> GetPerformanceAsync(Guid userId, CancellationToken token)
     {
         var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
-        var topicGroups = await context.OrderedQuestions.WithAnswersOf(userId)
+        var topicGroups = await context.Questions
             .AsSplitQuery()
             .GroupJoin(
-                inner: context.Set<BayesianKnowledgeTracingModel>().ForUser(userId),
+                inner: context
+                    .Set<BayesianKnowledgeTracingModel>()
+                    .ForUser(userId),
                 outerKeySelector: q => q.Topic.Id,
                 innerKeySelector: bkt => bkt.TopicId,
                 resultSelector: (question, models) => new
@@ -52,8 +54,8 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
                 (x, bkt) => new
                 {
                     Model = bkt,
+                    Answers = x.Question.Answers.Where(q => q.UserId == userId),
                     x.Question.Topic,
-                    x.Question.Answers
                 })
             .GroupBy(x => x.Topic)
             .ToDictionaryAsync(

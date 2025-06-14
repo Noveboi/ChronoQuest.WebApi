@@ -13,7 +13,11 @@ internal static class ChapterDtoExtensions
         Content: chapter.Content,
         Order: chapter.Order);
 
-    public static ChapterPreviewDto ToPreviewDto(this Chapter chapter, int totalReadSeconds, List<Question> questions) => new(
+    public static ChapterPreviewDto ToPreviewDto(
+        this Chapter chapter,
+        Guid userId,
+        int totalReadSeconds, 
+        List<Question> questions) => new(
         Id: chapter.Id,
         Title: chapter.Title,
         Topic: chapter.Topic.Name,
@@ -21,7 +25,7 @@ internal static class ChapterDtoExtensions
         ReadSeconds: totalReadSeconds,
         Questions: questions.Select(q => new ChapterPreviewQuestionDto(
             Id: q.Id,
-            Status: q.Status.ToString())));
+            Status: q.Status(userId).ToString())));
     
     public static ChapterReadingDto ToDto(this ChapterReadingTime reading) => new(
         ChapterId: reading.ChapterId,

@@ -26,6 +26,6 @@ internal sealed class GetChapterQuestionsEndpoint(IQuestionService service)
         var request = new QuestionsForChapterRequest(ChapterId: req.ChapterId, UserId: req.UserId);
         var questions = await service.GetQuestionsForChapterAsync(request, ct);
         
-        await SendOkAsync(questions.Select(x => x.ToPreviewDto()), cancellation: ct);
+        await SendOkAsync(questions.Select(x => x.ToPreviewDto(req.UserId)), cancellation: ct);
     }
 }

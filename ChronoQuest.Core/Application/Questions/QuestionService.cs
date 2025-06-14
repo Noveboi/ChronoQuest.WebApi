@@ -19,7 +19,10 @@ internal sealed class QuestionService(
 
     public async Task<List<Question>> GetQuestionsForChapterAsync(QuestionsForChapterRequest request, CancellationToken token)
     {
-        var questions = await QueryQuestions(request.UserId)
+        var questions = await context.OrderedQuestions
+            .AsSplitQuery()
+            .WithTopic()
+            .WithAnswersOf(request.UserId)
             .AsNoTracking()
             .ForChapter(request.ChapterId)
             .ToListAsync(cancellationToken: token);

@@ -9,4 +9,5 @@ public enum UserIs
     AnsweringQuestion = 1,
     TakingExam = 2,
     ReviewingMaterial = 3,
+    Done = 4,
 }

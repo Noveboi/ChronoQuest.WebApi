@@ -3,6 +3,7 @@ using Ardalis.Result.AspNetCore;
 using ChronoQuest.Core.Application.Exams;
 using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Progress;
+using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Base;
@@ -31,10 +32,12 @@ internal sealed class GetExamEndpoint(
 
     public override async Task HandleAsync(GetRequest req, CancellationToken ct)
     {
-        var exam = await dbContext
-            .Exams
+        var exam = await dbContext.Exams
+            .Include(e => e.Questions)
+            .WithAnswersOf(req.UserId)
             .Include(e => e.Questions)
             .ThenInclude(q => q.Topic)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(e => e.UserId == req.UserId, ct);
 
         exam ??= await GenerateExam(req, ct);
@@ -43,7 +46,7 @@ internal sealed class GetExamEndpoint(
         
         var examDto = new ExamDto(
             Id: exam.Id,
-            Questions: exam.Questions.Select(q => q.ToPreviewDto()),
+            Questions: exam.Questions.Select(q => q.ToPreviewDto(req.UserId)),
             TimeLimitInSeconds: exam.TimeLimit.TotalSeconds);
 
         await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, exam.Id, UserIs.TakingExam), ct);

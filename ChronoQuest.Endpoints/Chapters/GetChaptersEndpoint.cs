@@ -24,7 +24,6 @@ internal sealed class GetChaptersEndpoint(ChronoQuestContext context)
         var chapters = await context.Chapters
             .AsNoTracking()
             .AsSplitQuery()
-            .Include(x => x.Readings)
             .Include(x => x.Questions)
             .WithAnswersOf(req.UserId)
             .OrderBy(x => x.Order)
@@ -35,7 +34,7 @@ internal sealed class GetChaptersEndpoint(ChronoQuestContext context)
                 x.Topic, 
                 x.Order, 
                 x.Questions,
-                TotalReading = x.Readings.Sum(r => r.TotalSeconds)
+                TotalReading = x.Readings.Where(r => r.UserId == req.UserId).Sum(r => r.TotalSeconds)
             })
             .ToListAsync(cancellationToken: ct);
 
@@ -47,6 +46,6 @@ internal sealed class GetChaptersEndpoint(ChronoQuestContext context)
             ReadSeconds: (int)c.TotalReading,
             Questions: c.Questions.Select(q => new ChapterPreviewQuestionDto(
                 Id: q.Id,
-                Status: q.Status.ToDto())))), cancellation: ct);
+                Status: q.Status(req.UserId).ToDto())))), cancellation: ct);
     }
 }

@@ -34,6 +34,6 @@ internal sealed class AnswerChapterQuestionEndpoint(IQuestionService questionSer
             return;
         }
 
-        await SendAsync(question.ToDto(), cancellation: ct);
+        await SendAsync(question.ToDto(req.UserId), cancellation: ct);
     }
 }
