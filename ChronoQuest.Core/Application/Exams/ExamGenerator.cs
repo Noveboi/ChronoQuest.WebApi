@@ -76,6 +76,7 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
 
         return questions
             .OrderBy(_ => Random.Shared.Next())
+            
             .ToList();
     }
 

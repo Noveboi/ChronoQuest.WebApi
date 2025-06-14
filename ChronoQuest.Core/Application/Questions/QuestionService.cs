@@ -22,7 +22,6 @@ internal sealed class QuestionService(
         var questions = await QueryQuestions(request.UserId)
             .AsNoTracking()
             .ForChapter(request.ChapterId)
-            .OrderBy(x => x.Number)
             .ToListAsync(cancellationToken: token);
 
         return questions;

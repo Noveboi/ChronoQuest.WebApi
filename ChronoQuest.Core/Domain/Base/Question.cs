@@ -12,7 +12,6 @@ public class Question : Entity
         string content, 
         Option correctOption,
         List<Option> otherOptions, 
-        int number,
         QuestionType type)
     {
         Topic = topic;
@@ -20,7 +19,6 @@ public class Question : Entity
         Content = content;
         Options = [correctOption, ..otherOptions];
         CorrectOptionId = correctOption.Id;
-        Number = number;
         Type = type;
     }
 
@@ -29,7 +27,6 @@ public class Question : Entity
     public string Content { get; private set; } = null!;
     public List<Option> Options { get; private set; } = null!;
     public Guid CorrectOptionId { get; private set; }
-    public int Number { get; private init; }
     public QuestionType Type { get; private init; }
 
     public Guid? ChapterId { get; private set; }

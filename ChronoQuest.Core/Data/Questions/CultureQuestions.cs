@@ -19,7 +19,6 @@ internal static class CultureQuestions
                 new Option("Andreia"),
                 new Option("Xenia")
             ],
-            number: 1,
             type: QuestionType.Regular
         );
 
@@ -34,7 +33,7 @@ internal static class CultureQuestions
                 new Option("Laouto"),
                 new Option("Santouri")
             ],
-            number: 2,
+            
             type: QuestionType.Regular
         );
 
@@ -49,7 +48,7 @@ internal static class CultureQuestions
                 new Option("Tsipouro"),
                 new Option("Mastiha")
             ],
-            number: 3,
+            
             type: QuestionType.Regular
         );
 
@@ -64,7 +63,7 @@ internal static class CultureQuestions
                 new Option("Syrtos"),
                 new Option("Kalamatianos")
             ],
-            number: 4,
+            
             type: QuestionType.Regular
         );
 
@@ -79,7 +78,7 @@ internal static class CultureQuestions
                 new Option("Ceremonial dance steps"),
                 new Option("Types of olive oil press")
             ],
-            number: 5,
+            
             type: QuestionType.Regular
         );
 
@@ -94,7 +93,7 @@ internal static class CultureQuestions
                 new Option("Sfakianes pites"),
                 new Option("Antikristo")
             ],
-            number: 6,
+            
             type: QuestionType.Regular
         );
 
@@ -109,7 +108,7 @@ internal static class CultureQuestions
                 new Option("Wedding Feast"),
                 new Option("Easter Vigil")
             ],
-            number: 7,
+            
             type: QuestionType.Regular
         );
 
@@ -124,7 +123,7 @@ internal static class CultureQuestions
                 new Option("Simonopetra Feast"),
                 new Option("Wine Festival")
             ],
-            number: 8,
+            
             type: QuestionType.Regular
         );
 
@@ -139,7 +138,7 @@ internal static class CultureQuestions
                 new Option("A type of folk song"),
                 new Option("A traditional sweet pastry")
             ],
-            number: 9,
+            
             type: QuestionType.Regular
         );
 
@@ -154,7 +153,7 @@ internal static class CultureQuestions
                 new Option("Epigrapha"),
                 new Option("Eroskritos")
             ],
-            number: 10,
+            
             type: QuestionType.Regular
         );
 
@@ -169,7 +168,7 @@ internal static class CultureQuestions
                 new Option("Tsarouchi uniform"),
                 new Option("Pilav dressing")
             ],
-            number: 11,
+            
             type: QuestionType.Regular
         );
 
@@ -185,7 +184,7 @@ internal static class CultureQuestions
                 new Option("Honey and sesame"),
                 new Option("Lamb and onions")
             ],
-            number: 12,
+            
             type: QuestionType.Skippable
         );
 
@@ -200,7 +199,7 @@ internal static class CultureQuestions
                 new Option("Apokries Carnival"),
                 new Option("Saint Titus Feast")
             ],
-            number: 13,
+            
             type: QuestionType.Skippable
         );
 
@@ -215,7 +214,7 @@ internal static class CultureQuestions
                 new Option("Moussaka"),
                 new Option("Pastitsio")
             ],
-            number: 14,
+            
             type: QuestionType.Skippable
         );
 
@@ -230,7 +229,7 @@ internal static class CultureQuestions
                 new Option("Harvest of Heraklion"),
                 new Option("Festival of the Olive Tree")
             ],
-            number: 15,
+            
             type: QuestionType.Skippable
         );
     }
@@ -251,7 +250,7 @@ internal static class CultureQuestions
                 new Option("Andreia"),
                 new Option("Xenia")
             ],
-            number: 1,
+            
             type: QuestionType.Regular
         );
 
@@ -266,7 +265,7 @@ internal static class CultureQuestions
                 new Option("Laouto"),
                 new Option("Santouri")
             ],
-            number: 2,
+            
             type: QuestionType.Regular
         );
 
@@ -281,7 +280,7 @@ internal static class CultureQuestions
                 new Option("Tsipouro"),
                 new Option("Mastiha")
             ],
-            number: 3,
+            
             type: QuestionType.Regular
         );
 
@@ -296,7 +295,7 @@ internal static class CultureQuestions
                 new Option("Syrtos"),
                 new Option("Kalamatianos")
             ],
-            number: 4,
+            
             type: QuestionType.Regular
         );
 
@@ -312,7 +311,7 @@ internal static class CultureQuestions
                 new Option("Ceremonial dance steps"),
                 new Option("Types of olive oil press")
             ],
-            number: 5,
+            
             type: QuestionType.Regular
         );
 
@@ -327,7 +326,7 @@ internal static class CultureQuestions
                 new Option("Sfakianes pites"),
                 new Option("Antikristo")
             ],
-            number: 6,
+            
             type: QuestionType.Regular
         );
 
@@ -342,7 +341,7 @@ internal static class CultureQuestions
                 new Option("Wedding Feast"),
                 new Option("Easter Vigil")
             ],
-            number: 7,
+            
             type: QuestionType.Regular
         );
 
@@ -357,7 +356,7 @@ internal static class CultureQuestions
                 new Option("Apokries Carnival"),
                 new Option("Saint Titus Feast")
             ],
-            number: 8,
+            
             type: QuestionType.Regular
         );
 
@@ -373,7 +372,7 @@ internal static class CultureQuestions
                 new Option("A type of folk song"),
                 new Option("A traditional sweet pastry")
             ],
-            number: 9,
+            
             type: QuestionType.Regular
         );
 
@@ -388,7 +387,7 @@ internal static class CultureQuestions
                 new Option("Harvest of Heraklion"),
                 new Option("Festival of the Olive Tree")
             ],
-            number: 10,
+            
             type: QuestionType.Regular
         );
 
@@ -403,7 +402,7 @@ internal static class CultureQuestions
                 new Option("Tsarouchi uniform"),
                 new Option("Pilav dressing")
             ],
-            number: 11,
+            
             type: QuestionType.Regular
         );
 
@@ -418,7 +417,7 @@ internal static class CultureQuestions
                 new Option("Epigrapha"),
                 new Option("Eroskritos")
             ],
-            number: 12,
+            
             type: QuestionType.Regular
         );
     }

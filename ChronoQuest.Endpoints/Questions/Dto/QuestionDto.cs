@@ -4,7 +4,6 @@ namespace ChronoQuest.Endpoints.Questions.Dto;
 
 internal sealed record QuestionDto(
     Guid Id, 
-    int Number, 
     string Content,
     TopicDto Topic,
     string Type,

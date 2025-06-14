@@ -45,7 +45,7 @@ internal sealed class GetChaptersEndpoint(ChronoQuestContext context)
             Topic: c.Topic.Name,
             Order: c.Order,
             ReadSeconds: (int)c.TotalReading,
-            Questions: c.Questions.OrderBy(x => x.Number).Select(q => new ChapterPreviewQuestionDto(
+            Questions: c.Questions.Select(q => new ChapterPreviewQuestionDto(
                 Id: q.Id,
                 Status: q.Status.ToDto())))), cancellation: ct);
     }

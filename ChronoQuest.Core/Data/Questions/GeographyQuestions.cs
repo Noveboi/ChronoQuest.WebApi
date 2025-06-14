@@ -19,7 +19,7 @@ internal static class GeographyQuestions
                 new Option("Euboea"),
                 new Option("Corfu")
             ],
-            number: 1,
+            
             type: QuestionType.Regular
         );
 
@@ -34,7 +34,7 @@ internal static class GeographyQuestions
                 new Option("350 km"),
                 new Option("100 km")
             ],
-            number: 2,
+            
             type: QuestionType.Regular
         );
 
@@ -49,7 +49,7 @@ internal static class GeographyQuestions
                 new Option("5 km"),
                 new Option("30 km")
             ],
-            number: 3,
+            
             type: QuestionType.Regular
         );
 
@@ -64,7 +64,7 @@ internal static class GeographyQuestions
                 new Option("Dikti Mountains"),
                 new Option("Lefka Ori")
             ],
-            number: 4,
+            
             type: QuestionType.Regular
         );
 
@@ -79,7 +79,7 @@ internal static class GeographyQuestions
                 new Option("Lasíthi"),
                 new Option("Selinous")
             ],
-            number: 5,
+            
             type: QuestionType.Regular
         );
 
@@ -94,7 +94,7 @@ internal static class GeographyQuestions
                 new Option("Chania Plain"),
                 new Option("Psilorítis Plateau")
             ],
-            number: 6,
+            
             type: QuestionType.Regular
         );
 
@@ -109,7 +109,7 @@ internal static class GeographyQuestions
                 new Option("Kourtaliotiko Gorge"),
                 new Option("Ha Gorge")
             ],
-            number: 7,
+            
             type: QuestionType.Regular
         );
 
@@ -124,7 +124,7 @@ internal static class GeographyQuestions
                 new Option("Chania Plain"),
                 new Option("Rethymno Plain")
             ],
-            number: 8,
+            
             type: QuestionType.Regular
         );
 
@@ -139,7 +139,7 @@ internal static class GeographyQuestions
                 new Option("Oceanic"),
                 new Option("Tropical")
             ],
-            number: 9,
+            
             type: QuestionType.Regular
         );
 
@@ -154,7 +154,7 @@ internal static class GeographyQuestions
                 new Option("Central Crete"),
                 new Option("Northern Crete")
             ],
-            number: 10,
+            
             type: QuestionType.Regular
         );
 
@@ -169,7 +169,7 @@ internal static class GeographyQuestions
                 new Option("Ibex"),
                 new Option("Capra aegagrus")
             ],
-            number: 11,
+            
             type: QuestionType.Regular
         );
 
@@ -185,7 +185,7 @@ internal static class GeographyQuestions
                 new Option("Cymodocea nodosa"),
                 new Option("Halophila stipulacea")
             ],
-            number: 12,
+            
             type: QuestionType.Skippable
         );
 
@@ -200,7 +200,7 @@ internal static class GeographyQuestions
                 new Option("Falassarna"),
                 new Option("Vai Beach")
             ],
-            number: 13,
+            
             type: QuestionType.Skippable
         );
 
@@ -215,7 +215,7 @@ internal static class GeographyQuestions
                 new Option("Ionian Sea"),
                 new Option("Mediterranean Sea")
             ],
-            number: 14,
+            
             type: QuestionType.Skippable
         );
 
@@ -230,7 +230,7 @@ internal static class GeographyQuestions
                 new Option("Melidoni Cave"),
                 new Option("Seitan Limania Cave")
             ],
-            number: 15,
+            
             type: QuestionType.Skippable
         );
     }
@@ -251,7 +251,7 @@ internal static class GeographyQuestions
                 new Option("Euboea"),
                 new Option("Corfu")
             ],
-            number: 1,
+            
             type: QuestionType.Regular
         );
 
@@ -266,7 +266,7 @@ internal static class GeographyQuestions
                 new Option("Oceanic"),
                 new Option("Tropical")
             ],
-            number: 2,
+            
             type: QuestionType.Regular
         );
 
@@ -281,7 +281,7 @@ internal static class GeographyQuestions
                 new Option("Ibex"),
                 new Option("Capra aegagrus")
             ],
-            number: 3,
+            
             type: QuestionType.Regular
         );
 
@@ -296,7 +296,7 @@ internal static class GeographyQuestions
                 new Option("Chania Plain"),
                 new Option("Psilorítis Plateau")
             ],
-            number: 4,
+            
             type: QuestionType.Regular
         );
 
@@ -312,7 +312,7 @@ internal static class GeographyQuestions
                 new Option("350 km"),
                 new Option("100 km")
             ],
-            number: 5,
+            
             type: QuestionType.Regular
         );
 
@@ -327,7 +327,7 @@ internal static class GeographyQuestions
                 new Option("Dikti Mountains"),
                 new Option("Lefka Ori")
             ],
-            number: 6,
+            
             type: QuestionType.Regular
         );
 
@@ -342,7 +342,7 @@ internal static class GeographyQuestions
                 new Option("Central Crete"),
                 new Option("Northern Crete")
             ],
-            number: 7,
+            
             type: QuestionType.Regular
         );
 
@@ -357,7 +357,7 @@ internal static class GeographyQuestions
                 new Option("Kourtaliotiko Gorge"),
                 new Option("Ha Gorge")
             ],
-            number: 8,
+            
             type: QuestionType.Regular
         );
 
@@ -373,7 +373,7 @@ internal static class GeographyQuestions
                 new Option("5 km"),
                 new Option("30 km")
             ],
-            number: 9,
+            
             type: QuestionType.Regular
         );
 
@@ -388,7 +388,7 @@ internal static class GeographyQuestions
                 new Option("Cymodocea nodosa"),
                 new Option("Halophila stipulacea")
             ],
-            number: 10,
+            
             type: QuestionType.Regular
         );
 
@@ -403,7 +403,7 @@ internal static class GeographyQuestions
                 new Option("Falassarna"),
                 new Option("Vai Beach")
             ],
-            number: 11,
+            
             type: QuestionType.Regular
         );
 
@@ -418,7 +418,7 @@ internal static class GeographyQuestions
                 new Option("Melidoni Cave"),
                 new Option("Seitan Limania Cave")
             ],
-            number: 12,
+            
             type: QuestionType.Regular
         );
     }

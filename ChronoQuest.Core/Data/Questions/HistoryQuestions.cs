@@ -18,7 +18,7 @@ internal static class HistoryQuestions
                 new Option("Byzantine"),
                 new Option("Roman")
             ],
-            number: 1,
+            
             type: QuestionType.Regular
         );
 
@@ -33,7 +33,7 @@ internal static class HistoryQuestions
                 new Option("1204–1669"),
                 new Option("961–1204")
             ],
-            number: 2,
+            
             type: QuestionType.Regular
         );
 
@@ -48,7 +48,7 @@ internal static class HistoryQuestions
                 new Option("Gortyn"),
                 new Option("Mycenae")
             ],
-            number: 3,
+            
             type: QuestionType.Regular
         );
 
@@ -63,7 +63,7 @@ internal static class HistoryQuestions
                 new Option("Greek Alphabet"),
                 new Option("Cuneiform")
             ],
-            number: 4,
+            
             type: QuestionType.Regular
         );
 
@@ -78,7 +78,7 @@ internal static class HistoryQuestions
                 new Option("Crete gained independence."),
                 new Option("Crete became a Roman province.")
             ],
-            number: 5,
+            
             type: QuestionType.Regular
         );
 
@@ -93,7 +93,7 @@ internal static class HistoryQuestions
                 new Option("The Cretan Republic"),
                 new Option("The Hellenic Dominion")
             ],
-            number: 6,
+            
             type: QuestionType.Regular
         );
 
@@ -108,7 +108,7 @@ internal static class HistoryQuestions
                 new Option("1898"),
                 new Option("1941")
             ],
-            number: 7,
+            
             type: QuestionType.Regular
         );
 
@@ -123,7 +123,7 @@ internal static class HistoryQuestions
                 new Option("Phaistos"),
                 new Option("Chania")
             ],
-            number: 8,
+            
             type: QuestionType.Regular
         );
 
@@ -138,7 +138,7 @@ internal static class HistoryQuestions
                 new Option("Theodosius the Great"),
                 new Option("Basil II")
             ],
-            number: 9,
+            
             type: QuestionType.Regular
         );
 
@@ -153,7 +153,7 @@ internal static class HistoryQuestions
                 new Option("Complete cultural isolation from Europe"),
                 new Option("Decline of trade and maritime activity")
             ],
-            number: 10,
+            
             type: QuestionType.Regular
         );
 
@@ -168,7 +168,7 @@ internal static class HistoryQuestions
                 new Option("Operation Overlord"),
                 new Option("Operation Torch")
             ],
-            number: 11,
+            
             type: QuestionType.Regular
         );
 
@@ -183,7 +183,7 @@ internal static class HistoryQuestions
                 new Option("1943"),
                 new Option("1945")
             ],
-            number: 12,
+            
             type: QuestionType.Regular
         );
 
@@ -198,7 +198,7 @@ internal static class HistoryQuestions
                 new Option("The Hellenic Legion"),
                 new Option("The Cretan Guard")
             ],
-            number: 13,
+            
             type: QuestionType.Skippable
         );
 
@@ -213,7 +213,7 @@ internal static class HistoryQuestions
                 new Option("Ionian Academy"),
                 new Option("University of Thessaloniki")
             ],
-            number: 14,
+            
             type: QuestionType.Skippable
         );
 
@@ -228,7 +228,7 @@ internal static class HistoryQuestions
                 new Option("Phaistos"),
                 new Option("Zakros")
             ],
-            number: 15,
+            
             type: QuestionType.Skippable
         );
     }
@@ -249,7 +249,7 @@ internal static class HistoryQuestions
                 new Option("Gortyn"),
                 new Option("Mycenae")
             ],
-            number: 1,
+            
             type: QuestionType.Regular
         );
 
@@ -264,7 +264,7 @@ internal static class HistoryQuestions
                 new Option("1898"),
                 new Option("1941")
             ],
-            number: 2,
+            
             type: QuestionType.Regular
         );
 
@@ -279,7 +279,7 @@ internal static class HistoryQuestions
                 new Option("1943"),
                 new Option("1945")
             ],
-            number: 3,
+            
             type: QuestionType.Regular
         );
 
@@ -294,7 +294,7 @@ internal static class HistoryQuestions
                 new Option("The Byzantine Empire"),
                 new Option("The Arab Emirate")
             ],
-            number: 4,
+            
             type: QuestionType.Regular
         );
 
@@ -310,7 +310,7 @@ internal static class HistoryQuestions
                 new Option("Greek Alphabet"),
                 new Option("Cuneiform")
             ],
-            number: 5,
+            
             type: QuestionType.Regular
         );
 
@@ -325,7 +325,7 @@ internal static class HistoryQuestions
                 new Option("Phaistos"),
                 new Option("Chania")
             ],
-            number: 6,
+            
             type: QuestionType.Regular
         );
 
@@ -340,7 +340,7 @@ internal static class HistoryQuestions
                 new Option("Operation Overlord"),
                 new Option("Operation Torch")
             ],
-            number: 7,
+            
             type: QuestionType.Regular
         );
 
@@ -355,7 +355,7 @@ internal static class HistoryQuestions
                 new Option("The Hellenic Legion"),
                 new Option("The Cretan Guard")
             ],
-            number: 8,
+            
             type: QuestionType.Regular
         );
 
@@ -371,7 +371,7 @@ internal static class HistoryQuestions
                 new Option("1204–1669"),
                 new Option("961–1204")
             ],
-            number: 9,
+            
             type: QuestionType.Regular
         );
 
@@ -386,7 +386,7 @@ internal static class HistoryQuestions
                 new Option("Theodosius the Great"),
                 new Option("Basil II")
             ],
-            number: 10,
+            
             type: QuestionType.Regular
         );
 
@@ -401,7 +401,7 @@ internal static class HistoryQuestions
                 new Option("Ionian Academy"),
                 new Option("University of Thessaloniki")
             ],
-            number: 11,
+            
             type: QuestionType.Regular
         );
 
@@ -416,7 +416,7 @@ internal static class HistoryQuestions
                 new Option("Ban on all religious buildings"),
                 new Option("Construction of Gothic cathedrals")
             ],
-            number: 12,
+            
             type: QuestionType.Regular
         );
     }

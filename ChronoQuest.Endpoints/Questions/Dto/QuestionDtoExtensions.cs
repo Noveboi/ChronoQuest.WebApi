@@ -20,7 +20,6 @@ internal static class QuestionDtoExtensions
         
         return new QuestionDto(
             Id: question.Id,
-            Number: question.Number,
             Topic: question.Topic.ToDto(),
             Type: question.Type.ToString().ToLowerInvariant(),
             Content: question.Content,
@@ -39,7 +38,6 @@ internal static class QuestionDtoExtensions
     {
         return new QuestionPreviewDto(
             Id: question.Id,
-            Number: question.Number,
             Type: question.Type.ToString().ToLowerInvariant(),
             Status: question.Status.ToString().ToLowerInvariant(),
             Topic: question.Topic.Name,

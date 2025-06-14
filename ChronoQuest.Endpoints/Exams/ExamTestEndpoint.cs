@@ -20,7 +20,7 @@ internal sealed class ExamTestEndpoint(ExamGenerator generator) : Endpoint<GetRe
             response: new ExamDto(
                 Id: exam.Id,
                 TimeLimitInSeconds: exam.TimeLimit.TotalSeconds,
-                Questions: exam.Questions.Select(x => x.ToPreviewDto())), 
+                Questions: exam.Questions.Select(x => x.ToPreviewDto()).OrderBy(x => x.Number)), 
             cancellation: ct);
     }
 }
