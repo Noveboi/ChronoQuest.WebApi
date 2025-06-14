@@ -63,7 +63,7 @@ public sealed class ExamGenerator(ChronoQuestContext context, IAdaptiveLearning 
             {
                 return Enum.GetValues<Difficulty>()
                     .ToAsyncEnumerable()
-                    .SelectMany(diff => context.Questions
+                    .SelectMany(diff => context.OrderedQuestions
                         .AsSplitQuery()
                         .ForTopic(decision.Topic.Id)
                         .WithoutChapter()

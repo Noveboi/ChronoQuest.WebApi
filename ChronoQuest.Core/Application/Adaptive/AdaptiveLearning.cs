@@ -36,7 +36,7 @@ internal sealed class AdaptiveLearning(IServiceProvider serviceProvider) : IAdap
     public async Task<IReadOnlyList<UserPerformanceForTopic>> GetPerformanceAsync(Guid userId, CancellationToken token)
     {
         var context = serviceProvider.GetRequiredService<ChronoQuestContext>();
-        var topicGroups = await context.Questions.WithAnswersOf(userId)
+        var topicGroups = await context.OrderedQuestions.WithAnswersOf(userId)
             .AsSplitQuery()
             .GroupJoin(
                 inner: context.Set<BayesianKnowledgeTracingModel>().ForUser(userId),

@@ -85,7 +85,7 @@ internal sealed class QuestionService(
         return question;
     }
 
-    public IQueryable<Question> QueryQuestions(Guid userId) => context.Questions
+    private IQueryable<Question> QueryQuestions(Guid userId) => context.OrderedQuestions
         .WithOptions()
         .WithTopic()
         .WithAnswersOf(userId)

@@ -1,8 +1,10 @@
 ﻿using System.Security.Claims;
 using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
+using ChronoQuest.Core.Application.Markers;
 using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Application.Tracking;
+using ChronoQuest.Core.Domain;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
 using ChronoQuest.Endpoints.Questions.Dto;
@@ -22,7 +24,8 @@ internal sealed record AnswerExamQuestionRequest(
 internal sealed class AnswerExamQuestionEndpoint(
     ChronoQuestContext context, 
     ITimeTracker<ExamTimeInformation> timeTracker,
-    IQuestionService questionService) : Endpoint<AnswerExamQuestionRequest, QuestionDto>
+    IQuestionService questionService,
+    IMarkerService marker) : Endpoint<AnswerExamQuestionRequest, QuestionDto>
 {
     public override void Configure()
     {
@@ -54,6 +57,7 @@ internal sealed class AnswerExamQuestionEndpoint(
             return;
         }
 
+        
         var request = new AnswerQuestionRequest(QuestionId: req.QuestionId, UserId: req.UserId, ChosenOptionId: req.OptionId);
         var result = await questionService.AnswerQuestionAsync(request, ct);
         if (result.Value is not { } question)
@@ -62,6 +66,7 @@ internal sealed class AnswerExamQuestionEndpoint(
             return;
         }
 
+        await marker.UpsertAsync(new UpdateUserMarkerRequest(req.UserId, req.QuestionId, UserIs.AnsweringQuestion), ct);
         await SendAsync(question.ToDto(), cancellation: ct);
     }
 

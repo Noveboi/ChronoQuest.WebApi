@@ -13,4 +13,6 @@ public class Exam : Entity
     public Guid UserId { get; private set; }
     public List<Question> Questions { get; private set; } = null!;
     public TimeSpan TimeLimit { get; private set; }
+    
+    
 }

@@ -30,7 +30,6 @@ public sealed class UserMarker : Entity
                 ChapterId = request.EntityId;
                 break;
             case UserIs.AnsweringQuestion when ReviewId is null:
-                ExamId = null;
                 QuestionId = request.EntityId;
                 break;
             case UserIs.TakingExam:

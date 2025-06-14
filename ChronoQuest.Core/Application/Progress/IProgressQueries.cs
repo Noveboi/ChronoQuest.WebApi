@@ -15,7 +15,7 @@ internal sealed class ProgressQueries(ChronoQuestContext context) : IProgressQue
 {
     public async Task<Result> HasCompletedAllChapters(Guid userId, CancellationToken token)
     {
-        var answeredAllChapterQuestions = await context.Questions
+        var answeredAllChapterQuestions = await context.OrderedQuestions
             .WithAnswersOf(userId)
             .Where(q => q.ChapterId != null)
             .AllAsync(q => q.Answers.Any(), token);

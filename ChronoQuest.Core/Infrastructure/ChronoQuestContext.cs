@@ -19,6 +19,7 @@ public sealed class ChronoQuestContext(DbContextOptions<ChronoQuestContext> opti
     public DbSet<Exam> Exams { get; set; }
     public DbSet<Topic> Topics { get; set; }
     public DbSet<Question> Questions { get; set; }
+    public IQueryable<Question> OrderedQuestions => Questions.OrderBy(x => x.Type);
     
     public DbSet<ReviewMaterial> ReviewMaterial { get; set; }
     public DbSet<ReviewMaterialParagraph> ReviewParagraphs { get; set; }
