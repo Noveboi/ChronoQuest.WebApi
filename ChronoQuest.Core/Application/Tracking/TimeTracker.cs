@@ -60,9 +60,18 @@ internal sealed class TimeTracker<TStats> : ITimeTracker<TStats> where TStats : 
         return stats;
     }
 
-    public Task<TStats?> GetTrackingInfoAsync(Guid userId, Guid entityId, CancellationToken token)
+    public async Task<TStats?> GetTrackingInfoAsync(Guid userId, Guid entityId, CancellationToken token)
     {
-        throw new NotImplementedException();
+        var key = new TrackingKey(EntityType: EntityType, UserId: userId);
+        var data = await _store.GetOrDefaultAsync(key, token);
+        if (data == null)
+        {
+            TrackingLog.NotFound(key);
+            return null;
+        }
+
+        var info = new TimeTrackingInformation(EntityId: entityId, TrackingStartUtc: data.Start, TrackingEndUtc: _timeProvider.GetUtcNow());
+        return TStats.FromData(info, userId);
     }
 
     public async Task TerminateTrackingAsync(Guid userId, CancellationToken ct)
