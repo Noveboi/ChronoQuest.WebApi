@@ -1,9 +1,11 @@
 ﻿using System.Security.Claims;
 using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
+using ChronoQuest.Core.Application.Questions;
 using ChronoQuest.Core.Application.Tracking;
 using ChronoQuest.Core.Domain.Stats;
 using ChronoQuest.Core.Infrastructure;
+using ChronoQuest.Endpoints.Questions.Dto;
 using ChronoQuest.Endpoints.Utilities.Attributes;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +15,18 @@ namespace ChronoQuest.Endpoints.Exams;
 
 internal sealed record AnswerExamQuestionRequest(
     [property: UserId] Guid UserId,
-    [property: RouteParam] Guid ExamId);
+    [property: RouteParam] Guid ExamId,
+    [property: RouteParam] Guid QuestionId,
+    [property: RouteParam] Guid OptionId);
 
 internal sealed class AnswerExamQuestionEndpoint(
     ChronoQuestContext context, 
-    ITimeTracker<ExamTimeInformation> timeTracker) : Endpoint<AnswerExamQuestionRequest>
+    ITimeTracker<ExamTimeInformation> timeTracker,
+    IQuestionService questionService) : Endpoint<AnswerExamQuestionRequest, QuestionDto>
 {
     public override void Configure()
     {
-        Get("todo");
-        // ‼️Add route!
+        Get("exams/{examId:guid}/questions/{questionId:guid}/answer/{optionId:guid}");
     }
 
     public override async Task HandleAsync(AnswerExamQuestionRequest req, CancellationToken ct)
@@ -49,8 +53,16 @@ internal sealed class AnswerExamQuestionEndpoint(
             await SendErrorAsync("You've run out of time!");
             return;
         }
-        
-        // ... Continue here.
+
+        var request = new AnswerQuestionRequest(QuestionId: req.QuestionId, UserId: req.UserId, ChosenOptionId: req.OptionId);
+        var result = await questionService.AnswerQuestionAsync(request, ct);
+        if (result.Value is not { } question)
+        {
+            await SendResultAsync(result.ToMinimalApiResult());
+            return;
+        }
+
+        await SendAsync(question.ToDto(), cancellation: ct);
     }
 
     private Task SendErrorAsync(string error)
