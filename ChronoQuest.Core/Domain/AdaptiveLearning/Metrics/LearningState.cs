@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-
-namespace ChronoQuest.Core.Domain.AdaptiveLearning.Metrics;
+﻿namespace ChronoQuest.Core.Domain.AdaptiveLearning.Metrics;
 
 public enum LearningState
 {

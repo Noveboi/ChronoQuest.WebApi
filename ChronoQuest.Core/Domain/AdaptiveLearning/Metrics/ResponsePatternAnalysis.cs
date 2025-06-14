@@ -6,12 +6,8 @@ namespace ChronoQuest.Core.Domain.AdaptiveLearning.Metrics;
 public sealed record ResponsePatternAnalysis
 {
     public double OverallAccuracy { get; private init; }
-    public double RecentAccuracy { get; private init; }
-    public double TotalAttempts { get; private init; }
     public ErrorClustering ErrorClustering { get; private init; } = new();
     public Stability Stability { get; private init; } = new();
-    public LearningStreak Streak { get; private init; } = LearningStreak.Default;
-
     
     public static ResponsePatternAnalysis Get(IReadOnlyList<QuestionAnswer> answers, int windowSize = 5)
     {
@@ -29,11 +25,8 @@ public sealed record ResponsePatternAnalysis
         return new ResponsePatternAnalysis()
         {
             OverallAccuracy = accuracy,
-            RecentAccuracy = recentAccuracy,
-            TotalAttempts = answers.Count,
             ErrorClustering = ErrorClustering.Analyze(responses),
             Stability = Stability.Calculate(responses),
-            Streak = LearningStreak.Calculate(answers)
         };
     }
 }
